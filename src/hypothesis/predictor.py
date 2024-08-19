@@ -1,10 +1,9 @@
 import json
-import os
 import logging
 from itertools import combinations
 from .model import Loader
-from utils.output import Output
-from utils.data_utils import Data
+from .output import Output
+from .utils import Data
 from xaif_eval import xaif
 
 # Set up logging
@@ -12,7 +11,9 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-class ArgumentRelationPredictor:
+class HypothesisPredictor:
+    """Predictor class for handling model loading, predictions, and argument mapping."""
+
     def __init__(self, model_type: str, variant: str):
         """
         Initializes the Predictor by loading the appropriate model based on config.
@@ -22,11 +23,7 @@ class ArgumentRelationPredictor:
             variant (str): Variant of the model (e.g., 'vanila').
         """
         try:
-            # Get the directory of the current script
-            script_dir = os.path.dirname(__file__)
-            config_path = os.path.join(script_dir, 'config.json')
-
-            with open(config_path, 'r') as f:
+            with open('argumentminingnlp/argumentminingnlp/argument_relation_prediction/config.json', 'r') as f:
                 config = json.load(f)
             assert model_type in config, f"Model type '{model_type}' not found in config."
             assert variant in config[model_type], f"Variant '{variant}' not found for model type '{model_type}'."
