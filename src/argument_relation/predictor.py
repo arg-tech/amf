@@ -1,21 +1,36 @@
+"""Module for predicting argument relations and processing XAIF structures."""
+
 import json
 import os
 import logging
-from itertools import combinations
-from .model import Loader
+from xaif_eval import xaif
 from utils.output import Output
 from utils.data_utils import Data
-from xaif_eval import xaif
+from .model import Loader
 
-# Set up logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
 class ArgumentRelationPredictor:
+    """
+    A class for predicting argument relations and processing XAIF structures.
+
+    Attributes:
+        pipe: The model pipeline for predictions.
+        tokenizer: The tokenizer associated with the model.
+        data: An instance of the Data class for data processing.
+
+    Methods:
+        __init__(model_type: str, variant: str): Initializes the predictor with the specified model.
+        predict(data): Runs predictions on the input data in batches.
+        argument_map(x_aif: str): Processes XAIF structure and generates argument mappings.
+        _update_aif_structure(aif, refined_structure): Updates the AIF structure with predicted relations.
+    """
+
     def __init__(self, model_type: str, variant: str):
         """
-        Initializes the Predictor by loading the appropriate model based on config.
+        Initializes the predictor by loading the appropriate model based on config.
 
         Args:
             model_type (str): Type of the model (e.g., 'dialogpt', 'roberta').
@@ -34,16 +49,16 @@ class ArgumentRelationPredictor:
             model_name = config[model_type][variant]
             self.pipe, self.tokenizer = Loader(model_name).load_model()
             self.data = Data()
-            logger.info(f"Successfully loaded model: {model_name}")
+            logger.info("Successfully loaded model: %s", model_name)
 
         except FileNotFoundError as e:
-            logger.error(f"Config file not found: {e}")
+            logger.error("Config file not found: %s", e)
             raise
         except AssertionError as e:
-            logger.error(f"Invalid model or variant: {e}")
+            logger.error("Invalid model or variant: %s", e)
             raise
         except Exception as e:
-            logger.error(f"An error occurred during initialization: {e}")
+            logger.error("An error occurred during initialization: %s", e)
             raise
 
     def predict(self, data):
@@ -54,7 +69,10 @@ class ArgumentRelationPredictor:
             data: Input data for prediction.
 
         Returns:
-            Tuple of (predictions, confidence, probabilities).
+            Tuple: (predictions, confidence, probabilities)
+                - predictions (list): List of predicted labels.
+                - confidence (list): List of confidence scores for the predictions.
+                - probabilities (list): List of probability scores for the predictions.
         """
         try:
             input_data = self.data.prepare_inputs(data, context=False)
@@ -73,7 +91,7 @@ class ArgumentRelationPredictor:
             return predictions, confidence, probabilities
 
         except Exception as e:
-            logger.error(f"Error during prediction: {e}")
+            logger.error("Error during prediction: %s", e)
             raise
 
     def argument_map(self, x_aif: str):
@@ -84,7 +102,7 @@ class ArgumentRelationPredictor:
             x_aif (str): Input XAIF structure as a JSON string.
 
         Returns:
-            Modified XAIF structure with predicted relations.
+            dict: Modified XAIF structure with predicted relations.
         """
         try:
             # Parse input JSON and build the AIF structure
@@ -93,8 +111,8 @@ class ArgumentRelationPredictor:
 
             # Load node data for argument prediction
             data, combined_texts = self.data.load_data(aif.aif.get('nodes'))
-            predictions, confidence, _ = self.predict(data)
-            logger.info(f"Predictions: {predictions}")
+            predictions, _, _ = self.predict(data)
+            logger.info("Predictions: %s", predictions)
 
             predicted_relations, propositions = [], []
 
@@ -109,7 +127,7 @@ class ArgumentRelationPredictor:
             # Format and refine the output structure
             outputs = Output()
             refined_structure = outputs.format(propositions, predicted_relations, remove_indirect_edges=True)
-            logger.info(f"Refined structure: {refined_structure}")
+            logger.info("Refined structure: %s", refined_structure)
 
             # Update the AIF structure based on predicted relations
             self._update_aif_structure(aif, refined_structure)
@@ -117,10 +135,10 @@ class ArgumentRelationPredictor:
             return aif.xaif
 
         except json.JSONDecodeError as e:
-            logger.error(f"Invalid XAIF JSON format: {e}")
+            logger.error("Invalid XAIF JSON format: %s", e)
             raise
         except Exception as e:
-            logger.error(f"Error during argument mapping: {e}")
+            logger.error("Error during argument mapping: %s", e)
             raise
 
     def _update_aif_structure(self, aif, refined_structure):
@@ -136,8 +154,8 @@ class ArgumentRelationPredictor:
         """
         try:
             for conclusion_id, premise_relation_list in refined_structure.items():
-                premises = premise_relation_list[:len(premise_relation_list)//2]
-                relations = premise_relation_list[len(premise_relation_list)//2:]
+                premises = premise_relation_list[:len(premise_relation_list) // 2]
+                relations = premise_relation_list[len(premise_relation_list) // 2:]
 
                 for premise_id, ar_type in zip(premises, relations):
                     if ar_type in ['CA', 'RA', 'MA']:
@@ -145,5 +163,4 @@ class ArgumentRelationPredictor:
                         aif.add_component("argument_relation", ar_type, conclusion_id, premise_id)
 
         except Exception as e:
-            logger.error(f"Error updating AIF structure: {e}")
-            raise
+            logger.error("Error updating AIF structure: %s",  e)

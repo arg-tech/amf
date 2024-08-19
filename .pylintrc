@@ -1,0 +1,8 @@
+[MASTER]
+ignore=tests
+
+[MESSAGES CONTROL]
+disable=C0111  # Disable missing docstring warnings
+
+[FORMAT]
+max-line-length=80

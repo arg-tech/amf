@@ -1,9 +1,12 @@
+"""Module for predicting argument relations and processing XAIF structures."""
+
 import json
+import os
 import logging
 from itertools import combinations
 from .model import Loader
-from .output import Output
-from .utils import Data
+from utils.output import Output
+from utils.data_utils import Data
 from xaif_eval import xaif
 
 # Set up logging
@@ -12,18 +15,35 @@ logger = logging.getLogger(__name__)
 
 
 class SchemePredictor:
-    """Predictor class for handling model loading, predictions, and argument mapping."""
+    """
+    A class for predicting argument relations and processing XAIF structures.
+
+    Attributes:
+        pipe: The model pipeline for predictions.
+        tokenizer: The tokenizer associated with the model.
+        data: An instance of the Data class for data processing.
+
+    Methods:
+        __init__(model_type: str, variant: str): Initializes the predictor with the specified model.
+        predict(data): Runs predictions on the input data in batches.
+        argument_map(x_aif: str): Processes XAIF structure and generates argument mappings.
+        _update_aif_structure(aif, refined_structure): Updates the AIF structure with predicted relations.
+    """
 
     def __init__(self, model_type: str, variant: str):
         """
-        Initializes the Predictor by loading the appropriate model based on config.
+        Initializes the predictor by loading the appropriate model based on config.
 
         Args:
             model_type (str): Type of the model (e.g., 'dialogpt', 'roberta').
             variant (str): Variant of the model (e.g., 'vanila').
         """
         try:
-            with open('argumentminingnlp/argumentminingnlp/argument_relation_prediction/config.json', 'r') as f:
+            # Get the directory of the current script
+            script_dir = os.path.dirname(__file__)
+            config_path = os.path.join(script_dir, 'config.json')
+
+            with open(config_path, 'r') as f:
                 config = json.load(f)
             assert model_type in config, f"Model type '{model_type}' not found in config."
             assert variant in config[model_type], f"Variant '{variant}' not found for model type '{model_type}'."
@@ -51,7 +71,10 @@ class SchemePredictor:
             data: Input data for prediction.
 
         Returns:
-            Tuple of (predictions, confidence, probabilities).
+            Tuple: (predictions, confidence, probabilities)
+                - predictions (list): List of predicted labels.
+                - confidence (list): List of confidence scores for the predictions.
+                - probabilities (list): List of probability scores for the predictions.
         """
         try:
             input_data = self.data.prepare_inputs(data, context=False)
@@ -81,7 +104,7 @@ class SchemePredictor:
             x_aif (str): Input XAIF structure as a JSON string.
 
         Returns:
-            Modified XAIF structure with predicted relations.
+            dict: Modified XAIF structure with predicted relations.
         """
         try:
             # Parse input JSON and build the AIF structure
@@ -133,8 +156,8 @@ class SchemePredictor:
         """
         try:
             for conclusion_id, premise_relation_list in refined_structure.items():
-                premises = premise_relation_list[:len(premise_relation_list)//2]
-                relations = premise_relation_list[len(premise_relation_list)//2:]
+                premises = premise_relation_list[:len(premise_relation_list) // 2]
+                relations = premise_relation_list[len(premise_relation_list) // 2:]
 
                 for premise_id, ar_type in zip(premises, relations):
                     if ar_type in ['CA', 'RA', 'MA']:
