@@ -1,0 +1,5 @@
+{
+    "dialogpt": {"vanila": "debela-arg/dialogtp-am-medium"},
+    "roberta": {"vanila": "raruidol/ArgumentMining-EN-ILO-AIF-RoBERTa_L"}
+}
+
