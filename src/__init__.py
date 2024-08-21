@@ -1,9 +1,9 @@
-from .scheme.scheme_classifier import SchemeClassifier
+from .scheme.predictor import SchemePredictor
 from .argument_relation.predictor import ArgumentRelationPredictor
-from .hypothesis.hypothesis_classifier import HypothesisClassifier
+from .hypothesis.predictor import HypothesisPredictor
 
 __all__ = [
-    'SchemeClassifier',
+    'SchemePredictor',
     'ArgumentRelationPredictor',
-    'HypothesisClassifier'
+    'HypothesisPredictor'
 ]

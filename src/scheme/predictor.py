@@ -5,7 +5,7 @@ import os
 import logging
 from itertools import combinations
 from .model import Loader
-from utils.output import Output
+from utils.output import ArgumentRelationOutput
 from utils.data_utils import Data
 from xaif_eval import xaif
 

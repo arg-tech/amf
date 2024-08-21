@@ -4,7 +4,7 @@ import json
 import os
 import logging
 from xaif_eval import xaif
-from utils.output import Output
+from utils.output import ArgumentRelationOutput
 from utils.data_utils import Data
 from .model import Loader
 
@@ -106,7 +106,7 @@ class ArgumentRelationPredictor:
         """
         try:
             # Parse input JSON and build the AIF structure
-            x_aif = json.loads(x_aif)
+            #x_aif = json.loads(x_aif)
             aif = xaif.AIF(x_aif)
 
             # Load node data for argument prediction
@@ -125,7 +125,7 @@ class ArgumentRelationPredictor:
                         propositions.append(p2)
 
             # Format and refine the output structure
-            outputs = Output()
+            outputs = ArgumentRelationOutput()
             refined_structure = outputs.format(propositions, predicted_relations, remove_indirect_edges=True)
             logger.info("Refined structure: %s", refined_structure)
 
