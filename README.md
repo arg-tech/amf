@@ -229,7 +229,7 @@ if __name__ == "__main__":
 
 - **Handling Complex Inputs**: The framework is flexible and can be extended to handle more complex inputs or additional pre-processing steps, making it suitable for a wide range of argument mining tasks.
 
-```
+
 
 
 ## API Reference
