@@ -6,8 +6,8 @@ import webbrowser
 import tempfile
 
 class JsonToSvgConverter:
-    def __init__(self, url):
-        self.url = url
+    def __init__(self,):
+        self.url = 'http://ws.arg.tech/t/json-svg'
 
     def convert(self, json_data):
         try:
@@ -51,6 +51,12 @@ class JsonToSvgConverter:
             with tempfile.NamedTemporaryFile(delete=False, suffix='.html') as tmp:
                 tmp.write(f'<html><body>{svg_content}</body></html>'.encode('utf-8'))
                 webbrowser.open(f'file://{tmp.name}')
+    def visualise(self, argument_map_output):        
+        converter = JsonToSvgConverter()
+        json_aif = argument_map_output['AIF']
+        svg_output = converter.convert(json_aif)
+        if svg_output:
+            converter.visualize_svg(svg_output)
 
 # Example usage
 if __name__ == "__main__":

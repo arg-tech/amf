@@ -1,5 +1,5 @@
 from src.loader.task_loader import load_amf_component
-from utils.visualise2 import JsonToSvgConverter
+
 
 
 
@@ -10,6 +10,7 @@ def process_pipeline(input_data):
     segmenter = load_amf_component('segmenter')()
     propositionalizer = load_amf_component('propositionalizer')()    
     argument_relation = load_amf_component('argument_relation', "dialogpt", "vanila")
+    visualiser = load_amf_component('visualiser')()
 
     # Step 1: Turninator
     turninator_output = turninator.get_turns(input_data, True)
@@ -38,14 +39,10 @@ def process_pipeline(input_data):
     print("===============================================")
 
     print("Visualise the argument map")
+    visualiser.visualise(argument_map_output)
 
     # Initialize the converter and perform the conversion
-    url = 'http://ws.arg.tech/t/json-svg'
-    converter = JsonToSvgConverter(url)
-    json_data = argument_map_output['AIF']
-    svg_output = converter.convert(json_data)
-    if svg_output:
-        converter.visualize_svg(svg_output)
+
 
 def main():
     # Sample input data
