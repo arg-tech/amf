@@ -1,4 +1,6 @@
-from amf_api.amf.src.loader.task_loader import load_amf_component
+from src.loader.task_loader import load_amf_component
+from utils.visualise2 import JsonToSvgConverter
+
 
 
 def process_pipeline(input_data):
@@ -34,6 +36,16 @@ def process_pipeline(input_data):
     print(argument_relation.get_evidence_for_claim(
         "But this isn’t the time for vaccine nationalism", argument_map_output))
     print("===============================================")
+
+    print("Visualise the argument map")
+
+    # Initialize the converter and perform the conversion
+    url = 'http://ws.arg.tech/t/json-svg'
+    converter = JsonToSvgConverter(url)
+    json_data = argument_map_output['AIF']
+    svg_output = converter.convert(json_data)
+    if svg_output:
+        converter.visualize_svg(svg_output)
 
 def main():
     # Sample input data

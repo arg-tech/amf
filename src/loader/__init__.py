@@ -1,4 +1,4 @@
 # amf/src/argumentrelation/__init__.py
-from .loader import ArgumentRelationPredictor
+from .task_loader import ArgumentRelationPredictor
 
 __all__ = ['ArgumentRelationPredictor']

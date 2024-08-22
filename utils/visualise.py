@@ -56,7 +56,8 @@ class JsonToSvgConverter:
 
 # Example usage
 if __name__ == "__main__":
-    url = 'http://svg.amfws.arg.tech'
+    #url = 'http://svg.amfws.arg.tech'
+    url = 'http://ws.arg.tech/t/json-svg'
 
     json_data = {
         'AIF': {
@@ -77,6 +78,21 @@ if __name__ == "__main__":
         'dialog': {},
         'text': {'txt': 'Liam Halligan... Fiona Bruce...'}
     }
+
+    json_data = {
+            'nodes': [
+                {'text': 'Vaccines mark a major advance in human achievement...', 'type': 'L', 'nodeID': 2},
+                {'text': 'But this isn’t the time for vaccine nationalism', 'type': 'L', 'nodeID': 3},
+                {'text': 'I agree we should congratulate all the scientists...', 'type': 'L', 'nodeID': 4},
+                # More nodes...
+            ],
+            'edges': [
+                {'toID': 15, 'fromID': 2, 'edgeID': 0},
+                {'toID': 14, 'fromID': 15, 'edgeID': 1},
+                # More edges...
+            ],
+            # Other elements like locutions, schemefulfillments, etc...
+        }
 
     converter = JsonToSvgConverter(url)
     svg_output = converter.convert(json_data)
