@@ -1,16 +1,44 @@
-import json
-from src.argument_relation.predictor import ArgumentRelationPredictor as ArgumentRelation
-from src.turninator.turninator import Turninator
-from src.segmenter.segmenter import Segmenter
-from src.propositionaliser.propositionalizer import Propositionalizer
+
+from src.task.loader import load_component
+
+
+def process_pipeline(input_data):
+    """Process input data through the entire pipeline."""
+    # Initialize components
+    turninator = load_component('turninator')()
+    segmenter = load_component('segmenter')()
+    propositionalizer = load_component('propositionalizer')()
+    
+    # ArgumentRelationPredictor requires arguments during initialization
+    argument_relation = load_component('argument_relation', "dialogpt", "vanila")
+
+    # Step 1: Turninator
+    turninator_output = turninator.turninator_default(input_data, True)
+    print(f'Turninator output: {turninator_output}')
+
+    # Step 2: Segmenter
+    segmenter_output = segmenter.segmenter_default(turninator_output)
+    print(f'Segmenter output: {segmenter_output}')
+
+    # Step 3: Propositionalizer
+    propositionalizer_output = propositionalizer.propositionalizer_default(segmenter_output)
+    print(f'Propositionalizer output: {propositionalizer_output}')
+
+    # Step 4: Argument Relation Prediction
+    argument_map_output = argument_relation.get_argument_map(propositionalizer_output)
+    print(f'Argument relation prediction output: {argument_map_output}')
+
+    # Additional Analysis
+    print("Get all claims:")
+    print(argument_relation.get_all_claims(argument_map_output))
+    print("===============================================")
+
+    print("Get evidence for claim:")
+    print(argument_relation.get_evidence_for_claim(
+        "But this isn’t the time for vaccine nationalism", argument_map_output))
+    print("===============================================")
 
 def main():
-    # Initialize components
-    turninator = Turninator()
-    segmenter = Segmenter()
-    propositionalizer = Propositionalizer()
-    predictor = ArgumentRelation("dialogpt", "vanila")
-
     # Sample input data
     input_data = (
         """Liam Halligan: Vaccines mark a major advance in human achievement since the """
@@ -33,18 +61,7 @@ def main():
         """better. Let’s keep our fingers crossed and hope we make a good job of this."""
     )
 
-    # Process input through each component
-    turninator_output = turninator.turninator_default(input_data, True)
-    print(f'Turninator output: {turninator_output}')
-
-    segmenter_output = segmenter.segmenter_default(turninator_output)
-    print(f'Segmenter output: {segmenter_output}')
-
-    propositionalizer_output = propositionalizer.propositionalizer_default(segmenter_output)
-    print(f'Propositionalizer output: {propositionalizer_output}')
-
-    argument_map_output = predictor.argument_map(propositionalizer_output)
-    print(f'Argument relation prediction output: {argument_map_output}')
+    process_pipeline(input_data)
 
 if __name__ == "__main__":
     main()
