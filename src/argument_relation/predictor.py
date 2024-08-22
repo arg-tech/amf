@@ -172,39 +172,54 @@ class ArgumentRelationPredictor:
         if claim in claims_and_evidence:
             return claims_and_evidence[claim]
         return f'No evidence found for the specified claim: {claim}'
-
+    
     def _extract_claims_and_evidence(self, xaif_input):
-        ARNodes = {node['nodeID']:node['text'] for node in xaif_input['AIF']['nodes'] if node['type'] in ['CA', 'RA', "MA"]}
-        INodes = {node['nodeID']:node['text'] for node in xaif_input['AIF']['nodes'] if node['type'] in ['I']}
-        claims_supports = {}
-        for edge in xaif_input['AIF']['edges']:
-            if edge['fromID'] in ARNodes.keys():
-                ARNodeID = edge['fromID']
-                if edge['toID'] in INodes.keys():
-                    claimNodeID = edge['toID']
-                    for edge2 in xaif_input['AIF']['edges']:
-                        if edge2['toID'] == ARNodeID and  edge2['toID'] in ARNodes.keys():
-                            if edge2['fromID'] in  INodes.keys():
-                                supportNodeID = edge2['fromID']
-                                if claimNodeID in claims_supports:
-                                    if supportNodeID not in claims_supports[claimNodeID]:
-                                        claims_supports[claimNodeID].append(supportNodeID)
-                                else:
-                                    claims_supports[claimNodeID] = [supportNodeID]
+        """Extracts claims and supporting evidence from the given XAIF input."""
 
+        # Separate AR nodes (claims) and I nodes (evidence)
+        ar_nodes = {node['nodeID']: node['text'] for node in xaif_input['AIF']['nodes'] if node['type'] in ['CA', 'RA', 'MA']}
+        i_nodes = {node['nodeID']: node['text'] for node in xaif_input['AIF']['nodes'] if node['type'] == 'I'}
+
+        claims_supports = {}
+
+        # Process edges to map claims to their supporting evidence
         for edge in xaif_input['AIF']['edges']:
-            if edge['toID'] in ARNodes.keys():
-                ARNodeID = edge['toID']
-                if edge['fromID'] in INodes.keys():
-                    supportNodeID = edge['fromID']                    
-                    for edge2 in xaif_input['AIF']['edges']:
-                        if edge2['fromID'] == ARNodeID and  edge2['fromID'] in ARNodes.keys():
-                            if edge2['toID'] in  INodes.keys():
-                                claimNodeID = edge2['toID']
-                                if claimNodeID in claims_supports:
-                                    if supportNodeID not in claims_supports[claimNodeID]:
-                                        claims_supports[claimNodeID].append(supportNodeID)
-                                else:
-                                    claims_supports[claimNodeID] = [supportNodeID]
-        return  ({INodes[claimID]: [INodes[evidenceID] for evidenceID in list_evidences_id] 
-                  for claimID, list_evidences_id in claims_supports.items()})
+            ar_node_id = edge.get('fromID')
+            claim_node_id = edge.get('toID')
+
+            if ar_node_id in ar_nodes and claim_node_id in i_nodes:
+                # Look for evidence nodes linked to the AR node
+                for support_edge in xaif_input['AIF']['edges']:
+                    support_node_id = support_edge.get('fromID')
+
+                    if support_edge.get('toID') == ar_node_id and support_node_id in i_nodes:
+                        if claim_node_id not in claims_supports:
+                            claims_supports[claim_node_id] = []
+                        if support_node_id not in claims_supports[claim_node_id]:
+                            claims_supports[claim_node_id].append(support_node_id)
+
+        # Reverse mapping: evidence pointing to claims
+        for edge in xaif_input['AIF']['edges']:
+            support_node_id = edge.get('fromID')
+            ar_node_id = edge.get('toID')
+
+            if support_node_id in i_nodes and ar_node_id in ar_nodes:
+                for claim_edge in xaif_input['AIF']['edges']:
+                    claim_node_id = claim_edge.get('toID')
+
+                    if claim_edge.get('fromID') == ar_node_id and claim_node_id in i_nodes:
+                        if claim_node_id not in claims_supports:
+                            claims_supports[claim_node_id] = []
+                        if support_node_id not in claims_supports[claim_node_id]:
+                            claims_supports[claim_node_id].append(support_node_id)
+
+        # Create final dictionary mapping claims to their supporting evidence texts
+        claims_evidence = {
+            i_nodes[claim_id]: [i_nodes[evidence_id] for evidence_id in evidence_ids]
+            for claim_id, evidence_ids in claims_supports.items()
+        }
+
+        return claims_evidence
+
+
+    
