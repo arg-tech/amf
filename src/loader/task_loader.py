@@ -20,7 +20,7 @@ class Task:
             return Propositionalizer
         else:
             raise ValueError(f"Unknown task type: {self.task_type}")
-def load_component(task_name, *args):
+def load_amf_component(task_name, *args):
     """Initialize a component using the Task."""
     return Task(task_name, *args).get_task()
 

@@ -1,16 +1,13 @@
-
-from src.task.loader import load_component
+from amf_api.amf.src.loader.task_loader import load_amf_component
 
 
 def process_pipeline(input_data):
     """Process input data through the entire pipeline."""
     # Initialize components
-    turninator = load_component('turninator')()
-    segmenter = load_component('segmenter')()
-    propositionalizer = load_component('propositionalizer')()
-    
-    # ArgumentRelationPredictor requires arguments during initialization
-    argument_relation = load_component('argument_relation', "dialogpt", "vanila")
+    turninator = load_amf_component('turninator')()
+    segmenter = load_amf_component('segmenter')()
+    propositionalizer = load_amf_component('propositionalizer')()    
+    argument_relation = load_amf_component('argument_relation', "dialogpt", "vanila")
 
     # Step 1: Turninator
     turninator_output = turninator.get_turns(input_data, True)
