@@ -13,15 +13,15 @@ def process_pipeline(input_data):
     argument_relation = load_component('argument_relation', "dialogpt", "vanila")
 
     # Step 1: Turninator
-    turninator_output = turninator.turninator_default(input_data, True)
+    turninator_output = turninator.get_turns(input_data, True)
     print(f'Turninator output: {turninator_output}')
 
     # Step 2: Segmenter
-    segmenter_output = segmenter.segmenter_default(turninator_output)
+    segmenter_output = segmenter.get_segments(turninator_output)
     print(f'Segmenter output: {segmenter_output}')
 
     # Step 3: Propositionalizer
-    propositionalizer_output = propositionalizer.propositionalizer_default(segmenter_output)
+    propositionalizer_output = propositionalizer.get_propositions(segmenter_output)
     print(f'Propositionalizer output: {propositionalizer_output}')
 
     # Step 4: Argument Relation Prediction

@@ -27,11 +27,11 @@ class Segmenter():
 			# If parsing fails, it's not JSON
 			return False
 		
-	def get_segments(self, input_text):
+	def _get_segments(self, input_text):
 		"Simple segementer spliting texts based on regex."
 		return re.split("[.!?]",input_text)
 
-	def segmenter_default(self, input_data):
+	def get_segments(self, input_data):
 		"""The default segmenter takes xAIF, segments the texts in each L-nodes,
 		introduce new L-node entries for each of the new segements and delete the old L-node entries
 		"""	
@@ -45,7 +45,7 @@ class Segmenter():
 					node_text = nodes_entry['text']
 					type = nodes_entry['type']
 					if type == "L":
-						segments = self.get_segments(node_text)
+						segments = self._get_segments(node_text)
 						segments = [seg.strip() for seg in segments if len(seg.strip()) > 1]
 						if len(segments) > 1:
 							for segment in segments:								

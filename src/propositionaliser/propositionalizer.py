@@ -30,7 +30,7 @@ class Propositionalizer():
 			return False
 
 
-	def propositionalizer_default(self,input_data):
+	def get_propositions(self,input_data):
 		if self.is_json(input_data):
 			xaif_obj = xaif.AIF(input_data)				
 			if xaif_obj.is_valid_json_aif():

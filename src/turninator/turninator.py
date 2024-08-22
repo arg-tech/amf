@@ -39,7 +39,7 @@ class Turninator():
         return re.sub('<.*?>', '', text, flags=re.DOTALL)
 
 
-    def turninator_default(self, input_data, dialogue=False):
+    def get_turns(self, input_data, dialogue=False):
         AIF_obj = AIF()
         extended_json_aif = {}
         if self.is_json(input_data):
