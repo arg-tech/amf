@@ -215,10 +215,10 @@ if __name__ == "__main__":
 
 1. **Turninator Component**: 
    - The Turninator processes the input text to identify and segment dialogue turns. This is particularly useful for dialogue datasets.
-   - The `turninator_default` method is used to perform the segmentation. The boolean parameter indicates whether the default settings should be applied.
+   - The `get_turns` method is used to perform the segmentation. The boolean parameter indicates whether the default settings should be applied.
 
    ```python
-   turninator_output = turninator.turninator_default(input_data, True)
+   turninator_output = turninator.get_turns(input_data, True)
    print(f'Turninator output: {turninator_output}')
    ```
 
@@ -227,14 +227,14 @@ if __name__ == "__main__":
    - This component is designed to handle various text formats and identify distinct argumentative segments within them.
 
    ```python
-   segmenter_output = segmenter.segmenter_default(turninator_output)
+   segmenter_output = segmenter.get_segments(turninator_output)
    print(f'Segmenter output: {segmenter_output}')
    ```
 
 3. **Propositionalizer Component**:
    - The Propositionalizer takes the segmented text and contructs propositions.
    ```python
-   propositionalizer_output = propositionalizer.propositionalizer_default(segmenter_output)
+   propositionalizer_output = propositionalizer.get_propositions(segmenter_output)
    print(f'Propositionalizer output: {propositionalizer_output}')
    ```
 
@@ -242,17 +242,13 @@ if __name__ == "__main__":
    - The Argument Relation Predictor analyzes the propositions and identifies the argument relationships between them. The argument relations include support, contradiction, or rephrase.
 
    ```python
-   argument_map_output = predictor.argument_map(propositionalizer_output)
+   argument_map_output = predictor.get_argument_map(propositionalizer_output)
    print(f'Argument relation prediction output: {argument_map_output}')
    ```
 
 ### Customization and Advanced Usage
 
 - **Model Selection**: You can customize the `model_type` and `variant` parameters in the `ArgumentRelationPredictor` to use different models or configurations, depending on your specific requirements.
-
-- **Handling Complex Inputs**: The framework is flexible and can be extended to handle more complex inputs or additional pre-processing steps, making it suitable for a wide range of argument mining tasks.
-
-
 
 
 ## API Reference
