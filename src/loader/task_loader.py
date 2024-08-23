@@ -2,7 +2,7 @@ from src.argument_relation.predictor import ArgumentRelationPredictor
 from src.turninator.turninator import Turninator
 from src.segmenter.segmenter import Segmenter
 from src.propositionaliser.propositionalizer import Propositionalizer
-from utils.visualise2 import JsonToSvgConverter
+from utils.visualise import JsonToSvgConverter
 
 class Task:
     def __init__(self, task_type, model_name = None, variant = None):

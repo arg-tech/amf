@@ -12,14 +12,15 @@ class JsonToSvgConverter:
     def convert(self, json_data):
         try:
             # Convert JSON data to a string and then to a file-like object
-            json_str = json.dumps(json_data)
-            json_file_like = io.BytesIO(json_str.encode('utf-8'))
+            #json_str = json.dumps(json_data)
+            #json_file_like = io.BytesIO(json_str.encode('utf-8'))
 
             # Prepare the files dictionary to mimic file upload
-            files = {'file': ('input.json', json_file_like, 'application/json')}
+            #files = {'file': ('input.json', json_file_like, 'application/json')}
 
             # Send the POST request
-            response = requests.post(self.url, files=files)
+            headers = {'Content-Type': 'application/json'}
+            response = requests.post(url, headers=headers, data=json_data)
             response.raise_for_status()  # Raise an HTTPError if the response was an HTTP error
         except requests.exceptions.RequestException as e:
             print(f'An error occurred during the request: {e}')
