@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='Argument Mining Framework (AMF)',
+    name='AMF',
     version='0.0.1',
     description='Argument Mining Framework (AMF) is a comprehensive toolkit designed to streamline and unify various argument mining modules into a single platform.',
     author='Debela',
@@ -19,5 +19,4 @@ setup(
         'Operating System :: OS Independent',
     ],
 )
-
 
