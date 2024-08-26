@@ -1,16 +1,21 @@
-from src.loader.task_loader import load_amf_component
+from amf.amf_module.module_loader import Module
 
-
+#python3 -m build  
+# twine upload dist/*   
 
 
 def process_pipeline(input_data):
     """Process input data through the entire pipeline."""
     # Initialize components
-    turninator = load_amf_component('turninator')()
-    segmenter = load_amf_component('segmenter')()
-    propositionalizer = load_amf_component('propositionalizer')()    
-    argument_relation = load_amf_component('argument_relation', "dialogpt", "vanila")
-    visualiser = load_amf_component('visualiser')()
+    turninator = Module('turninator')
+    segmenter = Module('segmenter')
+    propositionalizer = Module('propositionalizer')  
+    argument_relation = Module('argument_relation', "dialogpt", "vanila")
+    hypotheis = Module('hypothesis', "roberta", "vanila")
+    scheme = Module('scheme', "roberta", "vanila")
+    visualiser = Module('visualiser')
+    print(argument_relation.task_type)
+    print(hypotheis.task_type)
 
     # Step 1: Turninator
     turninator_output = turninator.get_turns(input_data, True)
@@ -37,6 +42,15 @@ def process_pipeline(input_data):
     print(argument_relation.get_evidence_for_claim(
         "But this isn’t the time for vaccine nationalism", argument_map_output))
     print("===============================================")
+
+    print("Hypotheis Predictor:")
+    print(hypotheis.predict(["But this isn’t the time for vaccine nationalism","Vaccine is usefull to prevent infections."]))
+    print("===============================================")
+
+    print("Scheme Predictor:")
+    print(scheme.predict(["But this isn’t the time for vaccine nationalism","Vaccine is usefull to prevent infections."]))
+    print("===============================================")
+
 
     print("Visualise the argument map")
     visualiser.visualise(argument_map_output)

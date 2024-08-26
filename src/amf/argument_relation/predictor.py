@@ -3,18 +3,16 @@
 import json
 import os
 import logging
-from itertools import combinations
-from .model import Loader
-from utils.output import ArgumentRelationOutput
-from utils.data_utils import Data
 from xaif_eval import xaif
+from amf.utils.output import ArgumentRelationOutput
+from amf.utils.data_utils import Data
+from .model import Classifier
 
-# Set up logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-class SchemePredictor:
+class ArgumentRelationPredictor:
     """
     A class for predicting argument relations and processing XAIF structures.
 
@@ -49,18 +47,18 @@ class SchemePredictor:
             assert variant in config[model_type], f"Variant '{variant}' not found for model type '{model_type}'."
 
             model_name = config[model_type][variant]
-            self.pipe, self.tokenizer = Loader(model_name).load_model()
+            self.pipe, self.tokenizer = Classifier(model_name)
             self.data = Data()
-            logger.info(f"Successfully loaded model: {model_name}")
+            logger.info("Successfully loaded model: %s", model_name)
 
         except FileNotFoundError as e:
-            logger.error(f"Config file not found: {e}")
+            logger.error("Config file not found: %s", e)
             raise
         except AssertionError as e:
-            logger.error(f"Invalid model or variant: {e}")
+            logger.error("Invalid model or variant: %s", e)
             raise
         except Exception as e:
-            logger.error(f"An error occurred during initialization: {e}")
+            logger.error("An error occurred during initialization: %s", e)
             raise
 
     def predict(self, data):
@@ -93,10 +91,10 @@ class SchemePredictor:
             return predictions, confidence, probabilities
 
         except Exception as e:
-            logger.error(f"Error during prediction: {e}")
+            logger.error("Error during prediction: %s", e)
             raise
 
-    def argument_map(self, x_aif: str):
+    def get_argument_map(self, x_aif: str):
         """
         Processes the XAIF structure and generates argument mappings.
 
@@ -108,13 +106,13 @@ class SchemePredictor:
         """
         try:
             # Parse input JSON and build the AIF structure
-            x_aif = json.loads(x_aif)
+            #x_aif = json.loads(x_aif)
             aif = xaif.AIF(x_aif)
 
             # Load node data for argument prediction
-            data, combined_texts = self.data.load_data(aif.aif.get('nodes'))
-            predictions, confidence, _ = self.predict(data)
-            logger.info(f"Predictions: {predictions}")
+            data, combined_texts = self.data.load_data(aif.aif.get('nodes'),"argument_relation")
+            predictions, _, _ = self.predict(data)
+            logger.info("Predictions: %s", predictions)
 
             predicted_relations, propositions = [], []
 
@@ -127,9 +125,9 @@ class SchemePredictor:
                         propositions.append(p2)
 
             # Format and refine the output structure
-            outputs = Output()
+            outputs = ArgumentRelationOutput()
             refined_structure = outputs.format(propositions, predicted_relations, remove_indirect_edges=True)
-            logger.info(f"Refined structure: {refined_structure}")
+            logger.info("Refined structure: %s", refined_structure)
 
             # Update the AIF structure based on predicted relations
             self._update_aif_structure(aif, refined_structure)
@@ -137,10 +135,10 @@ class SchemePredictor:
             return aif.xaif
 
         except json.JSONDecodeError as e:
-            logger.error(f"Invalid XAIF JSON format: {e}")
+            logger.error("Invalid XAIF JSON format: %s", e)
             raise
         except Exception as e:
-            logger.error(f"Error during argument mapping: {e}")
+            logger.error("Error during argument mapping: %s", e)
             raise
 
     def _update_aif_structure(self, aif, refined_structure):
@@ -165,5 +163,63 @@ class SchemePredictor:
                         aif.add_component("argument_relation", ar_type, conclusion_id, premise_id)
 
         except Exception as e:
-            logger.error(f"Error updating AIF structure: {e}")
-            raise
+            logger.error("Error updating AIF structure: %s",  e)
+    def get_all_claims(self, xaif_input):
+        return self._extract_claims_and_evidence(xaif_input).keys()
+
+    def get_evidence_for_claim(self, claim, xaif_input):
+        claims_and_evidence = self._extract_claims_and_evidence(xaif_input)
+        if claim in claims_and_evidence:
+            return claims_and_evidence[claim]
+        return f'No evidence found for the specified claim: {claim}'
+    
+    def _extract_claims_and_evidence(self, xaif_input):
+        """Extracts claims and supporting evidence from the given XAIF input."""
+
+        # Separate AR nodes (claims) and I nodes (evidence)
+        ar_nodes = {node['nodeID']: node['text'] for node in xaif_input['AIF']['nodes'] if node['type'] in ['CA', 'RA', 'MA']}
+        i_nodes = {node['nodeID']: node['text'] for node in xaif_input['AIF']['nodes'] if node['type'] == 'I'}
+
+        claims_supports = {}
+
+        # Process edges to map claims to their supporting evidence
+        for edge in xaif_input['AIF']['edges']:
+            ar_node_id = edge.get('fromID')
+            claim_node_id = edge.get('toID')
+
+            if ar_node_id in ar_nodes and claim_node_id in i_nodes:
+                # Look for evidence nodes linked to the AR node
+                for support_edge in xaif_input['AIF']['edges']:
+                    support_node_id = support_edge.get('fromID')
+
+                    if support_edge.get('toID') == ar_node_id and support_node_id in i_nodes:
+                        if claim_node_id not in claims_supports:
+                            claims_supports[claim_node_id] = []
+                        if support_node_id not in claims_supports[claim_node_id]:
+                            claims_supports[claim_node_id].append(support_node_id)
+
+        # Reverse mapping: evidence pointing to claims
+        for edge in xaif_input['AIF']['edges']:
+            support_node_id = edge.get('fromID')
+            ar_node_id = edge.get('toID')
+
+            if support_node_id in i_nodes and ar_node_id in ar_nodes:
+                for claim_edge in xaif_input['AIF']['edges']:
+                    claim_node_id = claim_edge.get('toID')
+
+                    if claim_edge.get('fromID') == ar_node_id and claim_node_id in i_nodes:
+                        if claim_node_id not in claims_supports:
+                            claims_supports[claim_node_id] = []
+                        if support_node_id not in claims_supports[claim_node_id]:
+                            claims_supports[claim_node_id].append(support_node_id)
+
+        # Create final dictionary mapping claims to their supporting evidence texts
+        claims_evidence = {
+            i_nodes[claim_id]: [i_nodes[evidence_id] for evidence_id in evidence_ids]
+            for claim_id, evidence_ids in claims_supports.items()
+        }
+
+        return claims_evidence
+
+
+    

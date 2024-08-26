@@ -1,8 +1,7 @@
 
 
 import logging
-from utils.data_utils import get_next_max_id
-from utils.data_utils import AIF
+from amf.utils.data_utils import get_next_max_id
 import json
 import logging
 from xaif_eval import xaif

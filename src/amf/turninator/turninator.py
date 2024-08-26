@@ -3,8 +3,8 @@ from flask import json
 import logging
 from xaif_eval import xaif
 
-from utils.data_utils import AIF
-from utils.output import TurninatorOutput
+from amf.utils.data_utils import AIF
+from amf.utils.output import TurninatorOutput
 
 logging.basicConfig(datefmt='%H:%M:%S', level=logging.DEBUG)
 

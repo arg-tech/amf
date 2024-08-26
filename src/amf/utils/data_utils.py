@@ -1,52 +1,69 @@
 from itertools import combinations
 import torch
 from typing import Dict, List
+import re
+from typing import Union, List, Tuple, Dict, Any
+import json
 
 
 class Data:
-    """
-    A class for handling data related to argument and proposition processing.
-
-    Methods:
-        load_data(nodes): Loads and prepares data from given nodes.
-        prepare_inputs(data, context=False): Prepares input strings for the model.
-    """
+    def __init__(self,):
+        pass
     
-    def load_data(self, nodes):
-        """
-        Loads and prepares data from given nodes.
+    def load_data(self, data: Union[str, Tuple[str, str], List[Tuple[str, str]], Dict[str, Any]], task_name=None) -> Dict[str, Any]:
+        """Process data based on its type."""
+        # Initialize the dictionary with default empty values
+        if task_name in ["hypothesis", "scheme"]:
+            if isinstance(data, str) or isinstance(data, list):
+                return data, None
+            elif isinstance(data, list) and all(isinstance(item, dict) for item in data):
+                return [node.get("text") for node in data if node.get("type") == "I"], None
 
-        Args:
-            nodes (list): List of node dictionaries, each containing 'nodeID', 'text', and 'type'.
 
-        Returns:
-            Tuple: (data, paired_texts)
-                - data (dict): Contains arguments and propositions for the pairs of nodes.
-                - paired_texts (list): List of tuples containing pairs of node IDs.
-        """
-        # Create a mapping of nodeID to text for all nodes of type "I"
-        node_id_text_map = {node.get("nodeID"): node.get("text") for node in nodes if node.get("type") == "I"}
-        
-        # Join the extracted texts to form the argument string
-        argument = " '[SEP]' ".join(node_id_text_map.values())
-        
-        # Generate combinations of node texts
-        paired_texts = list(combinations(node_id_text_map.keys(), 2))
-        
-        proposition_1, proposition_2, arguments = [], [], []
-        
-        for text_1, text_2 in paired_texts:
-            proposition_1.append(node_id_text_map[text_1])
-            proposition_2.append(node_id_text_map[text_2])
-            arguments.append(argument)
-        
-        data = {
-            "argument": arguments,
-            "prop_1": proposition_1,
-            "prop_2": proposition_2
+
+        result = {
+            "argument": [],
+            "prop_1": [],
+            "prop_2": []
         }
         
-        return data, paired_texts
+        if isinstance(data, str):
+            # Split the string into sentences using sentence delimiters.
+            sentences = re.split(r'(?<=[.!?])\s+', data.strip())
+            if len(sentences) >= 2:
+                result["argument"] = " [SEP] ".join(sentences[:2])
+                result["prop_1"] = [sentences[0]]
+                result["prop_2"] = [sentences[1]]
+
+        elif isinstance(data, tuple):
+            result["argument"] = " [SEP] ".join(data)
+            result["prop_1"] = [data[0]]
+            result["prop_2"] = [data[1]]
+
+        elif isinstance(data, list) and all(isinstance(item, tuple) for item in data):
+            result["argument"] = [" [SEP] ".join(item) for item in data]
+            result["prop_1"] = [item[0] for item in data]
+            result["prop_2"] = [item[1] for item in data]
+
+        elif isinstance(data, list) and all(isinstance(item, dict) for item in data):
+            # Create a mapping of nodeID to text for all nodes of type "I"
+            node_id_text_map = {node.get("nodeID"): node.get("text") for node in data if node.get("type") == "I"}
+
+            # Join the extracted texts to form the argument string
+            argument = " [SEP] ".join(node_id_text_map.values())
+
+            # Generate combinations of node texts
+            paired_texts = list(combinations(node_id_text_map.keys(), 2))
+
+            for text_1, text_2 in paired_texts:
+                result["prop_1"].append(node_id_text_map[text_1])
+                result["prop_2"].append(node_id_text_map[text_2])
+                result["argument"].append(argument)
+
+        else:
+            raise ValueError("Unsupported data type.")
+
+        return result, paired_texts
     
     def prepare_inputs(self, data, context=False):
         """
