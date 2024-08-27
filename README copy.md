@@ -1,31 +1,16 @@
 
-# AMF (Argument Mining Framework) 
-
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/arg-tech/amf) 
-![PyPI](https://img.shields.io/pypi/v/argument-mining-framework) 
-![License](https://img.shields.io/github/license/arg-tech/amf)
-
-![AMF Logo](amf/assets/arg_tech.png)
+# AMF (Argument Mining Framework)
 
 AMF is a comprehensive toolkit designed to streamline and unify various argument mining modules into a single platform. By leveraging the Argument Interchange Format (AIF), AMF enables seamless communication between different components, including segmenters, turnators, argument relation identifiers, and argument scheme classifiers.
 
----
-
-## 🚀 Features
-
-- **Argument Segmentator**: Identifies and segments arguments within argumentative text.
-- **Turninator**: Determines dialogue turns within conversations.
-- **Argument Relation Identification**: Identifies argument relationships between argument units.
-- **Argument Scheme Classification**: Classifies arguments based on predefined schemes.
-
-## 📚 Resources
-
+## Resources
 - [Documentation & Tutorials](https://wiki.arg.tech/books/amf)
 - [Online Demo](https://n8n.arg.tech/workflow/2)
 - [GitHub Source](https://github.com/arg-tech/amf)
 - [PyPI Package](https://pypi.org/project/argument-mining-framework/)
 
-## 📖 Table of Contents
+
+## Table of Contents
 
 1. [Overview](#overview)
 2. [Installation](#installation)
@@ -40,7 +25,7 @@ AMF is a comprehensive toolkit designed to streamline and unify various argument
 5. [API Reference](#api-reference)
 6. [License](#license)
 
-## 📝 Overview
+## Overview
 
 AMF provides a modular approach to argument mining, integrating various components into a cohesive framework. The main features include:
 
@@ -49,10 +34,9 @@ AMF provides a modular approach to argument mining, integrating various componen
 - **Argument Relation Identification:** Identifies argument relationships between argument units.
 - **Argument Scheme Classification:** Classifies arguments based on predefined schemes.
 
-## 🛠 Installation
+## Installation
 
-<details>
-<summary>Prerequisites & Setup</summary>
+### Prerequisites
 
 Ensure you have Python installed on your system. AMF is compatible with Python 3.6 and above.
 
@@ -85,9 +69,7 @@ pip install argument-mining-framework
 
 This command will install the latest version of AMF along with its dependencies.
 
-</details>
-
-## 🧩 Components
+## Components
 
 ### Argument Segmentor
 
@@ -113,7 +95,7 @@ The Argument Scheme Classifier categorizes arguments based on predefined schemes
 
 [Read More](http://amf-schemes.amfws.arg.tech)
 
-## 🧑‍💻 Usage
+## Usage
 
 ### Predictor Example
 
@@ -155,10 +137,11 @@ print(result_map)
 
 ### Full Workflow Example
 
-In this section, we demonstrate how to use multiple components of the AMF framework in a complete argument mining workflow. This example shows how to process a text input through the Turninator, Segmenter, Propositionalizer, and Argument Relation Predictor components and visualize the output.
+In this section, we demonstrate how to use multiple components of the AMF framework in a complete argument mining workflow. This example shows how to process a text input through the Turninator, Segmenter, Propositionalizer, and Argument Relation Predictor components and  visualise the ouput.
 
 ```python
 from argument_mining_framework.loader import Module
+
 
 def process_pipeline(input_data):
     """Process input data through the entire pipeline."""
@@ -198,6 +181,9 @@ def process_pipeline(input_data):
     print("Visualise the argument map")
     visualiser.visualise(argument_map_output)
 
+    # Initialize the converter and perform the conversion
+
+
 def main():
     # Sample input data
     input_data = (
@@ -227,16 +213,55 @@ if __name__ == "__main__":
     main()
 ```
 
-## ⚙️ API Reference
+### Detailed Breakdown of the Workflow
 
-For detailed API documentation, please refer to the [official documentation](https://wiki.arg.tech/books/amf) or check out the source code on [GitHub](https://github.com/arg
+1. **Turninator Component**: 
+   - The Turninator processes the input text to identify and segment dialogue turns. This is particularly useful for dialogue datasets.
+   - The `get_turns` method is used to perform the segmentation. The boolean parameter indicates whether the default settings should be applied.
 
--tech/amf).
+   ```python
+   turninator_output = turninator.get_turns(input_data, True)
+   print(f'Turninator output: {turninator_output}')
+   ```
 
-## 🤝 Contributing
+2. **Segmenter Component**:
+   - The Segmenter takes the output from the Turninator and further segments the text into argument segments.
+   - This component is designed to handle various text formats and identify distinct argumentative segments within them.
 
-We welcome contributions from the community. Please read our [contributing guidelines](CONTRIBUTING.md) to get started.
+   ```python
+   segmenter_output = segmenter.get_segments(turninator_output)
+   print(f'Segmenter output: {segmenter_output}')
+   ```
 
-## 📝 License
+3. **Propositionalizer Component**:
+   - The Propositionalizer takes the segmented text and constructs propositions.
 
-AMF is licensed under the MIT License. For more information, see the [LICENSE](LICENSE) file.
+   ```python
+   propositionalizer_output = propositionalizer.get_propositions(segmenter_output)
+   print(f'Propositionalizer output: {propositionalizer_output}')
+   ```
+
+4. **
+
+Argument Relation Predictor Component**:
+   - The Argument Relation Predictor takes the propositions and predicts the relationships between them.
+   - It can identify various types of argumentative relationships.
+
+   ```python
+   argument_map_output = argument_relation.get_argument_map(propositionalizer_output)
+   print(f'Argument relation prediction output: {argument_map_output}')
+   ```
+
+5. **Visualiser Component**:
+   - The Visualiser provides a visual representation of the argument map, allowing for easy interpretation of the argument structure.
+
+   ```python
+   visualiser.visualise(argument_map_output)
+   ```
+
+
+
+## License
+
+AMF is released under the MIT License. See the `LICENSE` file for more information.
+
