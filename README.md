@@ -4,7 +4,7 @@
 AMF is a comprehensive toolkit designed to streamline and unify various argument mining modules into a single platform. By leveraging the Argument Interchange Format (AIF), AMF enables seamless communication between different components, including segmenters, turnators, argument relation identifiers, and argument scheme classifiers.
 
 ## Resources
-- [Documentation & Tutorials](https://amf.docs.example.com)
+- [Documentation & Tutorials](https://wiki.arg.tech/books/amf)
 - [Online Demo](https://n8n.arg.tech/workflow/2)
 
 ## Table of Contents
@@ -18,6 +18,7 @@ AMF is a comprehensive toolkit designed to streamline and unify various argument
     - [Argument Scheme Classifier](#argument-scheme-classifier)
 4. [Usage](#usage)
     - [Predictor Example](#predictor-example)
+    - [Full Workflow Example](#full-workflow-example)
 5. [API Reference](#api-reference)
 6. [License](#license)
 
@@ -25,8 +26,8 @@ AMF is a comprehensive toolkit designed to streamline and unify various argument
 
 AMF provides a modular approach to argument mining, integrating various components into a cohesive framework. The main features include:
 
-- **Argument Segmentation:** Identifies and segments arguments within argumentative text.
-- **Turnation:** Determines dialogue turns within conversations.
+- **Argument Segmentator:** Identifies and segments arguments within argumentative text.
+- **Turninator:** Determines dialogue turns within conversations.
 - **Argument Relation Identification:** Identifies argument relationships between argument units.
 - **Argument Scheme Classification:** Classifies arguments based on predefined schemes.
 
@@ -60,7 +61,7 @@ Activate the virtual environment:
 With the virtual environment activated, install AMF using pip:
 
 ```bash
-pip install amf
+pip install argument-mining-framework
 ```
 
 This command will install the latest version of AMF along with its dependencies.
@@ -93,12 +94,12 @@ The Argument Scheme Classifier categorizes arguments based on predefined schemes
 
 ## Usage
 
-### Argument Relation Prediction Example
+### Predictor Example
 
-Below is an example of how to use the AMF Predictor class to generate argument map using an input provided based on  AIF:
+Below is an example of how to use the AMF Predictor class to generate an argument map using an input provided based on AIF:
 
 ```python
-from amf import ArgumentRelationPredictor
+from argument_mining_framework.argument_relation.predictor import ArgumentRelationPredictor
 import json
 
 # Initialize Predictor
@@ -133,12 +134,10 @@ print(result_map)
 
 ### Full Workflow Example
 
-In this section, we demonstrate how to use multiple components of the AMF framework in a complete argument mining workflow. This example shows how to process a text input through the Turninator, Segmenter, Propositionalizer, and Argument Relation Predictor components.
+In this section, we demonstrate how to use multiple components of the AMF framework in a complete argument mining workflow. This example shows how to process a text input through the Turninator, Segmenter, Propositionalizer, and Argument Relation Predictor components and  visualise the ouput.
 
 ```python
-from src.loader.task_loader import load_amf_component
-
-
+from argument_mining_framework.loader import Module
 
 
 def process_pipeline(input_data):
@@ -232,31 +231,34 @@ if __name__ == "__main__":
    ```
 
 3. **Propositionalizer Component**:
-   - The Propositionalizer takes the segmented text and contructs propositions.
+   - The Propositionalizer takes the segmented text and constructs propositions.
+
    ```python
    propositionalizer_output = propositionalizer.get_propositions(segmenter_output)
    print(f'Propositionalizer output: {propositionalizer_output}')
    ```
 
-4. **Argument Relation Predictor**:
-   - The Argument Relation Predictor analyzes the propositions and identifies the argument relationships between them. The argument relations include support, contradiction, or rephrase.
+4. **
+
+Argument Relation Predictor Component**:
+   - The Argument Relation Predictor takes the propositions and predicts the relationships between them.
+   - It can identify various types of argumentative relationships.
 
    ```python
-   argument_map_output = predictor.get_argument_map(propositionalizer_output)
+   argument_map_output = argument_relation.get_argument_map(propositionalizer_output)
    print(f'Argument relation prediction output: {argument_map_output}')
    ```
 
-### Customization and Advanced Usage
+5. **Visualiser Component**:
+   - The Visualiser provides a visual representation of the argument map, allowing for easy interpretation of the argument structure.
 
-- **Model Selection**: You can customize the `model_type` and `variant` parameters in the `ArgumentRelationPredictor` to use different models or configurations, depending on your specific requirements.
+   ```python
+   visualiser.visualise(argument_map_output)
+   ```
 
 
-## API Reference
-
-For detailed information on all available methods and parameters, please refer to the [API Documentation](https://amf.docs.example.com/api).
 
 ## License
 
-AMF is licensed under the [MIT License](https://opensource.org/licenses/MIT). For more details, please refer to the LICENSE file.
-
+AMF is released under the MIT License. See the `LICENSE` file for more information.
 

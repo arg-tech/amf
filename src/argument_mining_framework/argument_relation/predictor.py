@@ -4,8 +4,8 @@ import json
 import os
 import logging
 from xaif_eval import xaif
-from amf.utils.output import ArgumentRelationOutput
-from amf.utils.data_utils import Data
+from argument_mining_framework.utils.output import ArgumentRelationOutput
+from argument_mining_framework.utils.data_utils import Data
 from .model import Classifier
 
 logging.basicConfig(level=logging.INFO)

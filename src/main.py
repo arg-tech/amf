@@ -1,4 +1,4 @@
-from amf.amf_module.module_loader import Module
+from argument_mining_framework.loader import Module
 
 #python3 -m build  
 # twine upload dist/*   

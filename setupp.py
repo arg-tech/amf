@@ -8,7 +8,7 @@ from pathlib import Path
 
 setup(
     name='argument_mining_framework',
-    version='0.0.3',
+    version='0.0.5',
     description='Argument Mining Framework (AMF) is a comprehensive toolkit designed to streamline and unify various argument mining modules into a single platform.',
     readme = "README.md",
     author='Debela',
@@ -19,6 +19,7 @@ setup(
         'transformers',
         'torch',
         'numpy'
+        'xaif-eval==0.1.4'
     ],
     classifiers=[
         'Programming Language :: Python :: 3',

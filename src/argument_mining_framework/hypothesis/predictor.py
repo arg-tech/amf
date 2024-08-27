@@ -4,7 +4,7 @@ import json
 import os
 import logging
 from .model import Classifier
-from amf.utils.data_utils import Data
+from argument_mining_framework.utils.data_utils import Data
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)

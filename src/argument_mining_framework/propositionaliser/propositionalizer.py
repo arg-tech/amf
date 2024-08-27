@@ -1,7 +1,7 @@
 
 
 import logging
-from amf.utils.data_utils import get_next_max_id
+from argument_mining_framework.utils.data_utils import get_next_max_id
 import json
 import logging
 from xaif_eval import xaif

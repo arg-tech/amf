@@ -1,10 +1,10 @@
-from amf.argument_relation.predictor import ArgumentRelationPredictor
-from amf.hypothesis.predictor import HypothesisPredictor
-from amf.scheme.predictor import SchemePredictor
-from amf.turninator.turninator import Turninator
-from amf.segmenter.segmenter import Segmenter
-from amf.propositionaliser.propositionalizer import Propositionalizer
-from amf.utils.visualise import JsonToSvgConverter
+from argument_mining_framework.argument_relation.predictor import ArgumentRelationPredictor
+from argument_mining_framework.hypothesis.predictor import HypothesisPredictor
+from argument_mining_framework.scheme.predictor import SchemePredictor
+from argument_mining_framework.turninator.turninator import Turninator
+from argument_mining_framework.segmenter.segmenter import Segmenter
+from argument_mining_framework.propositionaliser.propositionalizer import Propositionalizer
+from argument_mining_framework.utils.visualise import JsonToSvgConverter
 
 class Module:
     def __init__(self, task_type, model_name=None, variant=None):
