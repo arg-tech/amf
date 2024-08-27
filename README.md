@@ -6,6 +6,7 @@ AMF is a comprehensive toolkit designed to streamline and unify various argument
 ## Resources
 - [Documentation & Tutorials](https://wiki.arg.tech/books/amf)
 - [Online Demo](https://n8n.arg.tech/workflow/2)
+- [Github Source] (https://github.com/arg-tech/amf)
 
 ## Table of Contents
 
