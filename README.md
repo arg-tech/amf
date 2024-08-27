@@ -229,9 +229,7 @@ if __name__ == "__main__":
 
 ## ⚙️ API Reference
 
-For detailed API documentation, please refer to the [official documentation](https://wiki.arg.tech/books/amf) or check out the source code on [GitHub](https://github.com/arg
-
--tech/amf).
+For detailed API documentation, please refer to the [official documentation](https://wiki.arg.tech/books/amf) or check out the source code on [GitHub](https://github.com/arg-tech/amf).
 
 ## 🤝 Contributing
 
