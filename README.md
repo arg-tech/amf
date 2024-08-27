@@ -5,7 +5,8 @@
 ![PyPI](https://img.shields.io/pypi/v/argument-mining-framework) 
 ![License](https://img.shields.io/github/license/arg-tech/amf)
 
-![AMF Logo](amf/assets/arg_tech.png)
+![AMF Logo](./amf/assets/arg_tech.png)
+
 
 AMF is a comprehensive toolkit designed to streamline and unify various argument mining modules into a single platform. By leveraging the Argument Interchange Format (AIF), AMF enables seamless communication between different components, including segmenters, turnators, argument relation identifiers, and argument scheme classifiers.
 
