@@ -1,5 +1,5 @@
 import unittest
-from amf.src.argument_mining_framework.loader import Module
+from src.argument_mining_framework.loader import Module
 
 class TestPropositionalizer(unittest.TestCase):
     def setUp(self):
