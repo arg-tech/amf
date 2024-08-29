@@ -1,5 +1,5 @@
 import re
-from flask import json
+import json
 import logging
 from xaif_eval import xaif
 

@@ -4,7 +4,7 @@ introduces new L-node entries for each of the new segments, and deletes the old 
 """
 
 import re
-from flask import json
+import json
 import logging
 from xaif_eval import xaif
 logging.basicConfig(datefmt='%H:%M:%S',

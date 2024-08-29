@@ -2,3 +2,4 @@ transformers
 torch
 numpy
 pylint
+xaif_eval==0.1.4
