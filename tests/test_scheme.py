@@ -1,33 +1,42 @@
 import unittest
 from src.argument_mining_framework.loader import Module
 
-class TestScheme(unittest.TestCase):
+class TestHypothesis(unittest.TestCase):
     def setUp(self):
-        # Initialize the scheme module with specific model and variant
-        self.scheme = Module('scheme', 'roberta', 'vanila')
+        # Initialize the hypothesis module with specific model and variant
+        self.hypothesis = Module('hypothesis', 'roberta', 'vanila')
 
-    def test_scheme_output(self):
+    def test_hypothesis_output(self):
         # Example input data for sequence classification
-        input_data = ["Sample premise", "Sample scheme"]
+        input_data = ["Sample premise", "Sample hypothesis"]
 
-        # Get the prediction output from the scheme module
-        output = self.scheme.predict(input_data)
+        # Get the prediction output from the hypothesis module
+        output = self.hypothesis.predict(input_data)
 
-        # Check if the output is a list
-        self.assertIsInstance(output, list)
+        # Check if the output is a tuple with exactly three elements
+        self.assertIsInstance(output, tuple)
+        self.assertEqual(len(output), 3)
 
-        # Ensure that the list contains at least one item
-        self.assertGreater(len(output), 0)
+        # Unpack the tuple into three lists
+        labels, scores1, scores2 = output
 
-        # Check that each item in the list is a dictionary with specific keys
-        for result in output:
-            self.assertIsInstance(result, dict)
-            self.assertIn('label', result)
-            self.assertIn('score', result)
+        # Validate the labels
+        self.assertIsInstance(labels, list)
+        self.assertGreater(len(labels), 0)
+        for label in labels:
+            self.assertIsInstance(label, str)
 
-            # Check that the 'label' is a string and 'score' is a float
-            self.assertIsInstance(result['label'], str)
-            self.assertIsInstance(result['score'], float)
+        # Validate the first scores list
+        self.assertIsInstance(scores1, list)
+        self.assertEqual(len(scores1), len(labels))  # Ensure scores match the number of labels
+        for score in scores1:
+            self.assertIsInstance(score, float)
+
+        # Validate the second scores list
+        self.assertIsInstance(scores2, list)
+        self.assertEqual(len(scores2), len(labels))  # Ensure scores match the number of labels
+        for score in scores2:
+            self.assertIsInstance(score, float)
 
 if __name__ == '__main__':
     unittest.main()

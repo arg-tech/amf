@@ -12,22 +12,32 @@ class TestHypothesis(unittest.TestCase):
 
         # Get the prediction output from the hypothesis module
         output = self.hypothesis.predict(input_data)
+        print(output)  # For debugging purposes
 
-        # Check if the output is a list
-        self.assertIsInstance(output, list)
-        
-        # Ensure that the list contains at least one item
-        self.assertGreater(len(output), 0)
+        # Check if the output is a tuple with exactly three elements
+        self.assertIsInstance(output, tuple)
+        self.assertEqual(len(output), 3)
 
-        # Check that each item in the list is a dictionary with specific keys
-        for result in output:
-            self.assertIsInstance(result, dict)
-            self.assertIn('label', result)
-            self.assertIn('score', result)
+        # Extract the lists from the tuple
+        labels, scores1, scores2 = output
 
-            # Check that the 'label' is a string and 'score' is a float
-            self.assertIsInstance(result['label'], str)
-            self.assertIsInstance(result['score'], float)
+        # Validate labels
+        self.assertIsInstance(labels, list)
+        self.assertGreater(len(labels), 0)
+        for label in labels:
+            self.assertIsInstance(label, str)
+
+        # Validate first set of scores
+        self.assertIsInstance(scores1, list)
+        self.assertEqual(len(scores1), len(labels))  # Ensure scores match number of labels
+        for score in scores1:
+            self.assertIsInstance(score, float)
+
+        # Validate second set of scores
+        self.assertIsInstance(scores2, list)
+        self.assertEqual(len(scores2), len(labels))  # Ensure scores match number of labels
+        for score in scores2:
+            self.assertIsInstance(score, float)
 
 if __name__ == '__main__':
     unittest.main()
