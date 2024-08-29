@@ -19,7 +19,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.x'  # Specify the Python version
+        python-version: '3.x'
 
     - name: Install dependencies
       run: |
@@ -30,9 +30,8 @@ jobs:
         pip install pylint
 
     - name: Run linting
-      continue-on-error: true  # Allow linting to fail without failing the job
       run: |
-        pylint src  
+        pylint src
 
   test:
     runs-on: ubuntu-latest
@@ -45,11 +44,14 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.x'  # Specify the Python version
+        python-version: '3.x'
 
     - name: Install dependencies
       run: |
         pip install -r requirements.txt
+
+    - name: Set PYTHONPATH
+      run: echo "PYTHONPATH=$(pwd)/src" >> $GITHUB_ENV
 
     - name: Run tests
       run: |
