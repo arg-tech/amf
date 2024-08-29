@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "argument_mining_framework"
-version = "0.1.1"
+version = "0.1.0"
 authors = [
   { name="Debela", email="d.t.z.gemechu@dundee.ac.uk" },
 ]
@@ -23,19 +23,10 @@ classifiers = [
 ]
 
 dependencies = [
-    "numpy"
-]
-
-[project.optional-dependencies]
-turninator = []
-segmenter = []
-relation_identifier = ["transformers", "torch"]
-hypothesis = ["transformers", "torch"]
-scheme = ["transformers", "torch"]
-visualiser = []
-all = [
     "transformers",
     "torch",
+    "numpy",
+    "xaif-eval==0.1.4"
 ]
 
 [project.urls]

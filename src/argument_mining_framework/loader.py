@@ -1,15 +1,9 @@
-from argument_mining_framework.argument_relation.predictor import ArgumentRelationPredictor
-from argument_mining_framework.hypothesis.predictor import HypothesisPredictor
-from argument_mining_framework.scheme.predictor import SchemePredictor
-from argument_mining_framework.turninator.turninator import Turninator
-from argument_mining_framework.segmenter.segmenter import Segmenter
-from argument_mining_framework.propositionaliser.propositionalizer import Propositionalizer
-from argument_mining_framework.utils.visualise import JsonToSvgConverter
+import importlib
 
 class Module:
     def __init__(self, task_type, model_name=None, variant=None):
         """
-        Initialize the Task class with the appropriate component based on task_type.
+        Initialize the Module class with the appropriate component based on task_type.
 
         Args:
             task_type (str): The type of task to load.
@@ -24,22 +18,35 @@ class Module:
     def _initialize_component(self):
         """Private method to initialize the appropriate component based on task_type."""
         if self.task_type == "argument_relation":
-            return ArgumentRelationPredictor(self.model_name, self.variant)
+            return self._load_component('argument_relation.predictor', 'ArgumentRelationPredictor')
         elif self.task_type == "turninator":
-            return Turninator()
+            return self._load_component('turninator.turninator', 'Turninator')
         elif self.task_type == "segmenter":
-            return Segmenter()
+            return self._load_component('segmenter.segmenter', 'Segmenter')
         elif self.task_type == "propositionalizer":
-            return Propositionalizer()
-        elif self.task_type == "hypothesis": 
-            return HypothesisPredictor(self.model_name, self.variant)
-        elif self.task_type == "scheme":         
-            return SchemePredictor(self.model_name, self.variant)
-        
+            return self._load_component('propositionaliser.propositionalizer', 'Propositionalizer')
+        elif self.task_type == "hypothesis":
+            return self._load_component('hypothesis.predictor', 'HypothesisPredictor')
+        elif self.task_type == "scheme":
+            return self._load_component('scheme.predictor', 'SchemePredictor')
         elif self.task_type == "visualiser":
-            return JsonToSvgConverter()
+            return self._load_component('utils.visualise', 'JsonToSvgConverter')
         else:
             raise ValueError(f"Unknown task type: {self.task_type}")
+
+    def _load_component(self, module_path, class_name):
+        """Dynamically load the specified component class."""
+        try:
+            module = importlib.import_module(f'argument_mining_framework.{module_path}')
+            component_class = getattr(module, class_name)
+            if class_name in ["Turninator", "Segmenter", "visualiser", "Propositionalizer", "JsonToSvgConverter"]:  # Components that do not require additional arguments
+                return component_class()
+            else:
+                return component_class(self.model_name, self.variant)
+        except ImportError:
+            raise RuntimeError(f"Module or component '{module_path}.{class_name}' not found.")
+        except AttributeError:
+            raise RuntimeError(f"Component class '{class_name}' not found in module '{module_path}'.")
 
     def __getattr__(self, name):
         """Delegate attribute access to the loaded component."""

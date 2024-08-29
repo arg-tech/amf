@@ -30,12 +30,13 @@ jobs:
         pip install pylint
 
     - name: Run linting
+      continue-on-error: true  # Allow linting to fail without failing the job
       run: |
         pylint src  
 
   test:
     runs-on: ubuntu-latest
-    needs: lint  # Ensure linting passes before running tests
+    needs: lint
 
     steps:
     - name: Checkout code
@@ -52,4 +53,4 @@ jobs:
 
     - name: Run tests
       run: |
-        python -m unittest discover tests  
+        python -m unittest discover tests

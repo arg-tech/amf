@@ -1,13 +1,13 @@
 import unittest
 from amf.src.argument_mining_framework.loader import Module
 
-class TestArgumentRelation(unittest.TestCase):
+class TestPropositionalizer(unittest.TestCase):
     def setUp(self):
-        self.argument_relation = Module('argument_relation', 'dialogpt', 'vanila')
+        self.propositionalizer = Module('propositionalizer')
 
-    def test_argument_relation_output(self):
+    def test_propositionalizer_output(self):
         input_data = {"AIF": "sample AIF data"}
-        output = self.argument_relation.get_argument_map(input_data)
+        output = self.propositionalizer.get_propositions(input_data)
         self.assertIsInstance(output, dict)
         self.assertIn('AIF', output)
 
