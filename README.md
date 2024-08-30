@@ -51,6 +51,7 @@ AMF provides a modular approach to argument mining, integrating various componen
 - **Argument Scheme Classification:** Classifies arguments based on predefined schemes.
 
 ## 🛠 Installation
+
 <details>
 <summary>Prerequisites & Setup</summary>
 
@@ -87,7 +88,7 @@ This command will install the latest version of AMF along with its dependencies.
 
 ### Additional Setup Instructions
 
-After installing the `argument_mining_framework` package, make sure to download the necessary NLTK data and spaCy models:
+After installing the `argument-mining-framework` package, make sure to download the necessary NLTK data and spaCy models:
 
 ```bash
 python -m nltk.downloader stopwords
@@ -100,6 +101,7 @@ python -m spacy download en_core_web_sm
 ```
 
 </details>
+
 
 
 
@@ -179,11 +181,11 @@ from argument_mining_framework.loader import Module
 def process_pipeline(input_data):
     """Process input data through the entire pipeline."""
     # Initialize components
-    turninator = load_amf_component('turninator')()
-    segmenter = load_amf_component('segmenter')()
-    propositionalizer = load_amf_component('propositionalizer')()    
+    turninator = load_amf_component('turninator')
+    segmenter = load_amf_component('segmenter')
+    propositionalizer = load_amf_component('propositionalizer')  
     argument_relation = load_amf_component('argument_relation', "dialogpt", "vanila")
-    visualiser = load_amf_component('visualiser')()
+    visualiser = load_amf_component('visualiser')
 
     # Step 1: Turninator
     turninator_output = turninator.get_turns(input_data, True)

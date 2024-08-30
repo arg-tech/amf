@@ -24,6 +24,13 @@ jobs:
     - name: Install dependencies
       run: |
         pip install -r requirements.txt
+        pip install argument-mining-framework
+        python -m nltk.downloader stopwords
+        python -m nltk.downloader wordnet
+        python -m nltk.downloader averaged_perceptron_tagger
+        python -m nltk.downloader omw-1.4
+        python -m spacy download en_core_web_lg
+        python -m spacy download en_core_web_sm
 
     - name: Install linting tools
       run: |
@@ -50,6 +57,13 @@ jobs:
     - name: Install dependencies
       run: |
         pip install -r requirements.txt
+        pip install argument-mining-framework
+        python -m nltk.downloader stopwords
+        python -m nltk.downloader wordnet
+        python -m nltk.downloader averaged_perceptron_tagger_eng
+        python -m nltk.downloader omw-1.4
+        python -m spacy download en_core_web_lg
+        python -m spacy download en_core_web_sm
 
     - name: Run tests
       run: |
