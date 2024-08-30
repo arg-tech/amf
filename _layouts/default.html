@@ -18,17 +18,34 @@
     <style>
       .wrapper {
         display: flex;
+        flex-direction: column; /* Stack elements vertically */
       }
-      .wrapper section {
-        flex: 2;
-        margin-right: 2%;
+      .main-content {
+        display: flex;
+        flex-direction: column; /* Ensure content is stacked vertically */
+        flex: 1; /* Allow content to grow and fill available space */
       }
-      .wrapper aside {
-        flex: 1.5;
-        padding-left: 2%;
-        border-left: 1px solid #e0e0e0;
+      .sidebar {
+        flex: 1;
+        padding: 20px;
+        border-top: 1px solid #e0e0e0;
         background-color: #f8f9fa;
         min-width: 300px; /* Ensure a minimum width for the sidebar */
+      }
+      @media (min-width: 768px) {
+        .wrapper {
+          flex-direction: row; /* Stack elements horizontally on larger screens */
+        }
+        .main-content {
+          flex: 2;
+          margin-right: 2%;
+        }
+        .sidebar {
+          flex: 1.5;
+          padding-left: 2%;
+          border-left: 1px solid #e0e0e0;
+          border-top: none; /* Remove top border for horizontal layout */
+        }
       }
     </style>
   </head>
@@ -54,15 +71,18 @@
     </div><!-- end banner -->
 
     <div class="wrapper">
-      <section>
-        {{ content }}
-      </section>
-
+      <div class="main-content">
+        <section>
+          {{ content }}
+        </section>
+      </div>
+      
       <!-- Sidebar -->
-      <aside>
+      <aside class="sidebar">
         <h2>📢 Follow Us on Twitter</h2>
         <!-- Embed Twitter Feed -->
-        <a class="twitter-timeline" data-width="250" data-height="1500" data-theme="light" href="https://twitter.com/ARG_tech?ref_src=twsrc%5Etfw">Tweets by ARG_tech</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        <a class="twitter-timeline" data-width="250" data-height="1500" data-theme="dark" href="https://twitter.com/ARG_tech?ref_src=twsrc%5Etfw">Tweets by ARG_tech</a>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
       </aside>
     </div><!-- end wrapper -->
 
