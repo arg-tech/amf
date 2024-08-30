@@ -29,7 +29,11 @@
         border-top: 1px solid #e0e0e0;
         background-color: #f8f9fa;
         min-width: 300px; /* Ensure a minimum width for the sidebar */
-        margin-top: 5%; /* Push the sidebar further down */
+        margin-top: 50px; /* Push the sidebar further down */
+      }
+      .sidebar .twitter-timeline {
+        display: block;
+        margin-bottom: 20px; /* Space between tweets */
       }
       @media (min-width: 768px) {
         .wrapper {
@@ -40,7 +44,7 @@
           margin-right: 2%;
         }
         .sidebar {
-          flex: 1.5;
+          flex: 1;
           padding-left: 2%;
           border-left: 1px solid #e0e0e0;
           border-top: none; /* Remove top border for horizontal layout */
@@ -80,8 +84,12 @@
       <!-- Sidebar -->
       <aside class="sidebar">
         <h2>📢 Follow Us on Twitter</h2>
-        <!-- Embed Twitter Feed -->
-        <a class="twitter-timeline" data-width="250" data-height="700" data-theme="dark" href="https://twitter.com/ARG_tech?ref_src=twsrc%5Etfw">Tweets by ARG_tech</a>
+        <!-- Embed Twitter Feed 1 -->
+        <a class="twitter-timeline" data-width="300" data-height="600" data-theme="dark" href="https://twitter.com/ARG_tech?ref_src=twsrc%5Etfw">Tweets by ARG_tech</a>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+        <!-- Embed Twitter Feed 2 -->
+        <a class="twitter-timeline" data-width="300" data-height="600" data-theme="dark" href="https://twitter.com/AnotherAccount?ref_src=twsrc%5Etfw">Tweets by AnotherAccount</a>
         <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
       </aside>
     </div><!-- end wrapper -->
