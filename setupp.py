@@ -2,9 +2,6 @@ from setuptools import setup, find_packages
 
 from pathlib import Path
 
-# Read the contents of README.md
-
-
 
 setup(
     name='argument_mining_framework',

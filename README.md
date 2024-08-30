@@ -3,7 +3,8 @@
 
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/arg-tech/amf) 
 ![PyPI](https://img.shields.io/pypi/v/argument-mining-framework) 
-![License](https://img.shields.io/github/license/arg-tech/amf)
+![License](https://img.shields.io/badge/License-GPL%203.0-blue)
+
 
 
 
@@ -50,8 +51,6 @@ AMF provides a modular approach to argument mining, integrating various componen
 - **Argument Scheme Classification:** Classifies arguments based on predefined schemes.
 
 ## 🛠 Installation
-
-
 <details>
 <summary>Prerequisites & Setup</summary>
 
@@ -86,7 +85,22 @@ pip install argument-mining-framework
 
 This command will install the latest version of AMF along with its dependencies.
 
+### Additional Setup Instructions
+
+After installing the `argument_mining_framework` package, make sure to download the necessary NLTK data and spaCy models:
+
+```bash
+python -m nltk.downloader stopwords
+python -m nltk.downloader wordnet
+python -m nltk.downloader averaged_perceptron_tagger
+python -m nltk.downloader omw-1.4
+
+python -m spacy download en_core_web_lg
+python -m spacy download en_core_web_sm
+```
+
 </details>
+
 
 
 ## 🧩 Components
@@ -240,4 +254,10 @@ We welcome contributions from the community. Please read our [contributing guide
 
 ## 📝 License
 
-AMF is licensed under the MIT License. For more information, see the [LICENSE](LICENSE) file.
+The AMF is licensed under the GNU General Public License (GPL) v3.0, with additional custom terms.
+
+### Custom License Terms
+- **Commercial Use**: To use this software for commercial purposes, please contact us for licensing arrangements.
+- **Non-commercial Use**: You may use, modify, and distribute this software freely for non-commercial purposes, as long as you adhere to the GPL v3.0 terms.
+
+For more detailed information about the GPL v3.0 license, visit the [GPL License](https://www.gnu.org/licenses/gpl-3.0.html) page.

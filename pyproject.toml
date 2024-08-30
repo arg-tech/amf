@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "argument_mining_framework"
-version = "0.1.1"
+version = "0.1.9"
 authors = [
   { name="Debela", email="d.t.z.gemechu@dundee.ac.uk" },
 ]
@@ -23,8 +23,28 @@ classifiers = [
 ]
 
 dependencies = [
-    "numpy"
+    "numpy",
+
+    "pandas",
+    "torch",
+    "transformers",
+    "scikit-learn",
+    "nltk",
+    "spacy",
+    "Cython",
+    "sentence_transformers",
+    "xaif_eval==0.1.4"
 ]
+
+[tool.hatch.scripts]
+post-install = """
+    python -m nltk.downloader stopwords
+    python -m nltk.downloader wordnet
+    python -m nltk.downloader averaged_perceptron_tagger
+    python -m nltk.downloader omw-1.4
+    python -m spacy download en_core_web_lg
+    python -m spacy download en_core_web_sm
+"""
 
 [project.optional-dependencies]
 turninator = []
