@@ -50,56 +50,43 @@ AMF provides a modular approach to argument mining, integrating various componen
 - **Argument Relation Identification:** Identifies argument relationships between argument units.
 - **Argument Scheme Classification:** Classifies arguments based on predefined schemes.
 
+
 ## 🛠 Installation
 <details>
-<summary>Prerequisites & Setup</summary>
+  <summary>Prerequisites & Setup</summary>
 
-Ensure you have Python installed on your system. AMF is compatible with Python 3.6 and above.
+  <p>Ensure you have Python installed on your system. AMF is compatible with Python 3.6 and above.</p>
 
-### Step 1: Create a Virtual Environment
+  <h3>Step 1: Create a Virtual Environment</h3>
+  <p>It's recommended to create a virtual environment to manage dependencies:</p>
+  <pre><code>python -m venv amf-env</code></pre>
 
-It's recommended to create a virtual environment to manage dependencies:
+  <p>Activate the virtual environment:</p>
+  <ul>
+    <li><strong>Windows:</strong>
+      <pre><code>.\amf-env\Scripts\activate</code></pre>
+    </li>
+    <li><strong>macOS/Linux:</strong>
+      <pre><code>source amf-env/bin/activate</code></pre>
+    </li>
+  </ul>
 
-```bash
-python -m venv amf-env
-```
+  <h3>Step 2: Install Dependencies</h3>
+  <p>With the virtual environment activated, install AMF using pip:</p>
+  <pre><code>pip install argument-mining-framework</code></pre>
+  <p>This command will install the latest version of AMF along with its dependencies.</p>
 
-Activate the virtual environment:
-
-- **Windows:**
-  ```bash
-  .\amf-env\Scripts\activate
-  ```
-- **macOS/Linux:**
-  ```bash
-  source amf-env/bin/activate
-  ```
-
-### Step 2: Install Dependencies
-
-With the virtual environment activated, install AMF using pip:
-
-```bash
-pip install argument-mining-framework
-```
-
-This command will install the latest version of AMF along with its dependencies.
-
-### Additional Setup Instructions
-
-After installing the `argument-mining-framework` package, make sure to download the necessary NLTK data and spaCy models:
-
-```bash
-python -m nltk.downloader stopwords
+  <h3>Additional Setup Instructions</h3>
+  <p>After installing the <code>argument-mining-framework</code> package, make sure to download the necessary NLTK data and spaCy models:</p>
+  <pre><code>python -m nltk.downloader stopwords
 python -m nltk.downloader wordnet
-python -m nltk.downloader averaged_perceptron_tagger
+python -m nltk.downloader averaged_perceptron_tagger_eng
 python -m nltk.downloader omw-1.4
 
 python -m spacy download en_core_web_lg
-python -m spacy download en_core_web_sm
-```
-
+python -m spacy download en_core_web_sm</code></pre>
 </details>
+
 
 
 
