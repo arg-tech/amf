@@ -51,7 +51,6 @@ AMF provides a modular approach to argument mining, integrating various componen
 - **Argument Scheme Classification:** Classifies arguments based on predefined schemes.
 
 ## 🛠 Installation
-
 <details>
 <summary>Prerequisites & Setup</summary>
 
