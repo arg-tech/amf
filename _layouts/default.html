@@ -16,19 +16,23 @@
     {% include head-custom.html %}
 
     <style>
+      /* Adjust the layout to ensure proper alignment */
       .wrapper {
         display: flex;
+        align-items: flex-start; /* Align the top of the sidebar and main content */
       }
       .wrapper section {
         flex: 2;
         margin-right: 2%;
+        margin-top: 0; /* Ensure top margin alignment with the sidebar */
       }
       .wrapper aside {
-        flex: 1.5;
+        flex: 1.7; /* Slightly increase the sidebar width */
         padding-left: 2%;
         border-left: 1px solid #e0e0e0;
         background-color: #f8f9fa;
-        min-width: 300px; /* Ensure a minimum width for the sidebar */
+        min-width: 320px; /* Increase the minimum width of the sidebar */
+        margin-top: 0; /* Ensure top margin alignment with the main content */
       }
     </style>
   </head>
