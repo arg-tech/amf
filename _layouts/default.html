@@ -16,25 +16,12 @@
     {% include head-custom.html %}
 
     <style>
-      body {
-        margin: 0;
-        padding: 0;
-      }
-      header {
-        margin-bottom: 20px; /* Space between header and banner */
-      }
-      #banner {
-        padding: 20px;
-        background: #f8f9fa;
-        border-bottom: 1px solid #e0e0e0;
-      }
       .wrapper {
         display: flex;
-        flex-direction: column; /* Stack elements vertically by default */
+        flex-direction: column; /* Stack elements vertically */
       }
       .main-content {
         flex: 1;
-        padding: 20px;
       }
       .sidebar {
         flex: 1;
@@ -42,7 +29,7 @@
         border-top: 1px solid #e0e0e0;
         background-color: #f8f9fa;
         min-width: 300px; /* Ensure a minimum width for the sidebar */
-        margin-top: 20px; /* Adjust this value as needed */
+        margin-top: 300px; /* Push the sidebar further down */
       }
       .sidebar .twitter-timeline {
         display: block;
@@ -101,9 +88,7 @@
         <a class="twitter-timeline" data-width="300" data-height="600" data-theme="dark" href="https://twitter.com/ARG_tech?ref_src=twsrc%5Etfw">Tweets by ARG_tech</a>
         <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-        <!-- Embed Twitter Feed 2 -->
-        <a class="twitter-timeline" data-width="300" data-height="600" data-theme="dark" href="https://twitter.com/AnotherAccount?ref_src=twsrc%5Etfw">Tweets by AnotherAccount</a>
-        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
       </aside>
     </div><!-- end wrapper -->
 
