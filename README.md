@@ -454,7 +454,7 @@ if __name__ == "__main__":
 ```
 
 </details>
-```
+
 
 ## ⚙️ API Reference
 
@@ -463,7 +463,44 @@ check out the source code on [GitHub](https://github.com/arg-tech/amf).
 
 ## 🤝 Contributing
 
-We welcome contributions from the community. Please read our [contributing guidelines](CONTRIBUTING.md) to get started.
+We welcome contributions to AMF! To get started:
+
+1. **Fork the Repository**  
+   Fork AMF to your GitHub account.
+
+2. **Clone Your Fork**  
+   ```bash
+   git clone https://github.com/your-username/amf.git
+   ```
+
+3. **Create a Branch**  
+   ```bash
+   git checkout -b my-feature-branch
+   ```
+
+4. **Make Changes**  
+   Implement your feature or fix. Follow our [guidelines](CONTRIBUTING.md).
+
+5. **Test Your Changes**  
+   Add and run tests to ensure everything works.
+
+6. **Commit and Push**  
+   ```bash
+   git add .
+   git commit -m "Description of changes"
+   git push origin my-feature-branch
+   ```
+
+7. **Create a Pull Request**  
+   Submit a PR on GitHub with details about your changes.
+
+### Resources
+
+- [Contributing Guidelines](CONTRIBUTING.md)
+- [Issue Tracker](https://github.com/arg-tech/amf/issues)
+
+Thank you for contributing!
+
 
 ## 📝 License
 
