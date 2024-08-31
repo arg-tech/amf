@@ -159,53 +159,76 @@ result_map = predictor.argument_map(xaif_json)
 print(result_map)
 ```
 
+
 ### Full Workflow Example
 
 In this section, we demonstrate how to use multiple components of the AMF framework in a complete argument mining workflow. This example shows how to process a text input through the Turninator, Segmenter, Propositionalizer, and Argument Relation Predictor components and visualize the output.
 
 ```python
+import logging
 from argument_mining_framework.loader import Module
 
-def process_pipeline(input_data):
-    """Process input data through the entire pipeline."""
+# Configure logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+def process_pipeline(input_data: str) -> None:
+    """Process input data through the entire argument mining pipeline."""
+
     # Initialize components
-    turninator = load_amf_component('turninator')
-    segmenter = load_amf_component('segmenter')
-    propositionalizer = load_amf_component('propositionalizer')  
-    argument_relation = load_amf_component('argument_relation', "dialogpt", "vanila")
-    visualiser = load_amf_component('visualiser')
+    modules = {
+        'turninator': Module('turninator'),
+        'segmenter': Module('segmenter'),
+        'propositionalizer': Module('propositionalizer'),
+        'argument_relation': Module('argument_relation', "DAM", "01"),
+        'hypothesis': Module('hypothesis', "roberta", "vanilla"),
+        'scheme': Module('scheme', "roberta", "vanilla"), 
+        'visualiser': Module('visualiser')
+    }
 
     # Step 1: Turninator
-    turninator_output = turninator.get_turns(input_data, True)
-    print(f'Turninator output: {turninator_output}')
+    turninator_output = modules['turninator'].get_turns(input_data, True)
+    logging.info('Turninator output: %s', turninator_output)
 
     # Step 2: Segmenter
-    segmenter_output = segmenter.get_segments(turninator_output)
-    print(f'Segmenter output: {segmenter_output}')
+    segmenter_output = modules['segmenter'].get_segments(turninator_output)
+    logging.info('Segmenter output: %s', segmenter_output)
 
     # Step 3: Propositionalizer
-    propositionalizer_output = propositionalizer.get_propositions(segmenter_output)
-    print(f'Propositionalizer output: {propositionalizer_output}')
+    propositionalizer_output = modules['propositionalizer'].get_propositions(segmenter_output)
+    logging.info('Propositionalizer output: %s', propositionalizer_output)
 
     # Step 4: Argument Relation Prediction
-    argument_map_output = argument_relation.get_argument_map(propositionalizer_output)
-    print(f'Argument relation prediction output: {argument_map_output}')
+    argument_map_output = modules['argument_relation'].get_argument_map(propositionalizer_output)
+    logging.info('Argument relation prediction output: %s', argument_map_output)
 
     # Additional Analysis
-    print("Get all claims:")
-    print(argument_relation.get_all_claims(argument_map_output))
-    print("===============================================")
+    claims = modules['argument_relation'].get_all_claims(argument_map_output)
+    logging.info("Extracted claims: %s", claims)
 
-    print("Get evidence for claim:")
-    print(argument_relation.get_evidence_for_claim(
-        "But this isn’t the time for vaccine nationalism", argument_map_output))
-    print("===============================================")
+    evidence = modules['argument_relation'].get_evidence_for_claim(
+        "But this isn’t the time for vaccine nationalism", argument_map_output)
+    logging.info("Evidence for claim: %s", evidence)
 
-    print("Visualise the argument map")
-    visualiser.visualise(argument_map_output)
+    # Hypothesis Prediction
+    hypothesis_results = modules['hypothesis'].predict([
+        "But this isn’t the time for vaccine nationalism",
+        "Vaccine is useful to prevent infections."
+    ])
+    logging.info("Hypothesis prediction: %s", hypothesis_results)
 
-def main():
-    # Sample input data
+    # Scheme Prediction
+    scheme_results = modules['scheme'].predict([
+        "But this isn’t the time for vaccine nationalism",
+        "Vaccine is useful to prevent infections."
+    ])
+    logging.info("Scheme prediction: %s", scheme_results)
+
+    # Visualize the argument map
+    modules['visualiser'].visualise(argument_map_output)
+
+
+def main() -> None:
+    """Main function to run the argument mining pipeline."""
     input_data = (
         """Liam Halligan: Vaccines mark a major advance in human achievement since the """
         """enlightenment into the 19th Century and Britain’s been at the forefront of """
@@ -229,8 +252,208 @@ def main():
 
     process_pipeline(input_data)
 
+
 if __name__ == "__main__":
     main()
+```
+
+#### Output
+
+<details>
+<summary>Click to expand the output in JSON format</summary>
+
+```json
+{
+  "AIF": {
+    "nodes": [
+      {
+        "text": "Vaccines mark a major advance in human achievement since the enlightenment into the 19th Century and Britain’s been at the forefront of those achievements over the years and decades",
+        "type": "L",
+        "nodeID": 2
+      },
+      {
+        "text": "But this isn’t the time for vaccine nationalism",
+        "type": "L",
+        "nodeID": 3
+      },
+      {
+        "text": "I agree we should congratulate all the scientists, those in Belgium, the States, British scientists working in international teams here in the UK, with AstraZeneca",
+        "type": "L",
+        "nodeID": 4
+      },
+      {
+        "text": "What about the logistical capabilities",
+        "type": "L",
+        "nodeID": 5
+      },
+      {
+        "text": "They are obviously forefront now, now we’ve got a vaccine that’s been approved",
+        "type": "L",
+        "nodeID": 6
+      },
+      {
+        "text": "It’s good -- I’m reassured that the British Army are going to be involved",
+        "type": "L",
+        "nodeID": 7
+      },
+      {
+        "text": "They’re absolute world experts at rolling out things, complex logistic capabilities",
+        "type": "L",
+        "nodeID": 8
+      },
+      {
+        "text": "This is probably going to be the biggest logistical exercise that our armed forces have undertaken since the Falklands War, which I’m old enough to remember, just about",
+        "type": "L",
+        "nodeID": 9
+      },
+      {
+        "text": "So, as a neutral I’d like to see a lot of cross-party cooperation, and I’m encouraged with Sarah’s tone, everybody wants to see us getting on with it now",
+        "type": "L",
+        "nodeID": 10
+      },
+      {
+        "text": "They don’t want to see competition on whose vaccine is best",
+        "type": "L",
+        "nodeID": 11
+      },
+      {
+        "text": "There will be some instances where the Pfizer vaccine works better, another where you can’t have cold refrigeration, across the developing world as well, a cheaper vaccine like the AstraZeneca works better",
+        "type": "L",
+        "nodeID": 12
+      },
+      {
+        "text": "Let’s keep our fingers crossed and hope we make a good job of this",
+        "type": "L",
+        "nodeID": 13
+      },
+      {
+        "text": "Vaccines mark a major advance in human achievement since the enlightenment into the 19th Century and Britain’s been at the forefront of those achievements over the years and decades",
+        "type": "I",
+        "nodeID": 14
+      },
+      {
+        "text": "Default Illocuting",
+        "type": "YA",
+        "nodeID": 15
+      },
+      {
+        "text": "But this isn’t the time for vaccine nationalism",
+        "type": "I",
+        "nodeID": 16
+      },
+      {
+        "text": "Default Illocuting",
+        "type": "YA",
+        "nodeID": 17
+      },
+      {
+        "text": "I agree we should congratulate all the scientists, those in Belgium, the States, British scientists working in international teams here in the UK, with AstraZeneca",
+        "type": "I",
+        "nodeID": 18
+      },
+      {
+        "text": "Default Illocuting",
+        "type": "YA",
+        "nodeID": 19
+      },
+      {
+        "text": "What about the logistical capabilities",
+        "type": "I",
+        "nodeID": 20
+      },
+      {
+        "text": "Default Illocuting",
+        "type": "YA",
+        "nodeID": 21
+      },
+      {
+        "text": "They are obviously forefront now, now we’ve got a vaccine that’s been approved",
+        "type": "I",
+        "nodeID": 22
+      },
+      {
+        "text": "Default Illocuting",
+        "type": "YA",
+        "nodeID": 23
+      },
+      {
+        "text": "It’s good -- I’m reassured that the British Army are going to be involved",
+        "type": "I",
+        "nodeID": 24
+      },
+      {
+        "text": "Default Illocuting",
+        "type": "YA",
+        "nodeID": 25
+      },
+      {
+        "text": "They’re absolute world experts at rolling out things, complex logistic capabilities",
+        "type": "I",
+       
+
+ "nodeID": 26
+      },
+      {
+        "text": "Default Illocuting",
+        "type": "YA",
+        "nodeID": 27
+      },
+      {
+        "text": "This is probably going to be the biggest logistical exercise that our armed forces have undertaken since the Falklands War, which I’m old enough to remember, just about",
+        "type": "I",
+        "nodeID": 28
+      },
+      {
+        "text": "Default Illocuting",
+        "type": "YA",
+        "nodeID": 29
+      },
+      {
+        "text": "So, as a neutral I’d like to see a lot of cross-party cooperation, and I’m encouraged with Sarah’s tone, everybody wants to see us getting on with it now",
+        "type": "I",
+        "nodeID": 30
+      },
+      {
+        "text": "Default Illocuting",
+        "type": "YA",
+        "nodeID": 31
+      },
+      {
+        "text": "They don’t want to see competition on whose vaccine is best",
+        "type": "I",
+        "nodeID": 32
+      },
+      {
+        "text": "Default Illocuting",
+        "type": "YA",
+        "nodeID": 33
+      },
+      {
+        "text": "There will be some instances where the Pfizer vaccine works better, another where you can’t have cold refrigeration, across the developing world as well, a cheaper vaccine like the AstraZeneca works better",
+        "type": "I",
+        "nodeID": 34
+      },
+      {
+        "text": "Default Illocuting",
+        "type": "YA",
+        "nodeID": 35
+      },
+      {
+        "text": "Let’s keep our fingers crossed and hope we make a good job of this",
+        "type": "I",
+        "nodeID": 36
+      },
+      {
+        "text": "Default Illocuting",
+        "type": "YA",
+        "nodeID": 37
+      }
+    ]
+  }
+}
+```
+
+</details>
 ```
 
 ## ⚙️ API Reference

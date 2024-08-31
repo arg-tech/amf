@@ -1,66 +1,69 @@
+
+import logging
 from argument_mining_framework.loader import Module
 
-#python3 -m build  
-# twine upload dist/*   
+# Configure logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 
-def process_pipeline(input_data):
-    """Process input data through the entire pipeline."""
+def process_pipeline(input_data: str) -> None:
+    """Process input data through the entire argument mining pipeline."""
+
     # Initialize components
-    turninator = Module('turninator')
-    segmenter = Module('segmenter')
-    propositionalizer = Module('propositionalizer')  
-    #argument_relation = Module('argument_relation', "dialogpt", "vanila")
-    argument_relation = Module('argument_relation', "DAM", "01")
-    hypotheis = Module('hypothesis', "roberta", "vanila")
-    scheme = Module('scheme', "roberta", "vanila")
-    visualiser = Module('visualiser')
-    print(argument_relation.task_type)
-    print(hypotheis.task_type)
+    modules = {
+        'turninator': Module('turninator'),
+        'segmenter': Module('segmenter'),
+        'propositionalizer': Module('propositionalizer'),
+        'argument_relation': Module('argument_relation', "dialogpt", "vanilla"),
+        'hypothesis': Module('hypothesis', "roberta", "vanilla"),
+        'scheme': Module('scheme', "roberta", "vanilla"), 
+        'visualiser': Module('visualiser')
+    }
 
     # Step 1: Turninator
-    turninator_output = turninator.get_turns(input_data, True)
-    print(f'Turninator output: {turninator_output}')
+    turninator_output = modules['turninator'].get_turns(input_data, True)
+    logging.info('Turninator output: %s', turninator_output)
 
     # Step 2: Segmenter
-    segmenter_output = segmenter.get_segments(turninator_output)
-    print(f'Segmenter output: {segmenter_output}')
+    segmenter_output = modules['segmenter'].get_segments(turninator_output)
+    logging.info('Segmenter output: %s', segmenter_output)
 
     # Step 3: Propositionalizer
-    propositionalizer_output = propositionalizer.get_propositions(segmenter_output)
-    print(f'Propositionalizer output: {propositionalizer_output}')
+    propositionalizer_output = modules['propositionalizer'].get_propositions(segmenter_output)
+    logging.info('Propositionalizer output: %s', propositionalizer_output)
 
     # Step 4: Argument Relation Prediction
-    argument_map_output = argument_relation.get_argument_map(propositionalizer_output)
-    print(f'Argument relation prediction output: {argument_map_output}')
+    argument_map_output = modules['argument_relation'].get_argument_map(propositionalizer_output)
+    logging.info('Argument relation prediction output: %s', argument_map_output)
 
     # Additional Analysis
-    print("Get all claims:")
-    print(argument_relation.get_all_claims(argument_map_output))
-    print("===============================================")
+    claims = modules['argument_relation'].get_all_claims(argument_map_output)
+    logging.info("Extracted claims: %s", claims)
 
-    print("Get evidence for claim:")
-    print(argument_relation.get_evidence_for_claim(
-        "But this isn’t the time for vaccine nationalism", argument_map_output))
-    print("===============================================")
+    evidence = modules['argument_relation'].get_evidence_for_claim(
+        "But this isn’t the time for vaccine nationalism", argument_map_output)
+    logging.info("Evidence for claim: %s", evidence)
 
-    print("Hypotheis Predictor:")
-    print(hypotheis.predict(["But this isn’t the time for vaccine nationalism","Vaccine is usefull to prevent infections."]))
-    print("===============================================")
+    # Hypothesis Prediction
+    hypothesis_results = modules['hypothesis'].predict([
+        "But this isn’t the time for vaccine nationalism",
+        "Vaccine is useful to prevent infections."
+    ])
+    logging.info("Hypothesis prediction: %s", hypothesis_results)
 
-    print("Scheme Predictor:")
-    print(scheme.predict(["But this isn’t the time for vaccine nationalism","Vaccine is usefull to prevent infections."]))
-    print("===============================================")
+    # Scheme Prediction
+    scheme_results = modules['scheme'].predict([
+        "But this isn’t the time for vaccine nationalism",
+        "Vaccine is useful to prevent infections."
+    ])
+    logging.info("Scheme prediction: %s", scheme_results)
+
+    # Visualize the argument map
+    modules['visualiser'].visualise(argument_map_output)
 
 
-    print("Visualise the argument map")
-    visualiser.visualise(argument_map_output)
-
-    # Initialize the converter and perform the conversion
-
-
-def main():
-    # Sample input data
+def main() -> None:
+    """Main function to run the argument mining pipeline."""
     input_data = (
         """Liam Halligan: Vaccines mark a major advance in human achievement since the """
         """enlightenment into the 19th Century and Britain’s been at the forefront of """
@@ -83,6 +86,7 @@ def main():
     )
 
     process_pipeline(input_data)
+
 
 if __name__ == "__main__":
     main()
