@@ -9,46 +9,45 @@
     <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     {% include head-custom.html %}
+
     <style>
-      .wrapper {
-        display: flex;
-        flex-direction: column;
-      }
-      .main-content {
-        flex: 3;
-        margin-right: 2%;
-      }
-      .left-sidebar {
-        flex: 1;
-        padding: 20px;
-        background-color: #f8f9fa;
-        min-width: 300px;
-        margin-top: 30px;
-      }
-      .right-sidebar {
-        flex: 1;
-        padding-left: 2%;
-        border-left: 1px solid #e0e0e0;
-        margin-top: 30px;
-      }
-      @media (min-width: 768px) {
         .wrapper {
-          flex-direction: row;
+          display: flex;
+          flex-direction: column; /* Stack elements vertically */
         }
         .main-content {
-          flex: 2;
-          margin-right: 2%;
-        }
-        .left-sidebar {
           flex: 1;
-          margin-top: 0;
         }
-        .right-sidebar {
+        .sidebar {
           flex: 1;
-          margin-top: 0;
+          padding: 200px;
+          border-top: 1px solid #e0e0e0;
+          background-color: #f8f9fa;
+          min-width: 300px; /* Ensure a minimum width for the sidebar */
+          margin-top: 80px; /* Push the sidebar further down */
         }
-      }
-      .ad-banner {
+        .sidebar .twitter-timeline {
+          display: block;
+          margin-bottom: 20px; /* Space between tweets */
+        }
+        @media (min-width: 768px) {
+          .wrapper {
+            flex-direction: row; /* Stack elements horizontally on larger screens */
+          }
+          .main-content {
+            flex: 2;
+            margin-right: 2%;
+            margin-left: 0%;
+          }
+          .sidebar {
+            flex: 1;
+            padding-left: 2%;
+            border-left: 1px solid #e0e0e0;
+            border-top: none; /* Remove top border for horizontal layout */
+            margin-top: 30px; /* Reset margin for horizontal layout */
+          }
+        }
+        .ad-banner {
         background-color: #007bff;
         color: white;
         padding: 20px;
@@ -95,7 +94,8 @@
         border-top: 1px solid #e0e0e0;
         padding-top: 10px;
       }
-    </style>
+      </style>
+ 
   </head>
   <body>
     <header>
@@ -131,7 +131,7 @@
 
       <!-- Right Sidebar with Twitter Feed -->
       <aside class="right-sidebar">
-        
+
         <div class="ad-banner" onclick="window.location.href='demo.html';">
             <h3>🚀 Explore AMF!</h3>
             <p>Experience our demo to discover how the AMF modules and pipeline construct and analyze argument structures.</p>
