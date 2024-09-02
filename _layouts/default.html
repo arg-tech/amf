@@ -3,54 +3,97 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
     {% seo %}
     <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
     <script src="https://code.jquery.com/jquery-3.3.0.min.js" integrity="sha256-RTQy8VOmNlT6b2PIRur37p6JEBZUE7o8wPgMvu18MC4=" crossorigin="anonymous"></script>
     <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
-    <!--[if lt IE 9]>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js" integrity="sha256-3Jy/GbSLrg0o9y5Z5n1uw0qxZECH7C6OQpVBgNFYa0g=" crossorigin="anonymous"></script>
-    <![endif]-->
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-
     {% include head-custom.html %}
-
     <style>
       .wrapper {
         display: flex;
-        flex-direction: column; /* Stack elements vertically */
+        flex-direction: column;
       }
       .main-content {
-        flex: 1;
+        flex: 3;
+        margin-right: 2%;
       }
-      .sidebar {
+      .left-sidebar {
         flex: 1;
-        padding: 200px;
-        border-top: 1px solid #e0e0e0;
+        padding: 20px;
         background-color: #f8f9fa;
-        min-width: 300px; /* Ensure a minimum width for the sidebar */
-        margin-top: 80px; /* Push the sidebar further down */
+        min-width: 300px;
+        margin-top: 30px;
       }
-      .sidebar .twitter-timeline {
-        display: block;
-        margin-bottom: 20px; /* Space between tweets */
+      .right-sidebar {
+        flex: 1;
+        padding-left: 2%;
+        border-left: 1px solid #e0e0e0;
+        margin-top: 30px;
       }
       @media (min-width: 768px) {
         .wrapper {
-          flex-direction: row; /* Stack elements horizontally on larger screens */
+          flex-direction: row;
         }
         .main-content {
           flex: 2;
           margin-right: 2%;
-          margin-left: 0%;
         }
-        .sidebar {
+        .left-sidebar {
           flex: 1;
-          padding-left: 2%;
-          border-left: 1px solid #e0e0e0;
-          border-top: none; /* Remove top border for horizontal layout */
-          margin-top: 30px; /* Reset margin for horizontal layout */
+          margin-top: 0;
         }
+        .right-sidebar {
+          flex: 1;
+          margin-top: 0;
+        }
+      }
+      .ad-banner {
+        background-color: #007bff;
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        margin-bottom: 20px;
+        cursor: pointer;
+        transition: transform 0.3s, background-color 0.3s;
+      }
+      .ad-banner:hover {
+        transform: scale(1.05);
+        background-color: #0056b3;
+      }
+      .ad-banner h3 {
+        margin: 0;
+        font-size: 1.5em;
+        font-weight: bold;
+      }
+      .ad-banner p {
+        margin: 10px 0;
+        font-size: 1.2em;
+        font-weight: 300;
+      }
+      .ad-banner button {
+        background-color: #ffffff;
+        color: #007bff;
+        border: none;
+        padding: 10px 20px;
+        font-size: 1em;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+      }
+      .ad-banner button:hover {
+        background-color: #e9ecef;
+      }
+      .right-sidebar h2 {
+        margin-bottom: 10px;
+      }
+      .left-sidebar, .right-sidebar {
+        padding: 20px;
+      }
+      .twitter-feed {
+        border-top: 1px solid #e0e0e0;
+        padding-top: 10px;
       }
     </style>
   </head>
@@ -62,7 +105,6 @@
 
     <div id="banner">
       <span id="logo"></span>
-
       <a href="{{ site.github.repository_url }}" class="button fork"><strong>View On GitHub</strong></a>
       {% if site.show_downloads %}
         <div class="downloads">
@@ -76,28 +118,33 @@
     </div><!-- end banner -->
 
     <div class="wrapper">
-      <div class="main-content">
-        <section>
-          {{ content }}
-        </section>
-      </div>
-
-      <!-- Sidebar -->
-      <aside class="sidebar">
-        <h2>📢 Follow Us on Twitter</h2>
-        <!-- Embed Twitter Feed 1 -->
-        <a class="twitter-timeline" data-width="300" data-height="600" data-theme="dark" href="https://twitter.com/ARG_tech?ref_src=twsrc%5Etfw">Tweets by ARG_tech</a>
-        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-
+      <!-- Left Sidebar with Advertisement -->
+      <aside class="left-sidebar">
+        <div class="ad-banner" onclick="window.location.href='demo.html';">
+          <h3>🚀 Explore AMF!</h3>
+          <p>Experience our demo to discover how the AMF modules and pipeline construct and analyze argument structures.</p>
+          <button>Try the Demo</button>
+        </div>
       </aside>
-    </div><!-- end wrapper -->
+
+      <!-- Main Content Area -->
+      <main class="main-content">
+        <h2>Welcome to the Argument Mining Framework Demo</h2>
+        <p>This is the main content area. Here, you can include general information about the framework, instructions, and anything else relevant to users.</p>
+      </main>
+
+      <!-- Right Sidebar with Twitter Feed -->
+      <aside class="right-sidebar">
+        <h2>📢 Follow Us on Twitter</h2>
+        <div class="twitter-feed">
+            <a class="twitter-timeline" data-width="300" data-height="600" data-theme="dark" href="https://twitter.com/ARG_tech?ref_src=twsrc%5Etfw">Tweets by ARG_tech</a>
+            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </div>
+      </aside>
+    </div>
 
     <footer>
-      {% if site.github.is_project_page %}
-        <p>Project maintained by <a href="{{ site.github.owner_url }}">{{ site.github.owner_name }}</a></p>
-      {% endif %}
-      <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/mattgraham">mattgraham</a></small></p>
+      <p>&copy; {{ site.title | default: "Argument Mining Framework" }} | Created by <a href="https://twitter.com/mattgraham">Matt Graham</a></p>
     </footer>
   </body>
 </html>
