@@ -17,19 +17,10 @@
             flex: 3;
             margin-right: 2%;
         }
-        .left-sidebar {
-            flex: 1;
-            padding: 20px;
-            background-color: #f8f9fa;
-            min-width: 300px;
-            margin-top: 190px; /* Push the sidebar further down */
-            margin-left: -55%;
-        }
         .right-sidebar {
             flex: 1;
             padding-left: 2%;
             border-left: 1px solid #e0e0e0;
-            margin-top: 190px; /* Push the sidebar further down */
         }
         @media (min-width: 768px) {
             .wrapper {
@@ -39,13 +30,8 @@
                 flex: 2;
                 margin-right: 2%;
             }
-            .left-sidebar {
-                flex: 1;
-                margin-top: 190px; /* Push the sidebar further down */
-            }
             .right-sidebar {
                 flex: 1;
-                margin-top: 190px; /* Push the sidebar further down */
             }
         }
         /* Tabs Styling */
@@ -78,14 +64,14 @@
             display: block;
         }
         /* Forms */
-        .left-sidebar form {
+        .form-container {
             margin-bottom: 20px;
         }
-        .left-sidebar input[type="file"] {
+        .form-container input[type="file"] {
             display: block;
             margin: 10px 0;
         }
-        .left-sidebar button {
+        .form-container button {
             padding: 10px;
             background-color: #007bff;
             color: white;
@@ -94,10 +80,10 @@
             width: 100%;
             margin-bottom: 10px;
         }
-        .left-sidebar button:hover {
+        .form-container button:hover {
             background-color: #0056b3;
         }
-        .left-sidebar .result {
+        .result {
             background-color: #e9ecef;
             padding: 10px;
             border: 1px solid #ced4da;
@@ -120,32 +106,6 @@
     </header>
 
     <div class="wrapper">
-        <!-- Left Sidebar with Demo Forms -->
-        <div class="left-sidebar">
-            <!-- Pipeline Builder -->
-            <div class="pipeline-builder">
-                <h3>Build Pipeline</h3>
-                <input type="file" id="pipeline-input" />
-                <select id="module-select">
-                    <option value="">Select Module</option>
-                    <option value="Turninator">Turninator</option>
-                    <option value="Segmenter">Segmenter</option>
-                    <option value="Propositionalizer">Propositionalizer</option>
-                    <option value="ArgumentRelation">Argument Relation</option>
-                    <option value="Hypothesis">Hypothesis</option>
-                    <option value="Scheme">Scheme</option>
-                    <option value="Visualizer">Visualizer</option>
-                </select>
-                <button type="button" onclick="addModule()">Add to Pipeline</button>
-                <button type="button" onclick="runCustomPipeline()">Run Pipeline</button>
-                <div id="pipeline-steps" class="result"></div>
-                <div id="pipeline-result" class="result"></div>
-            </div>
-            
-            <!-- Other Forms -->
-            <!-- Existing forms here -->
-        </div>
-
         <!-- Main Content Area -->
         <div class="main-content">
             <section>
@@ -160,28 +120,90 @@
                 </div>
 
                 <!-- Tab Content -->
-                <!-- Existing tab contents here -->
-            </section>
+                <div id="Turninator" class="tab-content">
+                    <!-- Turninator Content -->
+                    <div class="form-container">
+                        <h3>Turninator</h3>
+                        <input type="file" id="turninator-input" />
+                        <button type="button" onclick="runTurninator()">Run Turninator</button>
+                        <div id="turninator-result" class="result"></div>
+                    </div>
+                </div>
+                <div id="Segmenter" class="tab-content">
+                    <!-- Segmenter Content -->
+                    <div class="form-container">
+                        <h3>Segmenter</h3>
+                        <input type="file" id="segmenter-input" />
+                        <button type="button" onclick="runSegmenter()">Run Segmenter</button>
+                        <div id="segmenter-result" class="result"></div>
+                    </div>
+                </div>
+                <div id="Propositionalizer" class="tab-content">
+                    <!-- Propositionalizer Content -->
+                    <div class="form-container">
+                        <h3>Propositionalizer</h3>
+                        <input type="file" id="propositionalizer-input" />
+                        <button type="button" onclick="runPropositionalizer()">Run Propositionalizer</button>
+                        <div id="propositionalizer-result" class="result"></div>
+                    </div>
+                </div>
+                <div id="ArgumentRelation" class="tab-content">
+                    <!-- Argument Relation Content -->
+                    <div class="form-container">
+                        <h3>Argument Relation</h3>
+                        <input type="file" id="argument-relation-input" />
+                        <button type="button" onclick="runArgumentRelation()">Run Argument Relation</button>
+                        <div id="argument-relation-result" class="result"></div>
+                    </div>
+                </div>
+                <div id="Hypothesis" class="tab-content">
+                    <!-- Hypothesis Content -->
+                    <div class="form-container">
+                        <h3>Hypothesis</h3>
+                        <input type="file" id="hypothesis-input" />
+                        <button type="button" onclick="runHypothesis()">Run Hypothesis</button>
+                        <div id="hypothesis-result" class="result"></div>
+                    </div>
+                </div>
+                <div id="Scheme" class="tab-content">
+                    <!-- Scheme Content -->
+                    <div class="form-container">
+                        <h3>Scheme</h3>
+                        <input type="file" id="scheme-input" />
+                        <button type="button" onclick="runScheme()">Run Scheme</button>
+                        <div id="scheme-result" class="result"></div>
+                    </div>
+                </div>
+                <div id="Visualizer" class="tab-content">
+                    <!-- Visualizer Content -->
+                    <div class="form-container">
+                        <h3>Visualizer</h3>
+                        <input type="file" id="visualizer-input" />
+                        <button type="button" onclick="runVisualizer()">Run Visualizer</button>
+                        <div id="visualizer-result" class="result"></div>
+                    </div>
+                </div>
 
-            <div class="pipeline-builder">
-              <h3>Build Pipeline</h3>
-              <input type="file" id="pipeline-input" />
-              <select id="module-select">
-                  <option value="">Select Module</option>
-                  <option value="Turninator">Turninator</option>
-                  <option value="Segmenter">Segmenter</option>
-                  <option value="Propositionalizer">Propositionalizer</option>
-                  <option value="ArgumentRelation">Argument Relation</option>
-                  <option value="Hypothesis">Hypothesis</option>
-                  <option value="Scheme">Scheme</option>
-                  <option value="Visualizer">Visualizer</option>
-              </select>
-              <button type="button" onclick="addModule()">Add to Pipeline</button>
-              <button type="button" onclick="runCustomPipeline()">Run Pipeline</button>
-              <div id="pipeline-steps" class="result"></div>
-              <div id="pipeline-result" class="result"></div>
-          </div>
-          
+                <!-- Pipeline Builder -->
+                <div class="pipeline-builder">
+                    <h3>Build Pipeline</h3>
+                    <input type="file" id="pipeline-input" />
+                    <select id="module-select">
+                        <option value="">Select Module</option>
+                        <option value="Turninator">Turninator</option>
+                        <option value="Segmenter">Segmenter</option>
+                        <option value="Propositionalizer">Propositionalizer</option>
+                        <option value="ArgumentRelation">Argument Relation</option>
+                        <option value="Hypothesis">Hypothesis</option>
+                        <option value="Scheme">Scheme</option>
+                        <option value="Visualizer">Visualizer</option>
+                    </select>
+                    <button type="button" onclick="addModule()">Add to Pipeline</button>
+                    <button type="button" onclick="runCustomPipeline()">Run Pipeline</button>
+                    <div id="pipeline-steps" class="result"></div>
+                    <div id="pipeline-result" class="result"></div>
+                </div>
+            </section>
         </div>
 
         <!-- Right Sidebar with Twitter Feed -->
