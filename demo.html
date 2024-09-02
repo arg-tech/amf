@@ -8,94 +8,159 @@
     <script src="https://code.jquery.com/jquery-3.3.0.min.js" integrity="sha256-RTQy8VOmNlT6b2PIRur37p6JEBZUE7o8wPgMvu18MC4=" crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <style>
-        /* Custom styling */
+        /* General Styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        header p {
+            margin: 0;
+            font-size: 1.2em;
+        }
+        footer {
+            background-color: #343a40;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-size: 0.9em;
+            box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+        }
+        footer a {
+            color: #17a2b8;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Wrapper */
         .wrapper {
             display: flex;
             flex-direction: column;
+            margin: 0 auto;
+            max-width: 1200px;
+            padding: 20px;
         }
         .main-content {
-            flex: 3;
-            margin-right: 2%;
+            flex: 2;
+            margin-right: 20px;
         }
         .right-sidebar {
             flex: 1;
-            padding-left: 2%;
-            border-left: 1px solid #e0e0e0;
+            padding-left: 20px;
+            border-left: 1px solid #ddd;
         }
         @media (min-width: 768px) {
             .wrapper {
                 flex-direction: row;
             }
-            .main-content {
-                flex: 2;
-                margin-right: 2%;
-            }
-            .right-sidebar {
-                flex: 1;
-            }
         }
+
         /* Tabs Styling */
         .tab {
             overflow: hidden;
             border-bottom: 1px solid #ddd;
-            background-color: #f1f1f1;
+            background-color: #fff;
             margin-bottom: 20px;
         }
         .tab button {
-            background-color: inherit;
+            background-color: #f1f1f1;
             float: left;
             border: none;
             outline: none;
             cursor: pointer;
-            padding: 14px 16px;
+            padding: 14px 20px;
             transition: 0.3s;
-            font-size: 17px;
+            font-size: 16px;
+            border-bottom: 3px solid transparent;
         }
-        .tab button:hover {
+        .tab button:hover, .tab button.active {
             background-color: #ddd;
-        }
-        .tab button.active {
-            background-color: #ccc;
+            border-bottom: 3px solid #007bff;
         }
         .tab-content {
-            display: none;
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-        .tab-content.active {
-            display: block;
-        }
+
         /* Forms */
         .form-container {
-            margin-bottom: 20px;
+            margin-top: 20px;
         }
-        .form-container input[type="file"] {
-            display: block;
+        .form-container input[type="file"], .form-container select, .form-container input[type="text"] {
             margin: 10px 0;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            width: 100%;
+            background-color: #f9f9f9;
         }
         .form-container button {
-            padding: 10px;
-            background-color: #007bff;
+            padding: 12px;
+            background-color: #007bff; /* Blue color */
             color: white;
             border: none;
+            border-radius: 6px;
             cursor: pointer;
             width: 100%;
-            margin-bottom: 10px;
+            margin: 10px 0;
+            transition: background-color 0.3s ease;
         }
         .form-container button:hover {
-            background-color: #0056b3;
+            background-color: #0056b3; /* Darker blue */
         }
         .result {
             background-color: #e9ecef;
-            padding: 10px;
+            padding: 15px;
             border: 1px solid #ced4da;
-            margin-top: 10px;
+            border-radius: 6px;
             white-space: pre-wrap;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
+
         /* Pipeline Builder */
         .pipeline-builder {
             margin-top: 20px;
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         .pipeline-builder select, .pipeline-builder input[type="file"] {
             margin-right: 10px;
+        }
+        .pipeline-builder button {
+            margin-top: 10px;
+            background-color: #007bff; /* Blue color */
+        }
+        .pipeline-builder button:hover {
+            background-color: #0056b3; /* Darker blue */
+        }
+
+        /* Twitter Feed */
+        .twitter-feed {
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
@@ -121,63 +186,63 @@
 
                 <!-- Tab Content -->
                 <div id="Turninator" class="tab-content">
-                    <!-- Turninator Content -->
+                    <h2>Turninator</h2>
+                    <p>The Turninator module analyzes text to identify and classify argumentative turns. Upload your file to start processing.</p>
                     <div class="form-container">
-                        <h3>Turninator</h3>
                         <input type="file" id="turninator-input" />
                         <button type="button" onclick="runTurninator()">Run Turninator</button>
                         <div id="turninator-result" class="result"></div>
                     </div>
                 </div>
                 <div id="Segmenter" class="tab-content">
-                    <!-- Segmenter Content -->
+                    <h2>Segmenter</h2>
+                    <p>The Segmenter module divides text into meaningful segments for further analysis. Upload your file to begin.</p>
                     <div class="form-container">
-                        <h3>Segmenter</h3>
                         <input type="file" id="segmenter-input" />
                         <button type="button" onclick="runSegmenter()">Run Segmenter</button>
                         <div id="segmenter-result" class="result"></div>
                     </div>
                 </div>
                 <div id="Propositionalizer" class="tab-content">
-                    <!-- Propositionalizer Content -->
+                    <h2>Propositionalizer</h2>
+                    <p>The Propositionalizer module converts text into propositions for argument analysis. Upload your file to get started.</p>
                     <div class="form-container">
-                        <h3>Propositionalizer</h3>
                         <input type="file" id="propositionalizer-input" />
                         <button type="button" onclick="runPropositionalizer()">Run Propositionalizer</button>
                         <div id="propositionalizer-result" class="result"></div>
                     </div>
                 </div>
                 <div id="ArgumentRelation" class="tab-content">
-                    <!-- Argument Relation Content -->
+                    <h2>Argument Relation</h2>
+                    <p>The Argument Relation module identifies relationships between arguments in the text. Upload your file to analyze.</p>
                     <div class="form-container">
-                        <h3>Argument Relation</h3>
                         <input type="file" id="argument-relation-input" />
                         <button type="button" onclick="runArgumentRelation()">Run Argument Relation</button>
                         <div id="argument-relation-result" class="result"></div>
                     </div>
                 </div>
                 <div id="Hypothesis" class="tab-content">
-                    <!-- Hypothesis Content -->
+                    <h2>Hypothesis</h2>
+                    <p>The Hypothesis module formulates hypotheses based on the text. Upload your file to run the analysis.</p>
                     <div class="form-container">
-                        <h3>Hypothesis</h3>
                         <input type="file" id="hypothesis-input" />
                         <button type="button" onclick="runHypothesis()">Run Hypothesis</button>
                         <div id="hypothesis-result" class="result"></div>
                     </div>
                 </div>
                 <div id="Scheme" class="tab-content">
-                    <!-- Scheme Content -->
+                    <h2>Scheme</h2>
+                    <p>The Scheme module applies argument schemes to the text. Upload your file to process.</p>
                     <div class="form-container">
-                        <h3>Scheme</h3>
                         <input type="file" id="scheme-input" />
                         <button type="button" onclick="runScheme()">Run Scheme</button>
                         <div id="scheme-result" class="result"></div>
                     </div>
                 </div>
                 <div id="Visualizer" class="tab-content">
-                    <!-- Visualizer Content -->
+                    <h2>Visualizer</h2>
+                    <p>The Visualizer module generates visual representations of the text data. Upload your file to visualize the results.</p>
                     <div class="form-container">
-                        <h3>Visualizer</h3>
                         <input type="file" id="visualizer-input" />
                         <button type="button" onclick="runVisualizer()">Run Visualizer</button>
                         <div id="visualizer-result" class="result"></div>
@@ -186,22 +251,25 @@
 
                 <!-- Pipeline Builder -->
                 <div class="pipeline-builder">
-                    <h3>Build Pipeline</h3>
-                    <input type="file" id="pipeline-input" />
-                    <select id="module-select">
-                        <option value="">Select Module</option>
-                        <option value="Turninator">Turninator</option>
-                        <option value="Segmenter">Segmenter</option>
-                        <option value="Propositionalizer">Propositionalizer</option>
-                        <option value="ArgumentRelation">Argument Relation</option>
-                        <option value="Hypothesis">Hypothesis</option>
-                        <option value="Scheme">Scheme</option>
-                        <option value="Visualizer">Visualizer</option>
-                    </select>
-                    <button type="button" onclick="addModule()">Add to Pipeline</button>
-                    <button type="button" onclick="runCustomPipeline()">Run Pipeline</button>
-                    <div id="pipeline-steps" class="result"></div>
-                    <div id="pipeline-result" class="result"></div>
+                    <h2>Pipeline Builder</h2>
+                    <p>Build and execute a custom pipeline by selecting modules and running them in sequence. Upload your file and add modules to the pipeline.</p>
+                    <div class="form-container">
+                        <input type="file" id="pipeline-input" />
+                        <select id="module-select">
+                            <option value="">Select Module</option>
+                            <option value="Turninator">Turninator</option>
+                            <option value="Segmenter">Segmenter</option>
+                            <option value="Propositionalizer">Propositionalizer</option>
+                            <option value="ArgumentRelation">Argument Relation</option>
+                            <option value="Hypothesis">Hypothesis</option>
+                            <option value="Scheme">Scheme</option>
+                            <option value="Visualizer">Visualizer</option>
+                        </select>
+                        <button type="button" onclick="addModule()">Add to Pipeline</button>
+                        <div id="pipeline-steps" class="result"></div>
+                        <button type="button" onclick="runCustomPipeline()">Run Pipeline</button>
+                        <div id="pipeline-result" class="result"></div>
+                    </div>
                 </div>
             </section>
         </div>
@@ -217,7 +285,7 @@
     </div>
 
     <footer>
-        <p>&copy; Argument Mining Framework | Created by <a href="https://twitter.com/mattgraham">Matt Graham</a></p>
+        <p>&copy; 2024 Argument Mining Framework | Created by <a href="https://twitter.com/mattgraham">Matt Graham</a></p>
     </footer>
 
     <script>
