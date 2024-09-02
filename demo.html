@@ -80,11 +80,9 @@
       .left-sidebar form {
         margin-bottom: 20px;
       }
-      .left-sidebar input, .left-sidebar textarea {
-        width: 100%;
-        padding: 8px;
-        margin: 5px 0;
-        box-sizing: border-box;
+      .left-sidebar input[type="file"] {
+        display: block;
+        margin: 10px 0;
       }
       .left-sidebar button {
         padding: 10px;
@@ -131,7 +129,7 @@
         <div id="Pipeline" class="tab-content">
           <form id="pipeline-form">
             <h3>Pipeline</h3>
-            <textarea id="pipeline-input" placeholder="Enter text here..."></textarea>
+            <input type="file" id="pipeline-input">
             <button type="button" onclick="runPipeline()">Run Pipeline</button>
             <div id="pipeline-result" class="result"></div>
           </form>
@@ -140,7 +138,7 @@
         <div id="Turninator" class="tab-content">
           <form id="turninator-form">
             <h3>Turninator</h3>
-            <textarea id="turninator-input" placeholder="Enter text here..."></textarea>
+            <input type="file" id="turninator-input">
             <button type="button" onclick="runTurninator()">Run Turninator</button>
             <div id="turninator-result" class="result"></div>
           </form>
@@ -149,7 +147,7 @@
         <div id="Segmenter" class="tab-content">
           <form id="segmenter-form">
             <h3>Segmenter</h3>
-            <textarea id="segmenter-input" placeholder="Enter text here..."></textarea>
+            <input type="file" id="segmenter-input">
             <button type="button" onclick="runSegmenter()">Run Segmenter</button>
             <div id="segmenter-result" class="result"></div>
           </form>
@@ -158,7 +156,7 @@
         <div id="Propositionalizer" class="tab-content">
           <form id="propositionalizer-form">
             <h3>Propositionalizer</h3>
-            <textarea id="propositionalizer-input" placeholder="Enter text here..."></textarea>
+            <input type="file" id="propositionalizer-input">
             <button type="button" onclick="runPropositionalizer()">Run Propositionalizer</button>
             <div id="propositionalizer-result" class="result"></div>
           </form>
@@ -167,7 +165,7 @@
         <div id="ArgumentRelation" class="tab-content">
           <form id="argument-relation-form">
             <h3>Argument Relation</h3>
-            <textarea id="argument-relation-input" placeholder="Enter text here..."></textarea>
+            <input type="file" id="argument-relation-input">
             <button type="button" onclick="runArgumentRelation()">Run Argument Relation</button>
             <div id="argument-relation-result" class="result"></div>
           </form>
@@ -176,7 +174,7 @@
         <div id="Hypothesis" class="tab-content">
           <form id="hypothesis-form">
             <h3>Hypothesis</h3>
-            <textarea id="hypothesis-input" placeholder="Enter text here..."></textarea>
+            <input type="file" id="hypothesis-input">
             <button type="button" onclick="runHypothesis()">Run Hypothesis</button>
             <div id="hypothesis-result" class="result"></div>
           </form>
@@ -185,7 +183,7 @@
         <div id="Scheme" class="tab-content">
           <form id="scheme-form">
             <h3>Scheme</h3>
-            <textarea id="scheme-input" placeholder="Enter text here..."></textarea>
+            <input type="file" id="scheme-input">
             <button type="button" onclick="runScheme()">Run Scheme</button>
             <div id="scheme-result" class="result"></div>
           </form>
@@ -194,7 +192,7 @@
         <div id="Visualizer" class="tab-content">
           <form id="visualizer-form">
             <h3>Visualizer</h3>
-            <textarea id="visualizer-input" placeholder="Enter text here..."></textarea>
+            <input type="file" id="visualizer-input">
             <button type="button" onclick="runVisualizer()">Run Visualizer</button>
             <div id="visualizer-result" class="result"></div>
           </form>
@@ -204,7 +202,7 @@
       <!-- Main Content Area -->
       <main class="main-content">
         <h2>Explore the Modules and Pipeline</h2>
-        <p>Use the tabs to explore different modules and see how they work. Input text into the forms and click "Run" to get results.</p>
+        <p>Use the tabs to explore different modules and see how they work. Upload files and click "Run" to get results.</p>
       </main>
 
       <!-- Right Sidebar with Twitter Feed -->
@@ -241,125 +239,166 @@
       document.getElementsByClassName("tablinks")[0].click();
 
       // AJAX functions for different modules
-      function runPipeline() {
-        const input = $('#pipeline-input').val();
-        $.ajax({
-          url: '/run_pipeline',
-          type: 'POST',
-          data: { input: input },
-          success: function(data) {
+// Function to run Pipeline
+function runPipeline() {
+    var formData = new FormData();
+    formData.append('file', $('#pipeline-input')[0].files[0]);
+
+    $.ajax({
+        url: '/run_pipeline',  // Update this URL to your actual endpoint
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(data) {
             $('#pipeline-result').text(JSON.stringify(data, null, 2));
-          },
-          error: function(xhr, status, error) {
+        },
+        error: function(xhr, status, error) {
             console.error('Error:', error);
-          }
-        });
-      }
+        }
+    });
+}
 
-      function runTurninator() {
-        const input = $('#turninator-input').val();
-        $.ajax({
-          url: 'https://default-turninator.amfws.arg.tech/turninator-01',
-          type: 'POST',
-          data: { input: input },
-          success: function(data) {
+// Function to run Turninator
+function runTurninator() {
+    var formData = new FormData();
+    formData.append('file', $('#turninator-input')[0].files[0]);
+
+    $.ajax({
+        url: 'https://default-turninator.amfws.arg.tech/turninator-01',  // Update this URL to your actual endpoint
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(data) {
             $('#turninator-result').text(JSON.stringify(data, null, 2));
-          },
-          error: function(xhr, status, error) {
+        },
+        error: function(xhr, status, error) {
             console.error('Error:', error);
-          }
-        });
-      }
+        }
+    });
+}
 
-      function runSegmenter() {
-        const input = $('#segmenter-input').val();
-        $.ajax({
-          url: 'https://default-segmenter.amfws.arg.tech/segmenter-01', 
-          type: 'GET',
-          data: { input: input },
-          success: function(data) {
+// Function to run Segmenter
+function runSegmenter() {
+    var formData = new FormData();
+    formData.append('file', $('#segmenter-input')[0].files[0]);
+
+    $.ajax({
+        url: 'https://default-segmenter.amfws.arg.tech/segmenter_default',  // Update this URL to your actual endpoint
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(data) {
             $('#segmenter-result').text(JSON.stringify(data, null, 2));
-          },
-          error: function(xhr, status, error) {
+        },
+        error: function(xhr, status, error) {
             console.error('Error:', error);
-          }
-        });
-      }
+        }
+    });
+}
 
-      function runPropositionalizer() {
-        const input = $('#propositionalizer-input').val();
-        $.ajax({
-          url: '/run_propositionalizer',
-          type: 'POST',
-          data: { input: input },
-          success: function(data) {
+// Function to run Propositionalizer
+function runPropositionalizer() {
+    var formData = new FormData();
+    formData.append('file', $('#propositionalizer-input')[0].files[0]);
+
+    $.ajax({
+        url: '/run_propositionalizer',  // Update this URL to your actual endpoint
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(data) {
             $('#propositionalizer-result').text(JSON.stringify(data, null, 2));
-          },
-          error: function(xhr, status, error) {
+        },
+        error: function(xhr, status, error) {
             console.error('Error:', error);
-          }
-        });
-      }
+        }
+    });
+}
 
-      function runArgumentRelation() {
-        const input = $('#argument-relation-input').val();
-        $.ajax({
-          url: '/run_argument_relation',
-          type: 'POST',
-          data: { input: input },
-          success: function(data) {
+// Function to run Argument Relation
+function runArgumentRelation() {
+    var formData = new FormData();
+    formData.append('file', $('#argument-relation-input')[0].files[0]);
+
+    $.ajax({
+        url: '/run_argument_relation',  // Update this URL to your actual endpoint
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(data) {
             $('#argument-relation-result').text(JSON.stringify(data, null, 2));
-          },
-          error: function(xhr, status, error) {
+        },
+        error: function(xhr, status, error) {
             console.error('Error:', error);
-          }
-        });
-      }
+        }
+    });
+}
 
-      function runHypothesis() {
-        const input = $('#hypothesis-input').val();
-        $.ajax({
-          url: '/run_hypothesis',
-          type: 'POST',
-          data: { input: input },
-          success: function(data) {
+// Function to run Hypothesis
+function runHypothesis() {
+    var formData = new FormData();
+    formData.append('file', $('#hypothesis-input')[0].files[0]);
+
+    $.ajax({
+        url: '/run_hypothesis',  // Update this URL to your actual endpoint
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(data) {
             $('#hypothesis-result').text(JSON.stringify(data, null, 2));
-          },
-          error: function(xhr, status, error) {
+        },
+        error: function(xhr, status, error) {
             console.error('Error:', error);
-          }
-        });
-      }
+        }
+    });
+}
 
-      function runScheme() {
-        const input = $('#scheme-input').val();
-        $.ajax({
-          url: '/run_scheme',
-          type: 'POST',
-          data: { input: input },
-          success: function(data) {
+// Function to run Scheme
+function runScheme() {
+    var formData = new FormData();
+    formData.append('file', $('#scheme-input')[0].files[0]);
+
+    $.ajax({
+        url: '/run_scheme',  // Update this URL to your actual endpoint
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(data) {
             $('#scheme-result').text(JSON.stringify(data, null, 2));
-          },
-          error: function(xhr, status, error) {
+        },
+        error: function(xhr, status, error) {
             console.error('Error:', error);
-          }
-        });
-      }
+        }
+    });
+}
 
-      function runVisualizer() {
-        const input = $('#visualizer-input').val();
-        $.ajax({
-          url: '/run_visualizer',
-          type: 'POST',
-          data: { input: input },
-          success: function(data) {
+// Function to run Visualizer
+function runVisualizer() {
+    var formData = new FormData();
+    formData.append('file', $('#visualizer-input')[0].files[0]);
+
+    $.ajax({
+        url: '/run_visualizer',  // Update this URL to your actual endpoint
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(data) {
             $('#visualizer-result').text(JSON.stringify(data, null, 2));
-          },
-          error: function(xhr, status, error) {
+        },
+        error: function(xhr, status, error) {
             console.error('Error:', error);
-          }
-        });
-      }
+        }
+    });
+}
+
     </script>
   </body>
 </html>
