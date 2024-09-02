@@ -122,25 +122,25 @@
     <div class="wrapper">
         <!-- Left Sidebar with Demo Forms -->
         <div class="left-sidebar">
-
-          <section>
-            <div class="tab">
-                <button class="tablinks" onclick="openTab(event, 'Pipeline')">Pipeline</button>
-                <button class="tablinks" onclick="openTab(event, 'Turninator')">Turninator</button>
-                <button class="tablinks" onclick="openTab(event, 'Segmenter')">Segmenter</button>
-                <button class="tablinks" onclick="openTab(event, 'Propositionalizer')">Propositionalizer</button>
-                <button class="tablinks" onclick="openTab(event, 'ArgumentRelation')">Argument Relation</button>
-                <button class="tablinks" onclick="openTab(event, 'Hypothesis')">Hypothesis</button>
-                <button class="tablinks" onclick="openTab(event, 'Scheme')">Scheme</button>
-                <button class="tablinks" onclick="openTab(event, 'Visualizer')">Visualizer</button>
-            </div>
-
-            <!-- Tab Content -->
-            <!-- Existing tab contents here -->
-        </section>
             <!-- Pipeline Builder -->
-
-
+            <div class="pipeline-builder">
+                <h3>Build Pipeline</h3>
+                <input type="file" id="pipeline-input" />
+                <select id="module-select">
+                    <option value="">Select Module</option>
+                    <option value="Turninator">Turninator</option>
+                    <option value="Segmenter">Segmenter</option>
+                    <option value="Propositionalizer">Propositionalizer</option>
+                    <option value="ArgumentRelation">Argument Relation</option>
+                    <option value="Hypothesis">Hypothesis</option>
+                    <option value="Scheme">Scheme</option>
+                    <option value="Visualizer">Visualizer</option>
+                </select>
+                <button type="button" onclick="addModule()">Add to Pipeline</button>
+                <button type="button" onclick="runCustomPipeline()">Run Pipeline</button>
+                <div id="pipeline-steps" class="result"></div>
+                <div id="pipeline-result" class="result"></div>
+            </div>
             
             <!-- Other Forms -->
             <!-- Existing forms here -->
@@ -148,26 +148,20 @@
 
         <!-- Main Content Area -->
         <div class="main-content">
+            <section>
+                <div class="tab">
+                    <button class="tablinks" onclick="openTab(event, 'Turninator')">Turninator</button>
+                    <button class="tablinks" onclick="openTab(event, 'Segmenter')">Segmenter</button>
+                    <button class="tablinks" onclick="openTab(event, 'Propositionalizer')">Propositionalizer</button>
+                    <button class="tablinks" onclick="openTab(event, 'ArgumentRelation')">Argument Relation</button>
+                    <button class="tablinks" onclick="openTab(event, 'Hypothesis')">Hypothesis</button>
+                    <button class="tablinks" onclick="openTab(event, 'Scheme')">Scheme</button>
+                    <button class="tablinks" onclick="openTab(event, 'Visualizer')">Visualizer</button>
+                </div>
 
-          <div class="pipeline-builder">
-            <h3>Build Pipeline</h3>
-            <input type="file" id="pipeline-input" />
-            <select id="module-select">
-                <option value="">Select Module</option>
-                <option value="Turninator">Turninator</option>
-                <option value="Segmenter">Segmenter</option>
-                <option value="Propositionalizer">Propositionalizer</option>
-                <option value="ArgumentRelation">Argument Relation</option>
-                <option value="Hypothesis">Hypothesis</option>
-                <option value="Scheme">Scheme</option>
-                <option value="Visualizer">Visualizer</option>
-            </select>
-            <button type="button" onclick="addModule()">Add to Pipeline</button>
-            <button type="button" onclick="runCustomPipeline()">Run Pipeline</button>
-            <div id="pipeline-steps" class="result"></div>
-            <div id="pipeline-result" class="result"></div>
-        </div>
-
+                <!-- Tab Content -->
+                <!-- Existing tab contents here -->
+            </section>
         </div>
 
         <!-- Right Sidebar with Twitter Feed -->
