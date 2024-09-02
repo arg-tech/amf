@@ -249,7 +249,7 @@
 
       function runTurninator() {
         const input = $('#turninator-input').val();
-        $.post('/run_turninator', { input: input }, function(data) {
+        $.post('http://default-turninator.amfws.arg.tech/turninator-01', { input: input }, function(data) {
           $('#turninator-result').text(JSON.stringify(data, null, 2));
         });
       }
