@@ -274,7 +274,7 @@
       function runSegmenter() {
         const input = $('#segmenter-input').val();
         $.ajax({
-          url: '/run_segmenter',
+          url: '/https://default-segmenter.amfws.arg.tech/segmenter-01',
           type: 'POST',
           data: { input: input },
           success: function(data) {
