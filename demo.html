@@ -103,6 +103,13 @@
             margin-top: 10px;
             white-space: pre-wrap;
         }
+        /* Pipeline Builder */
+        .pipeline-builder {
+            margin-top: 20px;
+        }
+        .pipeline-builder select, .pipeline-builder input[type="file"] {
+            margin-right: 10px;
+        }
     </style>
 </head>
 <body>
@@ -113,94 +120,47 @@
 
     <div class="wrapper">
         <!-- Left Sidebar with Demo Forms -->
-
+        <div class="left-sidebar">
+            <!-- Pipeline Builder -->
+            <div class="pipeline-builder">
+                <h3>Build Pipeline</h3>
+                <input type="file" id="pipeline-input" />
+                <select id="module-select">
+                    <option value="">Select Module</option>
+                    <option value="Turninator">Turninator</option>
+                    <option value="Segmenter">Segmenter</option>
+                    <option value="Propositionalizer">Propositionalizer</option>
+                    <option value="ArgumentRelation">Argument Relation</option>
+                    <option value="Hypothesis">Hypothesis</option>
+                    <option value="Scheme">Scheme</option>
+                    <option value="Visualizer">Visualizer</option>
+                </select>
+                <button type="button" onclick="addModule()">Add to Pipeline</button>
+                <button type="button" onclick="runCustomPipeline()">Run Pipeline</button>
+                <div id="pipeline-steps" class="result"></div>
+                <div id="pipeline-result" class="result"></div>
+            </div>
+            
+            <!-- Other Forms -->
+            <!-- Existing forms here -->
+        </div>
 
         <!-- Main Content Area -->
         <div class="main-content">
             <section>
-              <div class="tab">
-                <button class="tablinks" onclick="openTab(event, 'Pipeline')">Pipeline</button>
-                <button class="tablinks" onclick="openTab(event, 'Turninator')">Turninator</button>
-                <button class="tablinks" onclick="openTab(event, 'Segmenter')">Segmenter</button>
-                <button class="tablinks" onclick="openTab(event, 'Propositionalizer')">Propositionalizer</button>
-                <button class="tablinks" onclick="openTab(event, 'ArgumentRelation')">Argument Relation</button>
-                <button class="tablinks" onclick="openTab(event, 'Hypothesis')">Hypothesis</button>
-                <button class="tablinks" onclick="openTab(event, 'Scheme')">Scheme</button>
-                <button class="tablinks" onclick="openTab(event, 'Visualizer')">Visualizer</button>
-            </div>
+                <div class="tab">
+                    <button class="tablinks" onclick="openTab(event, 'Pipeline')">Pipeline</button>
+                    <button class="tablinks" onclick="openTab(event, 'Turninator')">Turninator</button>
+                    <button class="tablinks" onclick="openTab(event, 'Segmenter')">Segmenter</button>
+                    <button class="tablinks" onclick="openTab(event, 'Propositionalizer')">Propositionalizer</button>
+                    <button class="tablinks" onclick="openTab(event, 'ArgumentRelation')">Argument Relation</button>
+                    <button class="tablinks" onclick="openTab(event, 'Hypothesis')">Hypothesis</button>
+                    <button class="tablinks" onclick="openTab(event, 'Scheme')">Scheme</button>
+                    <button class="tablinks" onclick="openTab(event, 'Visualizer')">Visualizer</button>
+                </div>
 
-            <!-- Tab Content -->
-            <div id="Pipeline" class="tab-content">
-                <form id="pipeline-form">
-                    <h3>Pipeline</h3>
-                    <input type="file" id="pipeline-input">
-                    <button type="button" onclick="runPipeline()">Run Pipeline</button>
-                    <div id="pipeline-result" class="result"></div>
-                </form>
-            </div>
-
-            <div id="Turninator" class="tab-content">
-                <form id="turninator-form">
-                    <h3>Turninator</h3>
-                    <input type="file" id="turninator-input">
-                    <button type="button" onclick="runTurninator()">Run Turninator</button>
-                    <div id="turninator-result" class="result"></div>
-                </form>
-            </div>
-
-            <div id="Segmenter" class="tab-content">
-                <form id="segmenter-form">
-                    <h3>Segmenter</h3>
-                    <input type="file" id="segmenter-input">
-                    <button type="button" onclick="runSegmenter()">Run Segmenter</button>
-                    <div id="segmenter-result" class="result"></div>
-                </form>
-            </div>
-
-            <div id="Propositionalizer" class="tab-content">
-                <form id="propositionalizer-form">
-                    <h3>Propositionalizer</h3>
-                    <input type="file" id="propositionalizer-input">
-                    <button type="button" onclick="runPropositionalizer()">Run Propositionalizer</button>
-                    <div id="propositionalizer-result" class="result"></div>
-                </form>
-            </div>
-
-            <div id="ArgumentRelation" class="tab-content">
-                <form id="argument-relation-form">
-                    <h3>Argument Relation</h3>
-                    <input type="file" id="argument-relation-input">
-                    <button type="button" onclick="runArgumentRelation()">Run Argument Relation</button>
-                    <div id="argument-relation-result" class="result"></div>
-                </form>
-            </div>
-
-            <div id="Hypothesis" class="tab-content">
-                <form id="hypothesis-form">
-                    <h3>Hypothesis</h3>
-                    <input type="file" id="hypothesis-input">
-                    <button type="button" onclick="runHypothesis()">Run Hypothesis</button>
-                    <div id="hypothesis-result" class="result"></div>
-                </form>
-            </div>
-
-            <div id="Scheme" class="tab-content">
-                <form id="scheme-form">
-                    <h3>Scheme</h3>
-                    <input type="file" id="scheme-input">
-                    <button type="button" onclick="runScheme()">Run Scheme</button>
-                    <div id="scheme-result" class="result"></div>
-                </form>
-            </div>
-
-            <div id="Visualizer" class="tab-content">
-                <form id="visualizer-form">
-                    <h3>Visualizer</h3>
-                    <input type="file" id="visualizer-input">
-                    <button type="button" onclick="runVisualizer()">Run Visualizer</button>
-                    <div id="visualizer-result" class="result"></div>
-                </form>
-            </div>
+                <!-- Tab Content -->
+                <!-- Existing tab contents here -->
             </section>
         </div>
 
@@ -237,13 +197,31 @@
         // Set the default tab to open
         document.getElementsByClassName("tablinks")[0].click();
 
-        // AJAX functions for different modules
-        function runPipeline() {
+        // Pipeline
+        var pipelineSteps = [];
+
+        function addModule() {
+            var module = document.getElementById('module-select').value;
+            if (module) {
+                pipelineSteps.push(module);
+                updatePipelineSteps();
+            }
+        }
+
+        function updatePipelineSteps() {
+            var stepsDisplay = document.getElementById('pipeline-steps');
+            stepsDisplay.innerHTML = pipelineSteps.map(function(step, index) {
+                return (index + 1) + ". " + step;
+            }).join("<br>");
+        }
+
+        function runCustomPipeline() {
             var formData = new FormData();
             formData.append('file', $('#pipeline-input')[0].files[0]);
+            formData.append('steps', JSON.stringify(pipelineSteps));
 
             $.ajax({
-                url: '/run_pipeline',
+                url: '/run_custom_pipeline',
                 type: 'POST',
                 data: formData,
                 contentType: false,
@@ -257,6 +235,7 @@
             });
         }
 
+        // Individual module functions
         function runTurninator() {
             var formData = new FormData();
             formData.append('file', $('#turninator-input')[0].files[0]);
