@@ -58,11 +58,13 @@
         .main-content {
             flex: 2;
             margin-right: 20px;
+            margin-left: -25%; /* This moves the content 5% to the left */
         }
         .right-sidebar {
             flex: 1;
             padding-left: 20px;
             border-left: 1px solid #ddd;
+            margin-top: 190px; /* Push the sidebar further down */
         }
         @media (min-width: 768px) {
             .wrapper {
@@ -187,7 +189,7 @@
                 <!-- Tab Content -->
                 <div id="Turninator" class="tab-content">
                     <h2>Turninator</h2>
-                    <p>The Turninator module analyzes text to identify and classify argumentative turns. Upload your file to start processing.</p>
+                    <p>The Turninator module analyzes text to identify  argumentative turns. Upload your file to start processing.</p>
                     <div class="form-container">
                         <input type="file" id="turninator-input" />
                         <button type="button" onclick="runTurninator()">Run Turninator</button>
@@ -196,7 +198,7 @@
                 </div>
                 <div id="Segmenter" class="tab-content">
                     <h2>Segmenter</h2>
-                    <p>The Segmenter module divides text into meaningful segments for further analysis. Upload your file to begin.</p>
+                    <p>The Segmenter module divides text into meaningful argumentative units for further analysis. Upload your file to begin.</p>
                     <div class="form-container">
                         <input type="file" id="segmenter-input" />
                         <button type="button" onclick="runSegmenter()">Run Segmenter</button>
@@ -205,7 +207,7 @@
                 </div>
                 <div id="Propositionalizer" class="tab-content">
                     <h2>Propositionalizer</h2>
-                    <p>The Propositionalizer module converts text into propositions for argument analysis. Upload your file to get started.</p>
+                    <p>The Propositionalizer module converts argumentative units into propositions. Upload your file to get started.</p>
                     <div class="form-container">
                         <input type="file" id="propositionalizer-input" />
                         <button type="button" onclick="runPropositionalizer()">Run Propositionalizer</button>
@@ -214,7 +216,7 @@
                 </div>
                 <div id="ArgumentRelation" class="tab-content">
                     <h2>Argument Relation</h2>
-                    <p>The Argument Relation module identifies relationships between arguments in the text. Upload your file to analyze.</p>
+                    <p>The Argument Relation module identifies argument relation between argument units. Upload your file to analyze.</p>
                     <div class="form-container">
                         <input type="file" id="argument-relation-input" />
                         <button type="button" onclick="runArgumentRelation()">Run Argument Relation</button>
@@ -223,7 +225,7 @@
                 </div>
                 <div id="Hypothesis" class="tab-content">
                     <h2>Hypothesis</h2>
-                    <p>The Hypothesis module formulates hypotheses based on the text. Upload your file to run the analysis.</p>
+                    <p>The Hypothesis module classifies argument units into one of  hypotheses classes. Upload your file to run the analysis.</p>
                     <div class="form-container">
                         <input type="file" id="hypothesis-input" />
                         <button type="button" onclick="runHypothesis()">Run Hypothesis</button>
@@ -232,7 +234,7 @@
                 </div>
                 <div id="Scheme" class="tab-content">
                     <h2>Scheme</h2>
-                    <p>The Scheme module applies argument schemes to the text. Upload your file to process.</p>
+                    <p>The Scheme module classifies an argument into one of argument schemes. Upload your file to process.</p>
                     <div class="form-container">
                         <input type="file" id="scheme-input" />
                         <button type="button" onclick="runScheme()">Run Scheme</button>
@@ -241,7 +243,7 @@
                 </div>
                 <div id="Visualizer" class="tab-content">
                     <h2>Visualizer</h2>
-                    <p>The Visualizer module generates visual representations of the text data. Upload your file to visualize the results.</p>
+                    <p>The Visualizer module generates visual representations an argument map. Upload your file to visualize the results.</p>
                     <div class="form-container">
                         <input type="file" id="visualizer-input" />
                         <button type="button" onclick="runVisualizer()">Run Visualizer</button>
