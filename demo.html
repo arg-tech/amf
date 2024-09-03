@@ -217,7 +217,16 @@
                     <div class="form-container">
                         <input type="file" id="turninator-input" />
                         <button type="button" onclick="runTurninator()">Run Turninator</button>
-                        <div id="turninator-result" class="result"></div>
+                        <div id="turninator-result" class="result">
+                            <div id="json-container" class="output-container" onclick="toggleJson()">
+                                <h3>JSON Output</h3>
+                                <div id="json-output"></div>
+                            </div>
+                            <div id="svg-container" class="output-container">
+                                <h3>SVG Output</h3>
+                                <div id="svg-output"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div id="Segmenter" class="tab-content">
