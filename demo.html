@@ -206,10 +206,10 @@
                     <div class="form-container">
                         <input type="file" id="segmenter-input" />
                         <button type="button" onclick="runSegmenter()">Run Segmenter</button>
-                        <div id="segmenter-result" class="result">
-                          <button type="button" onclick="toggleJson()">Show/Hide JSON Result</button>
-                          <div id="json-output" style="display: none;"></div>
+                        <div id="segmenter-result" class="result" onclick="toggleJson()" style="cursor: pointer;">
+                          <div id="json-output"></div>
                       </div>
+                      
                       
                     </div>
                 </div>
@@ -367,14 +367,14 @@
                 contentType: false,
                 processData: false,
                 success: function(response) {
-            // Convert the response object to a formatted JSON string
-            var jsonString = JSON.stringify(response, null, 2);
+                    // Convert the response object to a formatted JSON string
+                    var jsonString = JSON.stringify(response, null, 2);
 
-            // Update the content of the json-output div
-            document.getElementById('json-output').textContent = jsonString;
+                    // Update the content of the json-output div and show it
+                    var jsonOutput = document.getElementById('json-output');
+                    jsonOutput.textContent = jsonString;
+                    jsonOutput.style.display = 'block'; // Show the JSON by default
 
-            // Ensure the Show/Hide button is visible
-            document.querySelector('#segmenter-result button').style.display = 'block';
 
 
 
