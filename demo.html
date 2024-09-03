@@ -572,6 +572,7 @@
                 alert('Please add at least one module to the pipeline.');
                 return;
             }
+            console.log('Modules to be sent:', modules);
             $.ajax({
                 url: '/amf/api/run-pipeline',
                 type: 'POST',
