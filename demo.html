@@ -135,13 +135,33 @@
             background-color: #0056b3; /* Darker blue */
         }
         .result {
+            display: flex;
             background-color: #e9ecef;
             padding: 15px;
             border: 1px solid #ced4da;
             border-radius: 6px;
             white-space: pre-wrap;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            gap: 20px; /* Space between the two divs */
         }
+
+
+
+    .output-container {
+        flex: 1;
+        border: 1px solid #ccc; /* Border to distinguish between outputs */
+        padding: 10px;
+        overflow: auto; /* Enable scrolling if content overflows */
+    }
+
+    #json-output {
+        white-space: pre-wrap; /* Preserve whitespace for JSON formatting */
+    }
+
+    h3 {
+        margin-top: 0;
+        color: #333;
+    }
 
         /* Pipeline Builder */
         .pipeline-builder {
@@ -208,10 +228,17 @@
                     <div class="form-container">
                         <input type="file" id="segmenter-input" />
                         <button type="button" onclick="runSegmenter()">Run Segmenter</button>
-                        <div id="segmenter-result" class="result" onclick="toggleJson()" style="cursor: pointer;">
-                          <div id="json-output"></div>
-                          <div id="svg-output"></div> <!-- New div for SVG output -->
+                        <div id="segmenter-result" class="result">
+                          <div id="json-container" class="output-container" onclick="toggleJson()">
+                              <h3>JSON Output</h3>
+                              <div id="json-output"></div>
+                          </div>
+                          <div id="svg-container" class="output-container">
+                              <h3>SVG Output</h3>
+                              <div id="svg-output"></div>
+                          </div>
                       </div>
+                      
                       
                       
                     </div>
@@ -305,43 +332,36 @@
 
 
 
-      function toggleJson() {
-          var jsonOutput = document.getElementById('json-output');
-          var svgOutput = document.getElementById('svg-output');
-          
-          // Toggle JSON visibility
-          if (jsonOutput.style.display === 'none' || jsonOutput.style.display === '') {
-              jsonOutput.style.display = 'block';
-          } else {
-              jsonOutput.style.display = 'none';
-          }
+        function fetchSvg(jsonData) {
+            $.ajax({
+                url: 'http://svg.amfws.arg.tech',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(jsonData),
+                success: function(svgResponse) {
+                    var svgOutput = document.getElementById('svg-output');
+                    svgOutput.innerHTML = svgResponse;
+                    svgOutput.style.display = 'block'; // Show SVG by default
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching SVG:', error);
+                }
+            });
+        }
 
-          // Toggle SVG visibility
-          if (svgOutput.style.display === 'none' || svgOutput.style.display === '') {
-              svgOutput.style.display = 'block';
-          } else {
-              svgOutput.style.display = 'none';
-          }
-      }
-
-
-      function fetchSvg(jsonData) {
-        $.ajax({
-            url: 'https://svg.amfws.arg.tech',
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(jsonData),
-            success: function(svgResponse) {
-                // Display SVG result
-                var svgOutput = document.getElementById('svg-output');
-                svgOutput.innerHTML = svgResponse;
-                svgOutput.style.display = 'block'; // Show the SVG by default
-            },
-            error: function(xhr, status, error) {
-                console.error('Error fetching SVG:', error);
+        function toggleJson() {
+            var jsonContainer = document.getElementById('json-container');
+            var svgContainer = document.getElementById('svg-container');
+            
+            // Toggle JSON container visibility
+            if (jsonContainer.style.display === 'none' || jsonContainer.style.display === '') {
+                jsonContainer.style.display = 'block';
+            } else {
+                jsonContainer.style.display = 'none';
             }
-        });
-    }
+            
+            // SVG container remains visible or hides based on the same logic if needed
+        }
 
         function openTab(evt, tabName) {
             var i, tabcontent, tablinks;
@@ -397,16 +417,15 @@
                 contentType: false,
                 processData: false,
                 success: function(response) {
-                    // Convert the response object to a formatted JSON string
-                    var jsonString = JSON.stringify(response, null, 2);
+                  var jsonString = JSON.stringify(response, null, 2);
 
-                    // Update the content of the json-output div and show it
-                    var jsonOutput = document.getElementById('json-output');
-                    jsonOutput.textContent = jsonString;
-                    jsonOutput.style.display = 'block'; // Show the JSON by default
+                  // Display JSON result
+                  var jsonOutput = document.getElementById('json-output');
+                  jsonOutput.textContent = jsonString;
+                  jsonOutput.style.display = 'block'; // Show JSON by default
 
-                    // Fetch SVG result
-                    fetchSvg(response);
+                  // Fetch SVG result
+                  fetchSvg(response);
 
 
                 },
