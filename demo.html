@@ -208,6 +208,7 @@
                         <button type="button" onclick="runSegmenter()">Run Segmenter</button>
                         <div id="segmenter-result" class="result" onclick="toggleJson()" style="cursor: pointer;">
                           <div id="json-output"></div>
+                          <div id="svg-output"></div> <!-- New div for SVG output -->
                       </div>
                       
                       
@@ -302,16 +303,43 @@
 
 
 
-        function toggleJson() {
-            var jsonOutput = document.getElementById('json-output');
-            if (jsonOutput.style.display === 'none' || jsonOutput.style.display === '') {
-                jsonOutput.style.display = 'block';  // Expand to show the JSON
-            } else {
-                jsonOutput.style.display = 'none';   // Collapse to hide the JSON
+      function toggleJson() {
+          var jsonOutput = document.getElementById('json-output');
+          var svgOutput = document.getElementById('svg-output');
+          
+          // Toggle JSON visibility
+          if (jsonOutput.style.display === 'none' || jsonOutput.style.display === '') {
+              jsonOutput.style.display = 'block';
+          } else {
+              jsonOutput.style.display = 'none';
+          }
+
+          // Toggle SVG visibility
+          if (svgOutput.style.display === 'none' || svgOutput.style.display === '') {
+              svgOutput.style.display = 'block';
+          } else {
+              svgOutput.style.display = 'none';
+          }
+      }
+
+
+      function fetchSvg(jsonData) {
+        $.ajax({
+            url: 'http://svg.amfws.arg.tech',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(jsonData),
+            success: function(svgResponse) {
+                // Display SVG result
+                var svgOutput = document.getElementById('svg-output');
+                svgOutput.innerHTML = svgResponse;
+                svgOutput.style.display = 'block'; // Show the SVG by default
+            },
+            error: function(xhr, status, error) {
+                console.error('Error fetching SVG:', error);
             }
-        }
-
-
+        });
+    }
 
         function openTab(evt, tabName) {
             var i, tabcontent, tablinks;
@@ -375,7 +403,8 @@
                     jsonOutput.textContent = jsonString;
                     jsonOutput.style.display = 'block'; // Show the JSON by default
 
-
+                    // Fetch SVG result
+                    fetchSvg(response);
 
 
                 },
