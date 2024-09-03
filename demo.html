@@ -1,6 +1,5 @@
 <!doctype html>
 <html lang="en-US">
-
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -17,7 +16,6 @@
             color: #333;
             background-color: #f8f9fa;
         }
-
         header {
             background-color: #007bff;
             color: white;
@@ -25,17 +23,14 @@
             text-align: center;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-
         header h1 {
             margin: 0;
             font-size: 2.5em;
         }
-
         header p {
             margin: 0;
             font-size: 1.2em;
         }
-
         footer {
             background-color: #343a40;
             color: white;
@@ -44,12 +39,10 @@
             font-size: 0.9em;
             box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
         }
-
         footer a {
             color: #17a2b8;
             text-decoration: none;
         }
-
         footer a:hover {
             text-decoration: underline;
         }
@@ -62,22 +55,17 @@
             max-width: 1200px;
             padding: 20px;
         }
-
         .main-content {
             flex: 2;
             margin-right: 20px;
-            margin-left: -25%;
-            /* This moves the content 5% to the left */
+            margin-left: -25%; /* This moves the content 5% to the left */
         }
-
         .right-sidebar {
             flex: 1;
             padding-left: 20px;
             border-left: 1px solid #ddd;
-            margin-top: 190px;
-            /* Push the sidebar further down */
+            margin-top: 190px; /* Push the sidebar further down */
         }
-
         @media (min-width: 768px) {
             .wrapper {
                 flex-direction: row;
@@ -91,7 +79,6 @@
             background-color: #fff;
             margin-bottom: 20px;
         }
-
         .tab button {
             background-color: #f1f1f1;
             float: left;
@@ -103,34 +90,23 @@
             font-size: 16px;
             border-bottom: 3px solid transparent;
         }
-
-        .tab button:hover,
-        .tab button.active {
+        .tab button:hover, .tab button.active {
             background-color: #ddd;
             border-bottom: 3px solid #007bff;
         }
-
         .tab-content {
             background-color: #fff;
             padding: 20px;
             border: 1px solid #ddd;
             border-radius: 4px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
         }
 
         /* Forms */
         .form-container {
             margin-top: 20px;
         }
-
-        .form-container input[type="file"],
-        .form-container select,
-        .form-container input[type="text"] {
+        .form-container input[type="file"], .form-container select, .form-container input[type="text"] {
             margin: 10px 0;
             padding: 12px;
             border: 1px solid #ccc;
@@ -138,11 +114,9 @@
             width: 100%;
             background-color: #f9f9f9;
         }
-
         .form-container button {
             padding: 12px;
-            background-color: #007bff;
-            /* Blue color */
+            background-color: #007bff; /* Blue color */
             color: white;
             border: none;
             border-radius: 6px;
@@ -151,12 +125,9 @@
             margin: 10px 0;
             transition: background-color 0.3s ease;
         }
-
         .form-container button:hover {
-            background-color: #0056b3;
-            /* Darker blue */
+            background-color: #0056b3; /* Darker blue */
         }
-
         .result {
             background-color: #e9ecef;
             padding: 15px;
@@ -164,14 +135,6 @@
             border-radius: 6px;
             white-space: pre-wrap;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            max-height: 400px;
-            overflow-y: auto;
-        }
-
-        /* JSON Viewer */
-        .json-viewer {
-            max-height: 400px;
-            overflow-y: auto;
         }
 
         /* Pipeline Builder */
@@ -183,21 +146,15 @@
             border-radius: 6px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-
-        .pipeline-builder select,
-        .pipeline-builder input[type="file"] {
+        .pipeline-builder select, .pipeline-builder input[type="file"] {
             margin-right: 10px;
         }
-
         .pipeline-builder button {
             margin-top: 10px;
-            background-color: #007bff;
-            /* Blue color */
+            background-color: #007bff; /* Blue color */
         }
-
         .pipeline-builder button:hover {
-            background-color: #0056b3;
-            /* Darker blue */
+            background-color: #0056b3; /* Darker blue */
         }
 
         /* Twitter Feed */
@@ -209,7 +166,6 @@
         }
     </style>
 </head>
-
 <body>
     <header>
         <h1>Argument Mining Framework Demo</h1>
@@ -221,13 +177,13 @@
         <div class="main-content">
             <section>
                 <div class="tab">
-                    <button class="tablinks" data-tab="Turninator">Turninator</button>
-                    <button class="tablinks" data-tab="Segmenter">Segmenter</button>
-                    <button class="tablinks" data-tab="Propositionalizer">Propositionalizer</button>
-                    <button class="tablinks" data-tab="ArgumentRelation">Argument Relation</button>
-                    <button class="tablinks" data-tab="Hypothesis">Hypothesis</button>
-                    <button class="tablinks" data-tab="Scheme">Scheme</button>
-                    <button class="tablinks" data-tab="Visualizer">Visualizer</button>
+                    <button class="tablinks" onclick="openTab(event, 'Turninator')">Turninator</button>
+                    <button class="tablinks" onclick="openTab(event, 'Segmenter')">Segmenter</button>
+                    <button class="tablinks" onclick="openTab(event, 'Propositionalizer')">Propositionalizer</button>
+                    <button class="tablinks" onclick="openTab(event, 'ArgumentRelation')">Argument Relation</button>
+                    <button class="tablinks" onclick="openTab(event, 'Hypothesis')">Hypothesis</button>
+                    <button class="tablinks" onclick="openTab(event, 'Scheme')">Scheme</button>
+                    <button class="tablinks" onclick="openTab(event, 'Visualizer')">Visualizer</button>
                 </div>
 
                 <!-- Tab Content -->
@@ -237,7 +193,8 @@
                     <div class="form-container">
                         <input type="file" id="turninator-input" />
                         <button type="button" onclick="runTurninator()">Run Turninator</button>
-                        <div id="turninator-result" class="result json-viewer"></div>
+                        <div id="turninator-result" class="result"></div>
+                        <div id="turninator-svg-visualiser" class="result"></div>
                     </div>
                 </div>
                 <div id="Segmenter" class="tab-content">
@@ -246,7 +203,8 @@
                     <div class="form-container">
                         <input type="file" id="segmenter-input" />
                         <button type="button" onclick="runSegmenter()">Run Segmenter</button>
-                        <div id="segmenter-result" class="result json-viewer"></div>
+                        <div id="segmenter-result" class="result"></div>
+                        <div id="segmenter-svg-visualiser" class="result"></div>
                     </div>
                 </div>
                 <div id="Propositionalizer" class="tab-content">
@@ -255,7 +213,8 @@
                     <div class="form-container">
                         <input type="file" id="propositionalizer-input" />
                         <button type="button" onclick="runPropositionalizer()">Run Propositionalizer</button>
-                        <div id="propositionalizer-result" class="result json-viewer"></div>
+                        <div id="propositionalizer-result" class="result"></div>
+                        <div id="propositionalizer-svg-visualiser" class="result"></div>
                     </div>
                 </div>
                 <div id="ArgumentRelation" class="tab-content">
@@ -264,81 +223,75 @@
                     <div class="form-container">
                         <input type="file" id="argument-relation-input" />
                         <button type="button" onclick="runArgumentRelation()">Run Argument Relation</button>
-                        <div id="argument-relation-result" class="result json-viewer"></div>
+                        <div id="argument-relation-result" class="result"></div>
+                        <div id="argument-relation-svg-visualiser" class="result"></div>
                     </div>
                 </div>
                 <div id="Hypothesis" class="tab-content">
                     <h2>Hypothesis</h2>
-                    <p>The Hypothesis module generates hypotheses based on the provided data. Upload your file to explore.</p>
+                    <p>The Hypothesis module evaluates the hypotheses proposed in the text. Upload your file to get results.</p>
                     <div class="form-container">
                         <input type="file" id="hypothesis-input" />
                         <button type="button" onclick="runHypothesis()">Run Hypothesis</button>
-                        <div id="hypothesis-result" class="result json-viewer"></div>
+                        <div id="hypothesis-result" class="result"></div>
+                        <div id="hypothesis-svg-visualiser" class="result"></div>
                     </div>
                 </div>
                 <div id="Scheme" class="tab-content">
                     <h2>Scheme</h2>
-                    <p>The Scheme module analyzes argument schemes from the given data. Upload your file to start the analysis.</p>
+                    <p>The Scheme module analyzes the argumentative scheme present in the text. Upload your file for processing.</p>
                     <div class="form-container">
                         <input type="file" id="scheme-input" />
                         <button type="button" onclick="runScheme()">Run Scheme</button>
-                        <div id="scheme-result" class="result json-viewer"></div>
+                        <div id="scheme-result" class="result"></div>
+                        <div id="scheme-svg-visualiser" class="result"></div>
                     </div>
                 </div>
                 <div id="Visualizer" class="tab-content">
                     <h2>Visualizer</h2>
-                    <p>Visualize your argumentation structure based on the provided data. Upload your file to generate a visualization.</p>
+                    <p>The Visualizer module allows you to view visual representations of the results. Upload your file and see the visualization.</p>
                     <div class="form-container">
                         <input type="file" id="visualizer-input" />
                         <button type="button" onclick="runVisualizer()">Run Visualizer</button>
-                        <div id="visualizer-result" class="result">
-                            <h3>SVG Output</h3>
-                            <div id="visualizer-svg-output"></div>
-                        </div>
+                        <div id="visualizer-result" class="result"></div>
+                        <div id="visualizer-svg-visualiser" class="result"></div>
                     </div>
                 </div>
-
-                <!-- Pipeline Builder -->
-                <section class="pipeline-builder">
-                    <h2>Build and Run a Pipeline</h2>
-                    <div class="form-container">
-                        <select id="pipeline-select" multiple>
-                            <option value="turninator">Turninator</option>
-                            <option value="segmenter">Segmenter</option>
-                            <option value="propositionalizer">Propositionalizer</option>
-                            <option value="argument-relation">Argument Relation</option>
-                            <option value="hypothesis">Hypothesis</option>
-                            <option value="scheme">Scheme</option>
-                            <option value="visualizer">Visualizer</option>
-                        </select>
-                        <input type="file" id="pipeline-input" />
-                        <button type="button" onclick="runPipeline()">Run Pipeline</button>
-                        <div id="pipeline-result" class="result json-viewer"></div>
-                        <div id="pipeline-svg-result" class="result">
-                            <h3>SVG Output</h3>
-                            <div id="pipeline-svg-output"></div>
-                        </div>
-                    </div>
-                </section>
             </section>
         </div>
 
         <!-- Right Sidebar -->
         <div class="right-sidebar">
-            <h3>Latest News</h3>
-            <p>Stay updated with the latest in argument mining:</p>
-            <a class="twitter-timeline" data-width="300" data-height="500" href="https://twitter.com/OpenAI">Tweets by OpenAI</a>
-            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+            <div class="pipeline-builder">
+                <h2>Pipeline Builder</h2>
+                <p>Create and configure your pipeline here.</p>
+                <select id="pipeline-module-select">
+                    <option value="Turninator">Turninator</option>
+                    <option value="Segmenter">Segmenter</option>
+                    <option value="Propositionalizer">Propositionalizer</option>
+                    <option value="ArgumentRelation">Argument Relation</option>
+                    <option value="Hypothesis">Hypothesis</option>
+                    <option value="Scheme">Scheme</option>
+                </select>
+                <input type="file" id="pipeline-input-file" />
+                <button type="button" onclick="runPipeline()">Run Pipeline</button>
+                <div id="pipeline-result" class="result"></div>
+            </div>
+
+            <div class="twitter-feed">
+                <h2>Twitter Feed</h2>
+                <p>Follow us on Twitter for updates.</p>
+                <!-- Embed Twitter feed or use a widget here -->
+            </div>
         </div>
     </div>
 
     <footer>
-        <p>&copy; 2024 Argument Mining Framework. Built with passion by the AMF team. <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+        <p>Created with <a href="https://www.example.com">Example Company</a>. &copy; 2024</p>
     </footer>
 
-    <!-- JavaScript Functions -->
     <script>
-        // Function to open a tab
+        // Function to handle tab switching
         function openTab(evt, tabName) {
             var i, tabcontent, tablinks;
             tabcontent = document.getElementsByClassName("tab-content");
@@ -353,197 +306,196 @@
             evt.currentTarget.className += " active";
         }
 
-        // Function to display JSON result
-        function displayJSONResult(containerId, data) {
-            const jsonViewer = document.getElementById(containerId);
-            jsonViewer.innerHTML = '';
-            const pre = document.createElement('pre');
-            pre.textContent = JSON.stringify(data, null, 2);
-            jsonViewer.appendChild(pre);
+        // Function to send module results to SVG Visualiser
+        function sendToSvgVisualiser(moduleName, resultData) {
+            var formData = new FormData();
+            formData.append('module', moduleName);
+            formData.append('result', JSON.stringify(resultData));
+
+            $.ajax({
+                url: '/run_svg_visualiser', // Adjust the URL as necessary
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(svgData) {
+                    $('#' + moduleName + '-svg-visualiser').html(svgData); // Assuming svgData is HTML or SVG
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
         }
 
-        // Function to display SVG result
-        function displaySVGResult(containerId, svgData) {
-            const container = document.getElementById(containerId);
-            container.innerHTML = '';
-            container.innerHTML = svgData;
-        }
-
-        // AJAX request functions for each module
+        // Function to run Turninator
         function runTurninator() {
-            const file = document.getElementById('turninator-input').files[0];
-            const formData = new FormData();
-            formData.append('file', file);
+            var formData = new FormData();
+            formData.append('file', $('#turninator-input')[0].files[0]);
 
             $.ajax({
                 url: 'https://default-turninator.amfws.arg.tech/turninator-01',
                 type: 'POST',
                 data: formData,
-                processData: false,
                 contentType: false,
+                processData: false,
                 success: function(data) {
-                    displayJSONResult('turninator-result', data);
+                    $('#turninator-result').text(JSON.stringify(data, null, 2));
+                    sendToSvgVisualiser('turninator', data); // Send result to SVG Visualiser
                 },
-                error: function() {
-                    alert('Error processing Turninator.');
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
                 }
             });
         }
 
+        // Function to run Segmenter
         function runSegmenter() {
-            const file = document.getElementById('segmenter-input').files[0];
-            const formData = new FormData();
-            formData.append('file', file);
+            var formData = new FormData();
+            formData.append('file', $('#segmenter-input')[0].files[0]);
 
             $.ajax({
                 url: 'https://default-segmenter.amfws.arg.tech/segmenter-01',
                 type: 'POST',
                 data: formData,
-                processData: false,
                 contentType: false,
+                processData: false,
                 success: function(data) {
-                    displayJSONResult('segmenter-result', data);
+                    $('#segmenter-result').text(JSON.stringify(data, null, 2));
+                    sendToSvgVisualiser('segmenter', data); // Send result to SVG Visualiser
                 },
-                error: function() {
-                    alert('Error processing Segmenter.');
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
                 }
             });
         }
 
+        // Function to run Propositionalizer
         function runPropositionalizer() {
-            const file = document.getElementById('propositionalizer-input').files[0];
-            const formData = new FormData();
-            formData.append('file', file);
+            var formData = new FormData();
+            formData.append('file', $('#propositionalizer-input')[0].files[0]);
 
             $.ajax({
-                url: '/api/propositionalizer',
+                url: 'https://default-propositionalizer.amfws.arg.tech/propositionalizer-01',
                 type: 'POST',
                 data: formData,
-                processData: false,
                 contentType: false,
+                processData: false,
                 success: function(data) {
-                    displayJSONResult('propositionalizer-result', data);
+                    $('#propositionalizer-result').text(JSON.stringify(data, null, 2));
+                    sendToSvgVisualiser('propositionalizer', data); // Send result to SVG Visualiser
                 },
-                error: function() {
-                    alert('Error processing Propositionalizer.');
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
                 }
             });
         }
 
+        // Function to run Argument Relation
         function runArgumentRelation() {
-            const file = document.getElementById('argument-relation-input').files[0];
-            const formData = new FormData();
-            formData.append('file', file);
+            var formData = new FormData();
+            formData.append('file', $('#argument-relation-input')[0].files[0]);
 
             $.ajax({
-                url: '/api/argument-relation',
+                url: 'https://default-argumentrelation.amfws.arg.tech/argumentrelation-01',
                 type: 'POST',
                 data: formData,
-                processData: false,
                 contentType: false,
+                processData: false,
                 success: function(data) {
-                    displayJSONResult('argument-relation-result', data);
+                    $('#argument-relation-result').text(JSON.stringify(data, null, 2));
+                    sendToSvgVisualiser('argument-relation', data); // Send result to SVG Visualiser
                 },
-                error: function() {
-                    alert('Error processing Argument Relation.');
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
                 }
             });
         }
 
+        // Function to run Hypothesis
         function runHypothesis() {
-            const file = document.getElementById('hypothesis-input').files[0];
-            const formData = new FormData();
-            formData.append('file', file);
+            var formData = new FormData();
+            formData.append('file', $('#hypothesis-input')[0].files[0]);
 
             $.ajax({
-                url: '/api/hypothesis',
+                url: 'https://default-hypothesis.amfws.arg.tech/hypothesis-01',
                 type: 'POST',
                 data: formData,
-                processData: false,
                 contentType: false,
+                processData: false,
                 success: function(data) {
-                    displayJSONResult('hypothesis-result', data);
+                    $('#hypothesis-result').text(JSON.stringify(data, null, 2));
+                    sendToSvgVisualiser('hypothesis', data); // Send result to SVG Visualiser
                 },
-                error: function() {
-                    alert('Error processing Hypothesis.');
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
                 }
             });
         }
 
+        // Function to run Scheme
         function runScheme() {
-            const file = document.getElementById('scheme-input').files[0];
-            const formData = new FormData();
-            formData.append('file', file);
+            var formData = new FormData();
+            formData.append('file', $('#scheme-input')[0].files[0]);
 
             $.ajax({
-                url: '/api/scheme',
+                url: 'https://default-scheme.amfws.arg.tech/scheme-01',
                 type: 'POST',
                 data: formData,
-                processData: false,
                 contentType: false,
+                processData: false,
                 success: function(data) {
-                    displayJSONResult('scheme-result', data);
+                    $('#scheme-result').text(JSON.stringify(data, null, 2));
+                    sendToSvgVisualiser('scheme', data); // Send result to SVG Visualiser
                 },
-                error: function() {
-                    alert('Error processing Scheme.');
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
                 }
             });
         }
 
+        // Function to run Visualizer
         function runVisualizer() {
-            const file = document.getElementById('visualizer-input').files[0];
-            const formData = new FormData();
-            formData.append('file', file);
+            var formData = new FormData();
+            formData.append('file', $('#visualizer-input')[0].files[0]);
 
             $.ajax({
-                url: '/api/visualizer',
+                url: 'https://default-visualizer.amfws.arg.tech/visualizer-01',
                 type: 'POST',
                 data: formData,
-                processData: false,
                 contentType: false,
+                processData: false,
                 success: function(data) {
-                    displaySVGResult('visualizer-svg-output', data.svg);
+                    $('#visualizer-result').text(JSON.stringify(data, null, 2));
+                    sendToSvgVisualiser('visualizer', data); // Send result to SVG Visualiser
                 },
-                error: function() {
-                    alert('Error processing Visualizer.');
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
                 }
             });
         }
 
+        // Function to run Pipeline
         function runPipeline() {
-            const selectedModules = Array.from(document.getElementById('pipeline-select').selectedOptions).map(option => option.value);
-            const file = document.getElementById('pipeline-input').files[0];
-            const formData = new FormData();
+            var module = $('#pipeline-module-select').val();
+            var file = $('#pipeline-input-file')[0].files[0];
+            var formData = new FormData();
+            formData.append('module', module);
             formData.append('file', file);
-            formData.append('modules', JSON.stringify(selectedModules));
 
             $.ajax({
-                url: '/api/pipeline',
+                url: 'https://default-pipeline.amfws.arg.tech/pipeline-01', // Adjust the URL as necessary
                 type: 'POST',
                 data: formData,
-                processData: false,
                 contentType: false,
+                processData: false,
                 success: function(data) {
-                    displayJSONResult('pipeline-result', data.result);
-                    displaySVGResult('pipeline-svg-output', data.svg);
+                    $('#pipeline-result').text(JSON.stringify(data, null, 2));
                 },
-                error: function() {
-                    alert('Error running Pipeline.');
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
                 }
             });
         }
-
-        // Initial setup
-        $(document).ready(function() {
-            // Open the default tab
-            $('.tablinks').first().trigger('click');
-
-            // Set up tab click event
-            $('.tablinks').on('click', function(evt) {
-                openTab(evt, $(this).data('tab'));
-            });
-        });
     </script>
 </body>
-
 </html>
