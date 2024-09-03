@@ -58,13 +58,13 @@
         .main-content {
             flex: 2;
             margin-right: 20px;
-            margin-left: -25%; /* This moves the content 5% to the left */
+            margin-left: 0; /* Adjust margin to fit the layout */
         }
         .right-sidebar {
             flex: 1;
             padding-left: 20px;
             border-left: 1px solid #ddd;
-            margin-top: 190px; /* Push the sidebar further down */
+            margin-top: 20px; /* Adjust margin for spacing */
         }
         @media (min-width: 768px) {
             .wrapper {
@@ -100,6 +100,10 @@
             border: 1px solid #ddd;
             border-radius: 4px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: none; /* Hide all content by default */
+        }
+        .tab-content.active {
+            display: block; /* Show the active content */
         }
 
         /* Forms */
@@ -187,14 +191,13 @@
                 </div>
 
                 <!-- Tab Content -->
-                <div id="Turninator" class="tab-content">
+                <div id="Turninator" class="tab-content active">
                     <h2>Turninator</h2>
                     <p>The Turninator module analyzes text to identify argumentative turns. Upload your file to start processing.</p>
                     <div class="form-container">
                         <input type="file" id="turninator-input" />
                         <button type="button" onclick="runTurninator()">Run Turninator</button>
                         <div id="turninator-result" class="result"></div>
-                        <div id="turninator-svg-visualiser" class="result"></div>
                     </div>
                 </div>
                 <div id="Segmenter" class="tab-content">
@@ -204,7 +207,6 @@
                         <input type="file" id="segmenter-input" />
                         <button type="button" onclick="runSegmenter()">Run Segmenter</button>
                         <div id="segmenter-result" class="result"></div>
-                        <div id="segmenter-svg-visualiser" class="result"></div>
                     </div>
                 </div>
                 <div id="Propositionalizer" class="tab-content">
@@ -214,7 +216,6 @@
                         <input type="file" id="propositionalizer-input" />
                         <button type="button" onclick="runPropositionalizer()">Run Propositionalizer</button>
                         <div id="propositionalizer-result" class="result"></div>
-                        <div id="propositionalizer-svg-visualiser" class="result"></div>
                     </div>
                 </div>
                 <div id="ArgumentRelation" class="tab-content">
@@ -224,277 +225,188 @@
                         <input type="file" id="argument-relation-input" />
                         <button type="button" onclick="runArgumentRelation()">Run Argument Relation</button>
                         <div id="argument-relation-result" class="result"></div>
-                        <div id="argument-relation-svg-visualiser" class="result"></div>
                     </div>
                 </div>
                 <div id="Hypothesis" class="tab-content">
                     <h2>Hypothesis</h2>
-                    <p>The Hypothesis module evaluates the hypotheses proposed in the text. Upload your file to get results.</p>
+                    <p>The Hypothesis module identifies hypotheses within argumentative text. Upload your file to process.</p>
                     <div class="form-container">
                         <input type="file" id="hypothesis-input" />
                         <button type="button" onclick="runHypothesis()">Run Hypothesis</button>
                         <div id="hypothesis-result" class="result"></div>
-                        <div id="hypothesis-svg-visualiser" class="result"></div>
                     </div>
                 </div>
                 <div id="Scheme" class="tab-content">
                     <h2>Scheme</h2>
-                    <p>The Scheme module analyzes the argumentative scheme present in the text. Upload your file for processing.</p>
+                    <p>The Scheme module extracts argumentative schemes from the text. Upload your file to begin extraction.</p>
                     <div class="form-container">
                         <input type="file" id="scheme-input" />
                         <button type="button" onclick="runScheme()">Run Scheme</button>
                         <div id="scheme-result" class="result"></div>
-                        <div id="scheme-svg-visualiser" class="result"></div>
                     </div>
                 </div>
                 <div id="Visualizer" class="tab-content">
                     <h2>Visualizer</h2>
-                    <p>The Visualizer module allows you to view visual representations of the results. Upload your file and see the visualization.</p>
+                    <p>The Visualizer module provides a visual representation of the argument structure. Upload your file to visualize.</p>
                     <div class="form-container">
                         <input type="file" id="visualizer-input" />
                         <button type="button" onclick="runVisualizer()">Run Visualizer</button>
                         <div id="visualizer-result" class="result"></div>
-                        <div id="visualizer-svg-visualiser" class="result"></div>
                     </div>
                 </div>
             </section>
+
+            <!-- Pipeline Builder -->
+            <div class="pipeline-builder">
+                <h2>Pipeline Builder</h2>
+                <p>Select modules to add to your pipeline:</p>
+                <form id="pipeline-form">
+                    <select id="module-select">
+                        <option value="Turninator">Turninator</option>
+                        <option value="Segmenter">Segmenter</option>
+                        <option value="Propositionalizer">Propositionalizer</option>
+                        <option value="ArgumentRelation">Argument Relation</option>
+                        <option value="Hypothesis">Hypothesis</option>
+                        <option value="Scheme">Scheme</option>
+                        <option value="Visualizer">Visualizer</option>
+                    </select>
+                    <button type="button" onclick="addToPipeline()">Add to Pipeline</button>
+                    <button type="button" onclick="runPipeline()">Run Pipeline</button>
+                </form>
+                <h3>Current Pipeline:</h3>
+                <ul id="pipeline-list">
+                    <!-- Pipeline modules will be listed here -->
+                </ul>
+            </div>
         </div>
 
         <!-- Right Sidebar -->
         <div class="right-sidebar">
-            <div class="pipeline-builder">
-                <h2>Pipeline Builder</h2>
-                <p>Create and configure your pipeline here.</p>
-                <select id="pipeline-module-select">
-                    <option value="Turninator">Turninator</option>
-                    <option value="Segmenter">Segmenter</option>
-                    <option value="Propositionalizer">Propositionalizer</option>
-                    <option value="ArgumentRelation">Argument Relation</option>
-                    <option value="Hypothesis">Hypothesis</option>
-                    <option value="Scheme">Scheme</option>
-                </select>
-                <input type="file" id="pipeline-input-file" />
-                <button type="button" onclick="runPipeline()">Run Pipeline</button>
-                <div id="pipeline-result" class="result"></div>
-            </div>
-
             <div class="twitter-feed">
-                <h2>Twitter Feed</h2>
-                <p>Follow us on Twitter for updates.</p>
-                <!-- Embed Twitter feed or use a widget here -->
+                <h2>Latest Updates</h2>
+                <a class="twitter-timeline" data-width="300" data-height="600" data-theme="dark" href="https://twitter.com/ARG_tech?ref_src=twsrc%5Etfw">Tweets by ARG_tech</a>
+                <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
             </div>
         </div>
     </div>
 
     <footer>
-        <p>Created with <a href="https://www.example.com">Example Company</a>. &copy; 2024</p>
+        <p>Made with ❤️ by <a href="https://yourwebsite.com">Your Company</a>. For more information, visit our <a href="https://yourwebsite.com/about">about page</a>.</p>
     </footer>
 
     <script>
-        // Function to handle tab switching
         function openTab(evt, tabName) {
             var i, tabcontent, tablinks;
             tabcontent = document.getElementsByClassName("tab-content");
             for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].style.display = "none";
+                tabcontent[i].className = tabcontent[i].className.replace(" active", "");
             }
             tablinks = document.getElementsByClassName("tablinks");
             for (i = 0; i < tablinks.length; i++) {
                 tablinks[i].className = tablinks[i].className.replace(" active", "");
             }
-            document.getElementById(tabName).style.display = "block";
+            document.getElementById(tabName).className += " active";
             evt.currentTarget.className += " active";
         }
 
-        // Function to send module results to SVG Visualiser
-        function sendToSvgVisualiser(moduleName, resultData) {
-            var formData = new FormData();
-            formData.append('module', moduleName);
-            formData.append('result', JSON.stringify(resultData));
-
-            $.ajax({
-                url: '/run_svg_visualiser', // Adjust the URL as necessary
-                type: 'POST',
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: function(svgData) {
-                    $('#' + moduleName + '-svg-visualiser').html(svgData); // Assuming svgData is HTML or SVG
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error:', error);
-                }
-            });
-        }
-
-        // Function to run Turninator
         function runTurninator() {
-            var formData = new FormData();
-            formData.append('file', $('#turninator-input')[0].files[0]);
-
-            $.ajax({
-                url: 'https://default-turninator.amfws.arg.tech/turninator-01',
-                type: 'POST',
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: function(data) {
-                    $('#turninator-result').text(JSON.stringify(data, null, 2));
-                    sendToSvgVisualiser('turninator', data); // Send result to SVG Visualiser
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error:', error);
-                }
-            });
+            var fileInput = document.getElementById('turninator-input');
+            var resultDiv = document.getElementById('turninator-result');
+            if (fileInput.files.length === 0) {
+                resultDiv.textContent = 'Please upload a file.';
+                return;
+            }
+            // Process file here
+            resultDiv.textContent = 'Processing file...';
         }
 
-        // Function to run Segmenter
         function runSegmenter() {
-            var formData = new FormData();
-            formData.append('file', $('#segmenter-input')[0].files[0]);
-
-            $.ajax({
-                url: 'https://default-segmenter.amfws.arg.tech/segmenter-01',
-                type: 'POST',
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: function(data) {
-                    $('#segmenter-result').text(JSON.stringify(data, null, 2));
-                    sendToSvgVisualiser('segmenter', data); // Send result to SVG Visualiser
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error:', error);
-                }
-            });
+            var fileInput = document.getElementById('segmenter-input');
+            var resultDiv = document.getElementById('segmenter-result');
+            if (fileInput.files.length === 0) {
+                resultDiv.textContent = 'Please upload a file.';
+                return;
+            }
+            // Process file here
+            resultDiv.textContent = 'Processing file...';
         }
 
-        // Function to run Propositionalizer
         function runPropositionalizer() {
-            var formData = new FormData();
-            formData.append('file', $('#propositionalizer-input')[0].files[0]);
-
-            $.ajax({
-                url: 'https://default-propositionalizer.amfws.arg.tech/propositionalizer-01',
-                type: 'POST',
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: function(data) {
-                    $('#propositionalizer-result').text(JSON.stringify(data, null, 2));
-                    sendToSvgVisualiser('propositionalizer', data); // Send result to SVG Visualiser
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error:', error);
-                }
-            });
+            var fileInput = document.getElementById('propositionalizer-input');
+            var resultDiv = document.getElementById('propositionalizer-result');
+            if (fileInput.files.length === 0) {
+                resultDiv.textContent = 'Please upload a file.';
+                return;
+            }
+            // Process file here
+            resultDiv.textContent = 'Processing file...';
         }
 
-        // Function to run Argument Relation
         function runArgumentRelation() {
-            var formData = new FormData();
-            formData.append('file', $('#argument-relation-input')[0].files[0]);
-
-            $.ajax({
-                url: 'https://default-argumentrelation.amfws.arg.tech/argumentrelation-01',
-                type: 'POST',
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: function(data) {
-                    $('#argument-relation-result').text(JSON.stringify(data, null, 2));
-                    sendToSvgVisualiser('argument-relation', data); // Send result to SVG Visualiser
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error:', error);
-                }
-            });
+            var fileInput = document.getElementById('argument-relation-input');
+            var resultDiv = document.getElementById('argument-relation-result');
+            if (fileInput.files.length === 0) {
+                resultDiv.textContent = 'Please upload a file.';
+                return;
+            }
+            // Process file here
+            resultDiv.textContent = 'Processing file...';
         }
 
-        // Function to run Hypothesis
         function runHypothesis() {
-            var formData = new FormData();
-            formData.append('file', $('#hypothesis-input')[0].files[0]);
-
-            $.ajax({
-                url: 'https://default-hypothesis.amfws.arg.tech/hypothesis-01',
-                type: 'POST',
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: function(data) {
-                    $('#hypothesis-result').text(JSON.stringify(data, null, 2));
-                    sendToSvgVisualiser('hypothesis', data); // Send result to SVG Visualiser
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error:', error);
-                }
-            });
+            var fileInput = document.getElementById('hypothesis-input');
+            var resultDiv = document.getElementById('hypothesis-result');
+            if (fileInput.files.length === 0) {
+                resultDiv.textContent = 'Please upload a file.';
+                return;
+            }
+            // Process file here
+            resultDiv.textContent = 'Processing file...';
         }
 
-        // Function to run Scheme
         function runScheme() {
-            var formData = new FormData();
-            formData.append('file', $('#scheme-input')[0].files[0]);
-
-            $.ajax({
-                url: 'https://default-scheme.amfws.arg.tech/scheme-01',
-                type: 'POST',
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: function(data) {
-                    $('#scheme-result').text(JSON.stringify(data, null, 2));
-                    sendToSvgVisualiser('scheme', data); // Send result to SVG Visualiser
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error:', error);
-                }
-            });
+            var fileInput = document.getElementById('scheme-input');
+            var resultDiv = document.getElementById('scheme-result');
+            if (fileInput.files.length === 0) {
+                resultDiv.textContent = 'Please upload a file.';
+                return;
+            }
+            // Process file here
+            resultDiv.textContent = 'Processing file...';
         }
 
-        // Function to run Visualizer
         function runVisualizer() {
-            var formData = new FormData();
-            formData.append('file', $('#visualizer-input')[0].files[0]);
-
-            $.ajax({
-                url: 'https://default-visualizer.amfws.arg.tech/visualizer-01',
-                type: 'POST',
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: function(data) {
-                    $('#visualizer-result').text(JSON.stringify(data, null, 2));
-                    sendToSvgVisualiser('visualizer', data); // Send result to SVG Visualiser
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error:', error);
-                }
-            });
+            var fileInput = document.getElementById('visualizer-input');
+            var resultDiv = document.getElementById('visualizer-result');
+            if (fileInput.files.length === 0) {
+                resultDiv.textContent = 'Please upload a file.';
+                return;
+            }
+            // Process file here
+            resultDiv.textContent = 'Processing file...';
         }
 
-        // Function to run Pipeline
-        function runPipeline() {
-            var module = $('#pipeline-module-select').val();
-            var file = $('#pipeline-input-file')[0].files[0];
-            var formData = new FormData();
-            formData.append('module', module);
-            formData.append('file', file);
+        function addToPipeline() {
+            var select = document.getElementById('module-select');
+            var selectedModule = select.value;
+            var list = document.getElementById('pipeline-list');
 
-            $.ajax({
-                url: 'https://default-pipeline.amfws.arg.tech/pipeline-01', // Adjust the URL as necessary
-                type: 'POST',
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: function(data) {
-                    $('#pipeline-result').text(JSON.stringify(data, null, 2));
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error:', error);
-                }
-            });
+            var listItem = document.createElement('li');
+            listItem.textContent = selectedModule;
+            list.appendChild(listItem);
+        }
+
+        function runPipeline() {
+            var pipelineList = document.getElementById('pipeline-list');
+            var items = pipelineList.getElementsByTagName('li');
+            if (items.length === 0) {
+                alert('Pipeline is empty. Please add modules first.');
+                return;
+            }
+            var resultDiv = document.createElement('div');
+            resultDiv.className = 'result';
+            resultDiv.textContent = 'Running pipeline with modules: ' + Array.from(items).map(item => item.textContent).join(', ');
+            document.querySelector('.pipeline-builder').appendChild(resultDiv);
         }
     </script>
 </body>
