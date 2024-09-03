@@ -135,8 +135,6 @@
             border-radius: 6px;
             white-space: pre-wrap;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            max-height: 300px;
-            overflow-y: auto;
         }
 
         /* Pipeline Builder */
@@ -191,7 +189,7 @@
                 <!-- Tab Content -->
                 <div id="Turninator" class="tab-content">
                     <h2>Turninator</h2>
-                    <p>The Turninator module analyzes text to identify argumentative turns. Upload your file to start processing.</p>
+                    <p>The Turninator module analyzes text to identify  argumentative turns. Upload your file to start processing.</p>
                     <div class="form-container">
                         <input type="file" id="turninator-input" />
                         <button type="button" onclick="runTurninator()">Run Turninator</button>
@@ -218,7 +216,7 @@
                 </div>
                 <div id="ArgumentRelation" class="tab-content">
                     <h2>Argument Relation</h2>
-                    <p>The Argument Relation module identifies argument relations between argument units. Upload your file to analyze.</p>
+                    <p>The Argument Relation module identifies argument relation between argument units. Upload your file to analyze.</p>
                     <div class="form-container">
                         <input type="file" id="argument-relation-input" />
                         <button type="button" onclick="runArgumentRelation()">Run Argument Relation</button>
@@ -227,7 +225,7 @@
                 </div>
                 <div id="Hypothesis" class="tab-content">
                     <h2>Hypothesis</h2>
-                    <p>The Hypothesis module detects hypotheses and theories within argumentative text. Upload your file to proceed.</p>
+                    <p>The Hypothesis module classifies argument units into one of  hypotheses classes. Upload your file to run the analysis.</p>
                     <div class="form-container">
                         <input type="file" id="hypothesis-input" />
                         <button type="button" onclick="runHypothesis()">Run Hypothesis</button>
@@ -236,7 +234,7 @@
                 </div>
                 <div id="Scheme" class="tab-content">
                     <h2>Scheme</h2>
-                    <p>The Scheme module identifies argument schemes used in the text. Upload your file to get insights.</p>
+                    <p>The Scheme module classifies an argument into one of argument schemes. Upload your file to process.</p>
                     <div class="form-container">
                         <input type="file" id="scheme-input" />
                         <button type="button" onclick="runScheme()">Run Scheme</button>
@@ -245,50 +243,55 @@
                 </div>
                 <div id="Visualizer" class="tab-content">
                     <h2>Visualizer</h2>
-                    <p>The Visualizer module displays the argument structure in a visual format. Use the pipeline to generate the output.</p>
+                    <p>The Visualizer module generates visual representations an argument map. Upload your file to visualize the results.</p>
                     <div class="form-container">
                         <input type="file" id="visualizer-input" />
                         <button type="button" onclick="runVisualizer()">Run Visualizer</button>
                         <div id="visualizer-result" class="result"></div>
-                        <div id="svg-visualization" style="margin-top: 20px;"></div> <!-- SVG visualization container -->
+                    </div>
+                </div>
+
+                <!-- Pipeline Builder -->
+                <div class="pipeline-builder">
+                    <h2>Pipeline Builder</h2>
+                    <p>Build and execute a custom pipeline by selecting modules and running them in sequence. Upload your file and add modules to the pipeline.</p>
+                    <div class="form-container">
+                        <input type="file" id="pipeline-input" />
+                        <select id="module-select">
+                            <option value="">Select Module</option>
+                            <option value="Turninator">Turninator</option>
+                            <option value="Segmenter">Segmenter</option>
+                            <option value="Propositionalizer">Propositionalizer</option>
+                            <option value="ArgumentRelation">Argument Relation</option>
+                            <option value="Hypothesis">Hypothesis</option>
+                            <option value="Scheme">Scheme</option>
+                            <option value="Visualizer">Visualizer</option>
+                        </select>
+                        <button type="button" onclick="addModule()">Add to Pipeline</button>
+                        <div id="pipeline-steps" class="result"></div>
+                        <button type="button" onclick="runCustomPipeline()">Run Pipeline</button>
+                        <div id="pipeline-result" class="result"></div>
                     </div>
                 </div>
             </section>
-
-            <!-- Pipeline Builder Section -->
-            <section class="pipeline-builder">
-                <h2>Pipeline Builder</h2>
-                <p>Build your custom pipeline by selecting modules and uploading a file.</p>
-                <form id="pipeline-form">
-                    <select id="module-select">
-                        <option value="turninator">Turninator</option>
-                        <option value="segmenter">Segmenter</option>
-                        <option value="propositionalizer">Propositionalizer</option>
-                        <option value="argument-relation">Argument Relation</option>
-                        <option value="hypothesis">Hypothesis</option>
-                        <option value="scheme">Scheme</option>
-                    </select>
-                    <input type="file" id="pipeline-input" />
-                    <button type="button" onclick="runPipeline()">Run Pipeline</button>
-                </form>
-                <div id="pipeline-result" class="result"></div>
-            </section>
         </div>
 
-        <!-- Right Sidebar -->
+        <!-- Right Sidebar with Twitter Feed -->
         <aside class="right-sidebar">
-            <!-- Twitter Feed Widget -->
-            <a class="twitter-timeline" data-width="400" data-height="600" href="https://twitter.com/ArgMinFrame">Tweets by ArgMinFrame</a>
-            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+            <h2>Twitter Feed</h2>
+            <div class="twitter-feed">
+                <a class="twitter-timeline" data-width="300" data-height="600" data-theme="dark" href="https://twitter.com/ARG_tech?ref_src=twsrc%5Etfw">Tweets by ARG_tech</a>
+                <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+            </div>
         </aside>
     </div>
 
     <footer>
-        <p>&copy; 2023 Argument Mining Framework. All rights reserved. | <a href="https://github.com/argumentmining/amf-demo">View on GitHub</a></p>
+        <p>&copy; 2024 Argument Mining Framework | Created by <a href="https://twitter.com/mattgraham">Matt Graham</a></p>
     </footer>
 
     <script>
-        // Tab functionality
+        // Function to open the selected tab
         function openTab(evt, tabName) {
             var i, tabcontent, tablinks;
             tabcontent = document.getElementsByClassName("tab-content");
@@ -303,173 +306,179 @@
             evt.currentTarget.className += " active";
         }
 
-        // JSON Collapsible Functionality
-        function createCollapsibleJson(data, elementId) {
-            var jsonHtml = JSON.stringify(data, null, 2);
-            document.getElementById(elementId).innerHTML = "<pre>" + jsonHtml + "</pre>";
+        // Set the default tab to open
+        document.getElementsByClassName("tablinks")[0].click();
+
+        // Pipeline
+        var pipelineSteps = [];
+
+        function addModule() {
+            var module = document.getElementById('module-select').value;
+            if (module) {
+                pipelineSteps.push(module);
+                updatePipelineSteps();
+            }
         }
 
-        // Run Turninator Module
+        function updatePipelineSteps() {
+            var stepsDisplay = document.getElementById('pipeline-steps');
+            stepsDisplay.innerHTML = pipelineSteps.map(function(step, index) {
+                return (index + 1) + ". " + step;
+            }).join("<br>");
+        }
+
+        function runCustomPipeline() {
+            var formData = new FormData();
+            formData.append('file', $('#pipeline-input')[0].files[0]);
+            formData.append('steps', JSON.stringify(pipelineSteps));
+
+            $.ajax({
+                url: '/run_custom_pipeline',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(data) {
+                    $('#pipeline-result').text(JSON.stringify(data, null, 2));
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
+        }
+
+        // Individual module functions
         function runTurninator() {
-            var inputFile = document.getElementById('turninator-input').files[0];
-            if (!inputFile) {
-                alert('Please select a file');
-                return;
-            }
             var formData = new FormData();
-            formData.append('file', inputFile);
+            formData.append('file', $('#turninator-input')[0].files[0]);
 
-            fetch('/amf/turninator', {
-                method: 'POST',
-                body: formData
-            }).then(response => response.json())
-              .then(data => {
-                  createCollapsibleJson(data, 'turninator-result');
-              }).catch(error => console.error('Error:', error));
+            $.ajax({
+                url: 'https://default-turninator.amfws.arg.tech/turninator-01',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(data) {
+                    $('#turninator-result').text(JSON.stringify(data, null, 2));
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
         }
 
-        // Run Segmenter Module
         function runSegmenter() {
-            var inputFile = document.getElementById('segmenter-input').files[0];
-            if (!inputFile) {
-                alert('Please select a file');
-                return;
-            }
             var formData = new FormData();
-            formData.append('file', inputFile);
+            formData.append('file', $('#segmenter-input')[0].files[0]);
 
-            fetch('/amf/segmenter', {
-                method: 'POST',
-                body: formData
-            }).then(response => response.json())
-              .then(data => {
-                  createCollapsibleJson(data, 'segmenter-result');
-              }).catch(error => console.error('Error:', error));
+            $.ajax({
+                url: 'https://default-segmenter.amfws.arg.tech/segmenter-01',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(data) {
+                    $('#segmenter-result').text(JSON.stringify(data, null, 2));
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
         }
 
-        // Run Propositionalizer Module
         function runPropositionalizer() {
-            var inputFile = document.getElementById('propositionalizer-input').files[0];
-            if (!inputFile) {
-                alert('Please select a file');
-                return;
-            }
             var formData = new FormData();
-            formData.append('file', inputFile);
+            formData.append('file', $('#propositionalizer-input')[0].files[0]);
 
-            fetch('/amf/propositionalizer', {
-                method: 'POST',
-                body: formData
-            }).then(response => response.json())
-              .then(data => {
-                  createCollapsibleJson(data, 'propositionalizer-result');
-              }).catch(error => console.error('Error:', error));
+            $.ajax({
+                url: '/run_propositionalizer',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(data) {
+                    $('#propositionalizer-result').text(JSON.stringify(data, null, 2));
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
         }
 
-        // Run Argument Relation Module
         function runArgumentRelation() {
-            var inputFile = document.getElementById('argument-relation-input').files[0];
-            if (!inputFile) {
-                alert('Please select a file');
-                return;
-            }
             var formData = new FormData();
-            formData.append('file', inputFile);
+            formData.append('file', $('#argument-relation-input')[0].files[0]);
 
-            fetch('/amf/argument-relation', {
-                method: 'POST',
-                body: formData
-            }).then(response => response.json())
-              .then(data => {
-                  createCollapsibleJson(data, 'argument-relation-result');
-              }).catch(error => console.error('Error:', error));
+            $.ajax({
+                url: '/run_argument_relation',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(data) {
+                    $('#argument-relation-result').text(JSON.stringify(data, null, 2));
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
         }
 
-        // Run Hypothesis Module
         function runHypothesis() {
-            var inputFile = document.getElementById('hypothesis-input').files[0];
-            if (!inputFile) {
-                alert('Please select a file');
-                return;
-            }
             var formData = new FormData();
-            formData.append('file', inputFile);
+            formData.append('file', $('#hypothesis-input')[0].files[0]);
 
-            fetch('/amf/hypothesis', {
-                method: 'POST',
-                body: formData
-            }).then(response => response.json())
-              .then(data => {
-                  createCollapsibleJson(data, 'hypothesis-result');
-              }).catch(error => console.error('Error:', error));
+            $.ajax({
+                url: '/run_hypothesis',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(data) {
+                    $('#hypothesis-result').text(JSON.stringify(data, null, 2));
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
         }
 
-        // Run Scheme Module
         function runScheme() {
-            var inputFile = document.getElementById('scheme-input').files[0];
-            if (!inputFile) {
-                alert('Please select a file');
-                return;
-            }
             var formData = new FormData();
-            formData.append('file', inputFile);
+            formData.append('file', $('#scheme-input')[0].files[0]);
 
-            fetch('/amf/scheme', {
-                method: 'POST',
-                body: formData
-            }).then(response => response.json())
-              .then(data => {
-                  createCollapsibleJson(data, 'scheme-result');
-              }).catch(error => console.error('Error:', error));
+            $.ajax({
+                url: '/run_scheme',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(data) {
+                    $('#scheme-result').text(JSON.stringify(data, null, 2));
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
         }
 
-        // Run Visualizer Module
         function runVisualizer() {
-            var inputFile = document.getElementById('visualizer-input').files[0];
-            if (!inputFile) {
-                alert('Please select a file');
-                return;
-            }
             var formData = new FormData();
-            formData.append('file', inputFile);
+            formData.append('file', $('#visualizer-input')[0].files[0]);
 
-            fetch('/amf/visualizer', {
-                method: 'POST',
-                body: formData
-            }).then(response => response.json())
-              .then(data => {
-                  createCollapsibleJson(data, 'visualizer-result');
-
-                  // Send JSON to visualizer module to render the SVG
-                  renderSVG(data, 'svg-visualization');
-              }).catch(error => console.error('Error:', error));
-        }
-
-        // Function to Render SVG
-        function renderSVG(jsonData, elementId) {
-            // Assuming the visualizer returns SVG data as a string
-            var svgContent = jsonData.svg;  // Adjust the field name if necessary
-            document.getElementById(elementId).innerHTML = svgContent;
-        }
-
-        // Run Pipeline
-        function runPipeline() {
-            var selectedModule = document.getElementById('module-select').value;
-            var inputFile = document.getElementById('pipeline-input').files[0];
-            if (!inputFile) {
-                alert('Please select a file');
-                return;
-            }
-            var formData = new FormData();
-            formData.append('file', inputFile);
-
-            fetch('/amf/' + selectedModule, {
-                method: 'POST',
-                body: formData
-            }).then(response => response.json())
-              .then(data => {
-                  createCollapsibleJson(data, 'pipeline-result');
-              }).catch(error => console.error('Error:', error));
+            $.ajax({
+                url: '/run_visualizer',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(data) {
+                    $('#visualizer-result').text(JSON.stringify(data, null, 2));
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
         }
     </script>
 </body>
