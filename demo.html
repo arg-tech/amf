@@ -391,7 +391,15 @@
                 contentType: false,
                 processData: false,
                 success: function(response) {
-                    resultDiv.textContent = response;
+                    var jsonString = JSON.stringify(response, null, 2);
+
+                    // Display JSON result
+                    var jsonOutput = document.getElementById('json-output');
+                    jsonOutput.textContent = jsonString;
+                    jsonOutput.style.display = 'block'; // Show JSON by default
+
+                    // Fetch SVG result
+                    fetchSvg(response);
                 },
                 error: function() {
                     resultDiv.textContent = 'Error processing the file.';
