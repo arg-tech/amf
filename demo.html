@@ -316,8 +316,21 @@
                 resultDiv.textContent = 'Please upload a file.';
                 return;
             }
-            // Process file here
-            resultDiv.textContent = 'Processing file...';
+            var formData = new FormData();
+            formData.append("file", fileInput.files[0]);
+            $.ajax({
+                url: 'https://default-turninator.amfws.arg.tech/turninator-01',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    resultDiv.textContent = response;
+                },
+                error: function() {
+                    resultDiv.textContent = 'Error processing the file.';
+                }
+            });
         }
 
         function runSegmenter() {
@@ -327,8 +340,21 @@
                 resultDiv.textContent = 'Please upload a file.';
                 return;
             }
-            // Process file here
-            resultDiv.textContent = 'Processing file...';
+            var formData = new FormData();
+            formData.append("file", fileInput.files[0]);
+            $.ajax({
+                url: 'https://default-segmenter.amfws.arg.tech/segmenter-01',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    resultDiv.textContent = response;
+                },
+                error: function() {
+                    resultDiv.textContent = 'Error processing the file.';
+                }
+            });
         }
 
         function runPropositionalizer() {
@@ -338,8 +364,21 @@
                 resultDiv.textContent = 'Please upload a file.';
                 return;
             }
-            // Process file here
-            resultDiv.textContent = 'Processing file...';
+            var formData = new FormData();
+            formData.append("file", fileInput.files[0]);
+            $.ajax({
+                url: '/amf/api/propositionalizer',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    resultDiv.textContent = response;
+                },
+                error: function() {
+                    resultDiv.textContent = 'Error processing the file.';
+                }
+            });
         }
 
         function runArgumentRelation() {
@@ -349,8 +388,21 @@
                 resultDiv.textContent = 'Please upload a file.';
                 return;
             }
-            // Process file here
-            resultDiv.textContent = 'Processing file...';
+            var formData = new FormData();
+            formData.append("file", fileInput.files[0]);
+            $.ajax({
+                url: '/amf/api/argument-relation',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    resultDiv.textContent = response;
+                },
+                error: function() {
+                    resultDiv.textContent = 'Error processing the file.';
+                }
+            });
         }
 
         function runHypothesis() {
@@ -360,8 +412,21 @@
                 resultDiv.textContent = 'Please upload a file.';
                 return;
             }
-            // Process file here
-            resultDiv.textContent = 'Processing file...';
+            var formData = new FormData();
+            formData.append("file", fileInput.files[0]);
+            $.ajax({
+                url: '/amf/api/hypothesis',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    resultDiv.textContent = response;
+                },
+                error: function() {
+                    resultDiv.textContent = 'Error processing the file.';
+                }
+            });
         }
 
         function runScheme() {
@@ -371,8 +436,21 @@
                 resultDiv.textContent = 'Please upload a file.';
                 return;
             }
-            // Process file here
-            resultDiv.textContent = 'Processing file...';
+            var formData = new FormData();
+            formData.append("file", fileInput.files[0]);
+            $.ajax({
+                url: '/amf/api/scheme',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    resultDiv.textContent = response;
+                },
+                error: function() {
+                    resultDiv.textContent = 'Error processing the file.';
+                }
+            });
         }
 
         function runVisualizer() {
@@ -382,31 +460,54 @@
                 resultDiv.textContent = 'Please upload a file.';
                 return;
             }
-            // Process file here
-            resultDiv.textContent = 'Processing file...';
+            var formData = new FormData();
+            formData.append("file", fileInput.files[0]);
+            $.ajax({
+                url: '/amf/api/visualizer',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    resultDiv.textContent = response;
+                },
+                error: function() {
+                    resultDiv.textContent = 'Error processing the file.';
+                }
+            });
         }
 
         function addToPipeline() {
             var select = document.getElementById('module-select');
             var selectedModule = select.value;
-            var list = document.getElementById('pipeline-list');
-
+            var pipelineList = document.getElementById('pipeline-list');
             var listItem = document.createElement('li');
             listItem.textContent = selectedModule;
-            list.appendChild(listItem);
+            pipelineList.appendChild(listItem);
         }
 
         function runPipeline() {
             var pipelineList = document.getElementById('pipeline-list');
-            var items = pipelineList.getElementsByTagName('li');
-            if (items.length === 0) {
-                alert('Pipeline is empty. Please add modules first.');
+            var modules = [];
+            for (var i = 0; i < pipelineList.children.length; i++) {
+                modules.push(pipelineList.children[i].textContent);
+            }
+            if (modules.length === 0) {
+                alert('Please add at least one module to the pipeline.');
                 return;
             }
-            var resultDiv = document.createElement('div');
-            resultDiv.className = 'result';
-            resultDiv.textContent = 'Running pipeline with modules: ' + Array.from(items).map(item => item.textContent).join(', ');
-            document.querySelector('.pipeline-builder').appendChild(resultDiv);
+            $.ajax({
+                url: '/amf/api/run-pipeline',
+                type: 'POST',
+                data: JSON.stringify({ modules: modules }),
+                contentType: 'application/json',
+                success: function(response) {
+                    alert('Pipeline executed successfully!');
+                },
+                error: function() {
+                    alert('Error executing the pipeline.');
+                }
+            });
         }
     </script>
 </body>
