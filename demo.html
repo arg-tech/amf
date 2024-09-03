@@ -206,7 +206,11 @@
                     <div class="form-container">
                         <input type="file" id="segmenter-input" />
                         <button type="button" onclick="runSegmenter()">Run Segmenter</button>
-                        <div id="segmenter-result" class="result"></div>
+                        <div id="segmenter-result" class="result">
+                          <button type="button" onclick="toggleJson()">Show/Hide JSON Result</button>
+                          <div id="json-output" style="display: none;"></div>
+                      </div>
+                      
                     </div>
                 </div>
                 <div id="Propositionalizer" class="tab-content">
@@ -295,41 +299,18 @@
     </footer>
 
     <script>
-          function createCollapsibleJson(jsonString, depth = 0) {
-              let obj;
-              try {
-                  obj = JSON.parse(jsonString); // Convert string back to object
-              } catch (e) {
-                  return `<div style="color: red;">Error parsing JSON: ${e.message}</div>`;
-              }
-
-              let html = '';
-              for (const key in obj) {
-                  if (typeof obj[key] === 'object' && obj[key] !== null) {
-                      html += `<div style="margin-left:${depth * 20}px;">
-                                  <span onclick="toggleJsonDisplay(this)" style="cursor:pointer;">&#x25B6;</span> ${key}: 
-                                  <div style="display:none;">
-                                      ${createCollapsibleJson(JSON.stringify(obj[key]), depth + 1)}
-                                  </div>
-                              </div>`;
-                  } else {
-                      html += `<div style="margin-left:${depth * 20}px;">${key}: ${obj[key]}</div>`;
-                  }
-              }
-              return html;
-          }
 
 
-    function toggleJsonDisplay(element) {
-      const nextDiv = element.nextElementSibling;
-      if (nextDiv.style.display === 'none') {
-          nextDiv.style.display = 'block';
-          element.innerHTML = '&#x25BC;'; // Down arrow
-      } else {
-          nextDiv.style.display = 'none';
-          element.innerHTML = '&#x25B6;'; // Right arrow
-      }
-  }
+
+        function toggleJson() {
+            var jsonOutput = document.getElementById('json-output');
+            if (jsonOutput.style.display === 'none' || jsonOutput.style.display === '') {
+                jsonOutput.style.display = 'block';  // Expand to show the JSON
+            } else {
+                jsonOutput.style.display = 'none';   // Collapse to hide the JSON
+            }
+        }
+
 
 
         function openTab(evt, tabName) {
@@ -386,11 +367,15 @@
                 contentType: false,
                 processData: false,
                 success: function(response) {
-                    //resultDiv.textContent = response;
-                    //resultDiv.textContent = JSON.stringify(response, null, 2);
-                    const jsonString = JSON.stringify(response, null, 2);
-                    //resultDiv.innerHTML = createCollapsibleJson(response);
-                    resultDiv.innerHTML = createCollapsibleJson(jsonString);
+            // Convert the response object to a formatted JSON string
+            var jsonString = JSON.stringify(response, null, 2);
+
+            // Update the content of the json-output div
+            document.getElementById('json-output').textContent = jsonString;
+
+            // Ensure the Show/Hide button is visible
+            document.querySelector('#segmenter-result button').style.display = 'block';
+
 
 
                 },
