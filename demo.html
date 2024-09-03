@@ -295,6 +295,35 @@
     </footer>
 
     <script>
+        function createCollapsibleJson(obj, depth = 0) {
+        let html = '';
+        for (const key in obj) {
+            if (typeof obj[key] === 'object' && obj[key] !== null) {
+                html += `<div style="margin-left:${depth * 20}px;">
+                            <span onclick="toggleJsonDisplay(this)" style="cursor:pointer;">&#x25B6;</span> ${key}: 
+                            <div style="display:none;">
+                                ${createCollapsibleJson(obj[key], depth + 1)}
+                            </div>
+                        </div>`;
+            } else {
+                html += `<div style="margin-left:${depth * 20}px;">${key}: ${obj[key]}</div>`;
+            }
+        }
+        return html;
+    }
+
+    function toggleJsonDisplay(element) {
+      const nextDiv = element.nextElementSibling;
+      if (nextDiv.style.display === 'none') {
+          nextDiv.style.display = 'block';
+          element.innerHTML = '&#x25BC;'; // Down arrow
+      } else {
+          nextDiv.style.display = 'none';
+          element.innerHTML = '&#x25B6;'; // Right arrow
+      }
+  }
+
+
         function openTab(evt, tabName) {
             var i, tabcontent, tablinks;
             tabcontent = document.getElementsByClassName("tab-content");
@@ -350,7 +379,9 @@
                 processData: false,
                 success: function(response) {
                     //resultDiv.textContent = response;
-                    resultDiv.textContent = JSON.stringify(response, null, 2);
+                    //resultDiv.textContent = JSON.stringify(response, null, 2);
+                    resultDiv.innerHTML = createCollapsibleJson(response);
+
                 },
                 error: function() {
                     resultDiv.textContent = 'Error processing the file.';
