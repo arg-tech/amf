@@ -10,18 +10,18 @@
     <style>
         /* General Styling */
         body {
-            font-family: 'Courier New', Courier, monospace;
+            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            color: #f5f5f5;
-            background-color: #1e1e1e;
+            color: #333;
+            background-color: #20282f;
         }
         header {
-            background-color: #333;
-            color: #f5f5f5;
+            background-color: #007bff;
+            color: white;
             padding: 20px;
             text-align: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         header h1 {
             margin: 0;
@@ -32,20 +32,20 @@
             font-size: 1.2em;
         }
         footer {
-            padding: 20px;
-            text-align: left;
-            margin-left: -50%;
-            width: calc(100% + 20px);
-            background-color: #333;
-            color: #f5f5f5;
-        }
+    padding: 20px;
+    text-align: left;
+    margin-left: -50%; /* Negative margin to move it further left */
+    width: calc(100% + 20px); /* Adjust width to compensate for negative margin */
+}
         footer a {
-            color: #1e90ff;
+            color: #17a2b8;
             text-decoration: none;
         }
         footer a:hover {
             text-decoration: underline;
         }
+
+        
 
         /* Wrapper */
         .wrapper {
@@ -58,11 +58,13 @@
         .main-content {
             flex: 2;
             margin-right: 20px;
+            margin-left: -25%; /* This moves the content 5% to the left */
         }
         .right-sidebar {
             flex: 1;
             padding-left: 20px;
-            border-left: 1px solid #444;
+            border-left: 1px solid #ddd;
+            margin-top: 190px; /* Push the sidebar further down */
         }
         @media (min-width: 768px) {
             .wrapper {
@@ -73,35 +75,35 @@
         /* Tabs Styling */
         .tab {
             overflow: hidden;
-            border-bottom: 1px solid #444;
-            background-color: #333;
+            border-bottom: 1px solid #ddd;
+            background-color: #fff;
             margin-bottom: 20px;
         }
         .tab button {
-            background-color: #222;
+            background-color: #f1f1f1;
+            float: left;
             border: none;
             outline: none;
             cursor: pointer;
             padding: 14px 20px;
             transition: 0.3s;
             font-size: 16px;
-            color: #f5f5f5;
             border-bottom: 3px solid transparent;
         }
         .tab button:hover, .tab button.active {
-            background-color: #444;
-            border-bottom: 3px solid #1e90ff;
+            background-color: #ddd;
+            border-bottom: 3px solid #007bff;
         }
         .tab-content {
-            background-color: #2d2d2d;
+            background-color: #fff;
             padding: 20px;
-            border: 1px solid #444;
+            border: 1px solid #ddd;
             border-radius: 4px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-            display: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: none; /* Hide all content by default */
         }
         .tab-content.active {
-            display: block;
+            display: block; /* Show the active content */
         }
 
         /* Forms */
@@ -111,16 +113,15 @@
         .form-container input[type="file"], .form-container select, .form-container input[type="text"] {
             margin: 10px 0;
             padding: 12px;
-            border: 1px solid #555;
+            border: 1px solid #ccc;
             border-radius: 6px;
             width: 100%;
-            background-color: #2d2d2d;
-            color: #f5f5f5;
+            background-color: #f9f9f9;
         }
         .form-container button {
             padding: 12px;
-            background-color: #1e90ff;
-            color: #f5f5f5;
+            background-color: #007bff; /* Blue color */
+            color: white;
             border: none;
             border-radius: 6px;
             cursor: pointer;
@@ -129,61 +130,63 @@
             transition: background-color 0.3s ease;
         }
         .form-container button:hover {
-            background-color: #1c86ee;
+            background-color: #0056b3; /* Darker blue */
         }
         .result {
             display: flex;
-            background-color: #333;
+            background-color: #e9ecef;
             padding: 15px;
-            border: 1px solid #444;
+            border: 1px solid #ced4da;
             border-radius: 6px;
             white-space: pre-wrap;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-            gap: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            gap: 20px; /* Space between the two divs */
         }
 
-        .output-container {
-            flex: 1;
-            border: 1px solid #555;
-            padding: 10px;
-            overflow: auto;
-        }
 
-        #json-output {
-            white-space: pre-wrap;
-        }
 
-        h3 {
-            margin-top: 0;
-            color: #f5f5f5;
-        }
+    .output-container {
+        flex: 1;
+        border: 1px solid #ccc; /* Border to distinguish between outputs */
+        padding: 10px;
+        overflow: auto; /* Enable scrolling if content overflows */
+    }
+
+    #json-output {
+        white-space: pre-wrap; /* Preserve whitespace for JSON formatting */
+    }
+
+    h3 {
+        margin-top: 0;
+        color: #333;
+    }
 
         /* Pipeline Builder */
         .pipeline-builder {
             margin-top: 20px;
-            background-color: #333;
+            background-color: #fff;
             padding: 20px;
-            border: 1px solid #444;
+            border: 1px solid #ddd;
             border-radius: 6px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         .pipeline-builder select, .pipeline-builder input[type="file"] {
             margin-right: 10px;
         }
         .pipeline-builder button {
             margin-top: 10px;
-            background-color: #1e90ff;
+            background-color: #007bff; /* Blue color */
         }
         .pipeline-builder button:hover {
-            background-color: #1c86ee;
+            background-color: #0056b3; /* Darker blue */
         }
 
         /* Twitter Feed */
         .twitter-feed {
-            border: 1px solid #444;
+            border: 1px solid #ddd;
             border-radius: 6px;
             overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
@@ -224,15 +227,18 @@
                         <input type="file" id="segmenter-input" />
                         <button type="button" onclick="runSegmenter()">Run Segmenter</button>
                         <div id="segmenter-result" class="result">
-                            <div id="json-container" class="output-container" onclick="toggleJson()">
-                                <h3>JSON Output</h3>
-                                <div id="json-output"></div>
-                            </div>
-                            <div id="svg-container" class="output-container">
-                                <h3>SVG Output</h3>
-                                <div id="svg-output"></div>
-                            </div>
-                        </div>
+                          <div id="json-container" class="output-container" onclick="toggleJson()">
+                              <h3>JSON Output</h3>
+                              <div id="json-output"></div>
+                          </div>
+                          <div id="svg-container" class="output-container">
+                              <h3>SVG Output</h3>
+                              <div id="svg-output"></div>
+                          </div>
+                      </div>
+                      
+                      
+                      
                     </div>
                 </div>
                 <div id="Propositionalizer" class="tab-content">
@@ -246,7 +252,7 @@
                 </div>
                 <div id="ArgumentRelation" class="tab-content">
                     <h2>Argument Relation</h2>
-                    <p>The Argument Relation module identifies relationships between arguments. Upload your file to begin.</p>
+                    <p>The Argument Relation module identifies argument relation between argument units. Upload your file to analyze.</p>
                     <div class="form-container">
                         <input type="file" id="argument-relation-input" />
                         <button type="button" onclick="runArgumentRelation()">Run Argument Relation</button>
@@ -255,7 +261,7 @@
                 </div>
                 <div id="Hypothesis" class="tab-content">
                     <h2>Hypothesis</h2>
-                    <p>The Hypothesis module extracts and analyzes hypotheses within the text. Upload your file to start processing.</p>
+                    <p>The Hypothesis module identifies hypotheses within argumentative text. Upload your file to process.</p>
                     <div class="form-container">
                         <input type="file" id="hypothesis-input" />
                         <button type="button" onclick="runHypothesis()">Run Hypothesis</button>
@@ -264,7 +270,7 @@
                 </div>
                 <div id="Scheme" class="tab-content">
                     <h2>Scheme</h2>
-                    <p>The Scheme module identifies argumentative schemes in the text. Upload your file to get started.</p>
+                    <p>The Scheme module extracts argumentative schemes from the text. Upload your file to begin extraction.</p>
                     <div class="form-container">
                         <input type="file" id="scheme-input" />
                         <button type="button" onclick="runScheme()">Run Scheme</button>
@@ -273,7 +279,7 @@
                 </div>
                 <div id="Visualizer" class="tab-content">
                     <h2>Visualizer</h2>
-                    <p>The Visualizer module provides visual representations of argumentative structures. Upload your file to begin.</p>
+                    <p>The Visualizer module provides a visual representation of the argument structure. Upload your file to visualize.</p>
                     <div class="form-container">
                         <input type="file" id="visualizer-input" />
                         <button type="button" onclick="runVisualizer()">Run Visualizer</button>
@@ -283,63 +289,92 @@
             </section>
 
             <!-- Pipeline Builder -->
-            <section class="pipeline-builder">
-                <h2>Pipeline Builder</h2>
-                <select id="pipeline-module">
-                    <option value="Turninator">Turninator</option>
-                    <option value="Segmenter">Segmenter</option>
-                    <option value="Propositionalizer">Propositionalizer</option>
-                    <option value="ArgumentRelation">Argument Relation</option>
-                    <option value="Hypothesis">Hypothesis</option>
-                    <option value="Scheme">Scheme</option>
-                    <option value="Visualizer">Visualizer</option>
-                </select>
-                <input type="file" id="pipeline-input" />
-                <button type="button" onclick="runPipeline()">Run Pipeline</button>
-            </section>
-
-            <!-- Twitter Feed -->
-            <section class="twitter-feed">
-                <h2>Twitter Feed</h2>
-                <a class="twitter-timeline" href="https://twitter.com/your_twitter_handle?ref_src=twsrc%5Etfw">Tweets by your_twitter_handle</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-            </section>
+            <div class="pipeline-builder">
+              <h2>Pipeline Builder</h2>
+              <p>Select modules to add to your pipeline:</p>
+              <form id="pipeline-form">
+                  <select id="module-select">
+                      <option value="Turninator">Turninator</option>
+                      <option value="Segmenter">Segmenter</option>
+                      <option value="Propositionalizer">Propositionalizer</option>
+                      <option value="ArgumentRelation">Argument Relation</option>
+                      <option value="Hypothesis">Hypothesis</option>
+                      <option value="Scheme">Scheme</option>
+                      <option value="Visualizer">Visualizer</option>
+                  </select>
+                  <button type="button" onclick="addToPipeline()">Add to Pipeline</button>
+                  <button type="button" onclick="runPipeline()">Run Pipeline</button>
+              </form>
+              <h3>Current Pipeline:</h3>
+              <ul id="pipeline-list">
+                  <!-- Pipeline modules will be listed here -->
+              </ul>
+          </div>
         </div>
 
         <!-- Right Sidebar -->
         <div class="right-sidebar">
-            <h2>About This Framework</h2>
-            <p>This framework allows you to test various modules and their interactions with argument mining. Use the tabs to explore different functionalities.</p>
+            <div class="twitter-feed">
+                <h2>Latest Updates</h2>
+                <a class="twitter-timeline" data-width="400" data-height="600" data-theme="light" href="https://twitter.com/ARG_tech?ref_src=twsrc%5Etfw">Tweets by ARG_tech</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+            </div>
         </div>
+
     </div>
 
-    <footer>
-        <p>Created by <a href="https://www.yourwebsite.com">Your Company</a> - <a href="https://github.com/yourrepository">GitHub Repository</a></p>
-    </footer>
+
+
+
 
     <script>
+
+
+
+        function fetchSvg(jsonData) {
+            $.ajax({
+                url: 'http://svg.amfws.arg.tech',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(jsonData),
+                success: function(svgResponse) {
+                    var svgOutput = document.getElementById('svg-output');
+                    svgOutput.innerHTML = svgResponse;
+                    svgOutput.style.display = 'block'; // Show SVG by default
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching SVG:', error);
+                }
+            });
+        }
+
+        function toggleJson() {
+            var jsonContainer = document.getElementById('json-container');
+            var svgContainer = document.getElementById('svg-container');
+            
+            // Toggle JSON container visibility
+            if (jsonContainer.style.display === 'none' || jsonContainer.style.display === '') {
+                jsonContainer.style.display = 'block';
+            } else {
+                jsonContainer.style.display = 'none';
+            }
+            
+            // SVG container remains visible or hides based on the same logic if needed
+        }
+
         function openTab(evt, tabName) {
             var i, tabcontent, tablinks;
             tabcontent = document.getElementsByClassName("tab-content");
             for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].style.display = "none";  
+                tabcontent[i].className = tabcontent[i].className.replace(" active", "");
             }
             tablinks = document.getElementsByClassName("tablinks");
             for (i = 0; i < tablinks.length; i++) {
                 tablinks[i].className = tablinks[i].className.replace(" active", "");
             }
-            document.getElementById(tabName).style.display = "block";
+            document.getElementById(tabName).className += " active";
             evt.currentTarget.className += " active";
         }
 
-        // Example function to toggle JSON output visibility
-        function toggleJson() {
-            var jsonOutput = document.getElementById('json-output');
-            if (jsonOutput.style.display === "none") {
-                jsonOutput.style.display = "block";
-            } else {
-                jsonOutput.style.display = "none";
-            }
-        }
         function runTurninator() {
             var fileInput = document.getElementById('turninator-input');
             var resultDiv = document.getElementById('turninator-result');
