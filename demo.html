@@ -400,6 +400,7 @@
                 contentType: false,
                 processData: false,
                 success: function(response) {
+
                     var jsonString = JSON.stringify(response, null, 2);
 
                     // Display JSON result
@@ -409,6 +410,7 @@
 
                     // Fetch SVG result
                     fetchSvg(response);
+
                 },
                 error: function() {
                     resultDiv.textContent = 'Error processing the file.';
