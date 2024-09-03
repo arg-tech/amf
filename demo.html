@@ -349,7 +349,8 @@
                 contentType: false,
                 processData: false,
                 success: function(response) {
-                    resultDiv.textContent = response;
+                    //resultDiv.textContent = response;
+                    resultDiv.textContent = JSON.stringify(response, null, 2);
                 },
                 error: function() {
                     resultDiv.textContent = 'Error processing the file.';
