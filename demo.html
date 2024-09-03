@@ -295,22 +295,30 @@
     </footer>
 
     <script>
-        function createCollapsibleJson(obj, depth = 0) {
-        let html = '';
-        for (const key in obj) {
-            if (typeof obj[key] === 'object' && obj[key] !== null) {
-                html += `<div style="margin-left:${depth * 20}px;">
-                            <span onclick="toggleJsonDisplay(this)" style="cursor:pointer;">&#x25B6;</span> ${key}: 
-                            <div style="display:none;">
-                                ${createCollapsibleJson(obj[key], depth + 1)}
-                            </div>
-                        </div>`;
-            } else {
-                html += `<div style="margin-left:${depth * 20}px;">${key}: ${obj[key]}</div>`;
-            }
-        }
-        return html;
-    }
+          function createCollapsibleJson(jsonString, depth = 0) {
+              let obj;
+              try {
+                  obj = JSON.parse(jsonString); // Convert string back to object
+              } catch (e) {
+                  return `<div style="color: red;">Error parsing JSON: ${e.message}</div>`;
+              }
+
+              let html = '';
+              for (const key in obj) {
+                  if (typeof obj[key] === 'object' && obj[key] !== null) {
+                      html += `<div style="margin-left:${depth * 20}px;">
+                                  <span onclick="toggleJsonDisplay(this)" style="cursor:pointer;">&#x25B6;</span> ${key}: 
+                                  <div style="display:none;">
+                                      ${createCollapsibleJson(JSON.stringify(obj[key]), depth + 1)}
+                                  </div>
+                              </div>`;
+                  } else {
+                      html += `<div style="margin-left:${depth * 20}px;">${key}: ${obj[key]}</div>`;
+                  }
+              }
+              return html;
+          }
+
 
     function toggleJsonDisplay(element) {
       const nextDiv = element.nextElementSibling;
@@ -380,7 +388,10 @@
                 success: function(response) {
                     //resultDiv.textContent = response;
                     //resultDiv.textContent = JSON.stringify(response, null, 2);
-                    resultDiv.innerHTML = createCollapsibleJson(response);
+                    const jsonString = JSON.stringify(response, null, 2);
+                    //resultDiv.innerHTML = createCollapsibleJson(response);
+                    resultDiv.innerHTML = createCollapsibleJson(jsonString);
+
 
                 },
                 error: function() {
