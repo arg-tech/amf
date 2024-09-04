@@ -32,11 +32,11 @@
             font-size: 1.2em;
         }
         footer {
-            padding: 20px;
-            text-align: left;
-            margin-left: -50%; /* Negative margin to move it further left */
-            width: calc(100% + 20px); /* Adjust width to compensate for negative margin */
-        }
+    padding: 20px;
+    text-align: left;
+    margin-left: -50%; /* Negative margin to move it further left */
+    width: calc(100% + 20px); /* Adjust width to compensate for negative margin */
+}
         footer a {
             color: #17a2b8;
             text-decoration: none;
@@ -44,6 +44,8 @@
         footer a:hover {
             text-decoration: underline;
         }
+
+        
 
         /* Wrapper */
         .wrapper {
@@ -141,21 +143,23 @@
             gap: 20px; /* Space between the two divs */
         }
 
-        .output-container {
-            flex: 1;
-            border: 1px solid #ccc; /* Border to distinguish between outputs */
-            padding: 10px;
-            overflow: auto; /* Enable scrolling if content overflows */
-        }
 
-        #json-output {
-            white-space: pre-wrap; /* Preserve whitespace for JSON formatting */
-        }
 
-        h3 {
-            margin-top: 0;
-            color: #333;
-        }
+    .output-container {
+        flex: 1;
+        border: 1px solid #ccc; /* Border to distinguish between outputs */
+        padding: 10px;
+        overflow: auto; /* Enable scrolling if content overflows */
+    }
+
+    #json-output {
+        white-space: pre-wrap; /* Preserve whitespace for JSON formatting */
+    }
+
+    h3 {
+        margin-top: 0;
+        color: #333;
+    }
 
         /* Pipeline Builder */
         .pipeline-builder {
@@ -225,8 +229,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Segmenter Tab -->
                 <div id="Segmenter" class="tab-content">
                     <h2>Segmenter</h2>
                     <p>The Segmenter module divides text into meaningful argumentative units for further analysis. Upload your file to begin.</p>
@@ -234,357 +236,376 @@
                         <input type="file" id="segmenter-input" />
                         <button type="button" onclick="runSegmenter()">Run Segmenter</button>
                         <div id="segmenter-result" class="result">
-                            <div id="json-container" class="output-container" onclick="toggleJson()">
-                                <h3>JSON Output</h3>
-                                <div id="json-output"></div>
-                            </div>
-                            <div id="svg-container" class="output-container">
-                                <h3>SVG Output</h3>
-                                <div id="svg-output"></div>
-                            </div>
-                        </div>
+                          <div id="json-container" class="output-container" onclick="toggleJson()">
+                              <h3>JSON Output</h3>
+                              <div id="json-output"></div>
+                          </div>
+                          <div id="svg-container" class="output-container">
+                              <h3>SVG Output</h3>
+                              <div id="svg-output"></div>
+                          </div>
+                      </div>
+                      
+                      
+                      
                     </div>
                 </div>
-
-                <!-- Propositionalizer Tab -->
                 <div id="Propositionalizer" class="tab-content">
                     <h2>Propositionalizer</h2>
-                    <p>The Propositionalizer module extracts propositions from the argumentative text. Upload your file to start processing.</p>
+                    <p>The Propositionalizer module converts argumentative units into propositions. Upload your file to get started.</p>
                     <div class="form-container">
                         <input type="file" id="propositionalizer-input" />
                         <button type="button" onclick="runPropositionalizer()">Run Propositionalizer</button>
-                        <div id="propositionalizer-result" class="result">
-                            <div id="json-container" class="output-container" onclick="toggleJson()">
-                                <h3>JSON Output</h3>
-                                <div id="json-output"></div>
-                            </div>
-                            <div id="svg-container" class="output-container">
-                                <h3>SVG Output</h3>
-                                <div id="svg-output"></div>
-                            </div>
-                        </div>
+                        <div id="propositionalizer-result" class="result"></div>
                     </div>
                 </div>
-
-                <!-- ArgumentRelation Tab -->
                 <div id="ArgumentRelation" class="tab-content">
                     <h2>Argument Relation</h2>
-                    <p>This module identifies relationships between different arguments. Upload your file to start processing.</p>
+                    <p>The Argument Relation module identifies argument relation between argument units. Upload your file to analyze.</p>
                     <div class="form-container">
                         <input type="file" id="argument-relation-input" />
                         <button type="button" onclick="runArgumentRelation()">Run Argument Relation</button>
-                        <div id="argument-relation-result" class="result">
-                            <div id="json-container" class="output-container" onclick="toggleJson()">
-                                <h3>JSON Output</h3>
-                                <div id="json-output"></div>
-                            </div>
-                            <div id="svg-container" class="output-container">
-                                <h3>SVG Output</h3>
-                                <div id="svg-output"></div>
-                            </div>
-                        </div>
+                        <div id="argument-relation-result" class="result"></div>
                     </div>
                 </div>
-
-                <!-- Hypothesis Tab -->
                 <div id="Hypothesis" class="tab-content">
                     <h2>Hypothesis</h2>
-                    <p>This module evaluates hypothetical scenarios within argumentative text. Upload your file to start processing.</p>
+                    <p>The Hypothesis module identifies hypotheses within argumentative text. Upload your file to process.</p>
                     <div class="form-container">
                         <input type="file" id="hypothesis-input" />
                         <button type="button" onclick="runHypothesis()">Run Hypothesis</button>
-                        <div id="hypothesis-result" class="result">
-                            <div id="json-container" class="output-container" onclick="toggleJson()">
-                                <h3>JSON Output</h3>
-                                <div id="json-output"></div>
-                            </div>
-                            <div id="svg-container" class="output-container">
-                                <h3>SVG Output</h3>
-                                <div id="svg-output"></div>
-                            </div>
-                        </div>
+                        <div id="hypothesis-result" class="result"></div>
                     </div>
                 </div>
-
-                <!-- Scheme Tab -->
                 <div id="Scheme" class="tab-content">
-                    <h2>Schemes</h2>
-                    <p>This module applies argumentation schemes to analyze the text. Upload your file to start processing.</p>
+                    <h2>Scheme</h2>
+                    <p>The Scheme module extracts argumentative schemes from the text. Upload your file to begin extraction.</p>
                     <div class="form-container">
                         <input type="file" id="scheme-input" />
                         <button type="button" onclick="runScheme()">Run Scheme</button>
-                        <div id="scheme-result" class="result">
-                            <div id="json-container" class="output-container" onclick="toggleJson()">
-                                <h3>JSON Output</h3>
-                                <div id="json-output"></div>
-                            </div>
-                            <div id="svg-container" class="output-container">
-                                <h3>SVG Output</h3>
-                                <div id="svg-output"></div>
-                            </div>
-                        </div>
+                        <div id="scheme-result" class="result"></div>
                     </div>
                 </div>
-
-                <!-- Visualizer Tab -->
                 <div id="Visualizer" class="tab-content">
                     <h2>Visualizer</h2>
-                    <p>Visualize the structure of your argumentative text here. Upload your file to generate visualizations.</p>
+                    <p>The Visualizer module provides a visual representation of the argument structure. Upload your file to visualize.</p>
                     <div class="form-container">
                         <input type="file" id="visualizer-input" />
                         <button type="button" onclick="runVisualizer()">Run Visualizer</button>
-                        <div id="visualizer-result" class="result">
-                            <div id="json-container" class="output-container" onclick="toggleJson()">
-                                <h3>JSON Output</h3>
-                                <div id="json-output"></div>
-                            </div>
-                            <div id="svg-container" class="output-container">
-                                <h3>SVG Output</h3>
-                                <div id="svg-output"></div>
-                            </div>
-                        </div>
+                        <div id="visualizer-result" class="result"></div>
                     </div>
                 </div>
             </section>
+
+            <!-- Pipeline Builder -->
+            <div class="pipeline-builder">
+              <h2>Pipeline Builder</h2>
+              <p>Select modules to add to your pipeline:</p>
+              <form id="pipeline-form">
+                  <select id="module-select">
+                      <option value="Turninator">Turninator</option>
+                      <option value="Segmenter">Segmenter</option>
+                      <option value="Propositionalizer">Propositionalizer</option>
+                      <option value="ArgumentRelation">Argument Relation</option>
+                      <option value="Hypothesis">Hypothesis</option>
+                      <option value="Scheme">Scheme</option>
+                      <option value="Visualizer">Visualizer</option>
+                  </select>
+                  <button type="button" onclick="addToPipeline()">Add to Pipeline</button>
+                  <button type="button" onclick="runPipeline()">Run Pipeline</button>
+              </form>
+              <h3>Current Pipeline:</h3>
+              <ul id="pipeline-list">
+                  <!-- Pipeline modules will be listed here -->
+              </ul>
+          </div>
         </div>
 
         <!-- Right Sidebar -->
-        <aside class="right-sidebar">
-            <h2>Pipeline Builder</h2>
-            <div class="pipeline-builder">
-                <form>
-                    <select id="module-select">
-                        <option value="Turninator">Turninator</option>
-                        <option value="Segmenter">Segmenter</option>
-                        <option value="Propositionalizer">Propositionalizer</option>
-                        <option value="ArgumentRelation">Argument Relation</option>
-                        <option value="Hypothesis">Hypothesis</option>
-                        <option value="Scheme">Scheme</option>
-                        <option value="Visualizer">Visualizer</option>
-                    </select>
-                    <input type="file" id="pipeline-input" />
-                    <button type="button" onclick="runPipeline()">Run Pipeline</button>
-                </form>
-            </div>
-
-            <h2>Latest Tweets</h2>
+        <div class="right-sidebar">
             <div class="twitter-feed">
-                <!-- Twitter feed embed code -->
+                <h2>Latest Updates</h2>
+                <a class="twitter-timeline" data-width="400" data-height="900" data-theme="light" href="https://twitter.com/ARG_tech?ref_src=twsrc%5Etfw">Tweets by ARG_tech</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
             </div>
-        </aside>
+        </div>
+
     </div>
 
-    <footer>
-        <p>Powered by <a href="https://www.yourwebsite.com">Your Website</a> - Follow us on <a href="https://twitter.com/yourtwitter">Twitter</a> for updates.</p>
-    </footer>
+
+
+
 
     <script>
+
+
+
+        function fetchSvg(jsonData) {
+            $.ajax({
+                url: 'http://svg.amfws.arg.tech',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(jsonData),
+                success: function(svgResponse) {
+                    var svgOutput = document.getElementById('svg-output');
+                    svgOutput.innerHTML = svgResponse;
+                    svgOutput.style.display = 'block'; // Show SVG by default
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching SVG:', error);
+                }
+            });
+        }
+
+        function toggleJson() {
+            var jsonContainer = document.getElementById('json-container');
+            var svgContainer = document.getElementById('svg-container');
+            
+            // Toggle JSON container visibility
+            if (jsonContainer.style.display === 'none' || jsonContainer.style.display === '') {
+                jsonContainer.style.display = 'block';
+            } else {
+                jsonContainer.style.display = 'none';
+            }
+            
+            // SVG container remains visible or hides based on the same logic if needed
+        }
+
         function openTab(evt, tabName) {
             var i, tabcontent, tablinks;
             tabcontent = document.getElementsByClassName("tab-content");
             for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].style.display = "none";
+                tabcontent[i].className = tabcontent[i].className.replace(" active", "");
             }
             tablinks = document.getElementsByClassName("tablinks");
             for (i = 0; i < tablinks.length; i++) {
                 tablinks[i].className = tablinks[i].className.replace(" active", "");
             }
-            document.getElementById(tabName).style.display = "block";
+            document.getElementById(tabName).className += " active";
             evt.currentTarget.className += " active";
         }
 
-        function toggleJson() {
-            var jsonContainer = document.getElementById("json-container");
-            var svgContainer = document.getElementById("svg-container");
-            if (jsonContainer.style.display === "none" || jsonContainer.style.display === "") {
-                jsonContainer.style.display = "block";
-                svgContainer.style.display = "none";
-            } else {
-                jsonContainer.style.display = "none";
-                svgContainer.style.display = "block";
-            }
-        }
-
         function runTurninator() {
-            var fileInput = document.getElementById("turninator-input");
-            var file = fileInput.files[0];
-            if (!file) {
-                alert("Please select a file first.");
+            var fileInput = document.getElementById('turninator-input');
+            var resultDiv = document.getElementById('turninator-result');
+            if (fileInput.files.length === 0) {
+                resultDiv.textContent = 'Please upload a file.';
                 return;
             }
-            var reader = new FileReader();
-            reader.onload = function(event) {
-                var text = event.target.result;
-                var jsonOutput = document.getElementById("json-output");
-                jsonOutput.textContent = "Turninator is processing: " + file.name;
-                // Process text with Turninator (fake function for demo purposes)
-                var processedText = text.toUpperCase(); // Just an example
-                jsonOutput.textContent = processedText;
-            };
-            reader.readAsText(file);
+            var formData = new FormData();
+            formData.append("file", fileInput.files[0]);
+            $.ajax({
+                url: 'https://default-turninator.amfws.arg.tech/turninator-01',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+
+                    var jsonString = JSON.stringify(response, null, 2);
+
+                    // Display JSON result
+                    var jsonOutput = document.getElementById('json-output');
+                    jsonOutput.textContent = jsonString;
+                    jsonOutput.style.display = 'block'; // Show JSON by default
+
+                    // Fetch SVG result
+                    fetchSvg(response);
+
+                },
+                error: function() {
+                    resultDiv.textContent = 'Error processing the file.';
+                }
+            });
         }
 
         function runSegmenter() {
-            var fileInput = document.getElementById("segmenter-input");
-            var file = fileInput.files[0];
-            if (!file) {
-                alert("Please select a file first.");
+            var fileInput = document.getElementById('segmenter-input');
+            var resultDiv = document.getElementById('segmenter-result');
+            if (fileInput.files.length === 0) {
+                resultDiv.textContent = 'Please upload a file.';
                 return;
             }
-            var reader = new FileReader();
-            reader.onload = function(event) {
-                var text = event.target.result;
-                var jsonOutput = document.getElementById("json-output");
-                jsonOutput.textContent = "Segmenter is processing: " + file.name;
-                // Process text with Segmenter (fake function for demo purposes)
-                var processedText = text.split("\n"); // Just an example
-                jsonOutput.textContent = JSON.stringify(processedText, null, 2);
-            };
-            reader.readAsText(file);
+            var formData = new FormData();
+            formData.append("file", fileInput.files[0]);
+            $.ajax({
+                url: 'https://default-segmenter.amfws.arg.tech/segmenter-01',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+
+                    var jsonString = JSON.stringify(response, null, 2);
+
+                    // Display JSON result
+                    var jsonOutput = document.getElementById('json-output');
+                    jsonOutput.textContent = jsonString;
+                    jsonOutput.style.display = 'block'; // Show JSON by default
+
+                    // Fetch SVG result
+                    fetchSvg(response);
+
+
+                },
+                error: function() {
+                    resultDiv.textContent = 'Error processing the file.';
+                }
+            });
         }
 
         function runPropositionalizer() {
-            var fileInput = document.getElementById("propositionalizer-input");
-            var file = fileInput.files[0];
-            if (!file) {
-                alert("Please select a file first.");
+            var fileInput = document.getElementById('propositionalizer-input');
+            var resultDiv = document.getElementById('propositionalizer-result');
+            if (fileInput.files.length === 0) {
+                resultDiv.textContent = 'Please upload a file.';
                 return;
             }
-            var reader = new FileReader();
-            reader.onload = function(event) {
-                var text = event.target.result;
-                var jsonOutput = document.getElementById("json-output");
-                jsonOutput.textContent = "Propositionalizer is processing: " + file.name;
-                // Process text with Propositionalizer (fake function for demo purposes)
-                var processedText = text.split("."); // Just an example
-                jsonOutput.textContent = JSON.stringify(processedText, null, 2);
-            };
-            reader.readAsText(file);
+            var formData = new FormData();
+            formData.append("file", fileInput.files[0]);
+            $.ajax({
+                url: '/amf/api/propositionalizer',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    resultDiv.textContent = response;
+                },
+                error: function() {
+                    resultDiv.textContent = 'Error processing the file.';
+                }
+            });
         }
 
         function runArgumentRelation() {
-            var fileInput = document.getElementById("argument-relation-input");
-            var file = fileInput.files[0];
-            if (!file) {
-                alert("Please select a file first.");
+            var fileInput = document.getElementById('argument-relation-input');
+            var resultDiv = document.getElementById('argument-relation-result');
+            if (fileInput.files.length === 0) {
+                resultDiv.textContent = 'Please upload a file.';
                 return;
             }
-            var reader = new FileReader();
-            reader.onload = function(event) {
-                var text = event.target.result;
-                var jsonOutput = document.getElementById("json-output");
-                jsonOutput.textContent = "Argument Relation is processing: " + file.name;
-                // Process text with Argument Relation (fake function for demo purposes)
-                var processedText = text.split(" "); // Just an example
-                jsonOutput.textContent = JSON.stringify(processedText, null, 2);
-            };
-            reader.readAsText(file);
+            var formData = new FormData();
+            formData.append("file", fileInput.files[0]);
+            $.ajax({
+                url: '/amf/api/argument-relation',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    resultDiv.textContent = response;
+                },
+                error: function() {
+                    resultDiv.textContent = 'Error processing the file.';
+                }
+            });
         }
 
         function runHypothesis() {
-            var fileInput = document.getElementById("hypothesis-input");
-            var file = fileInput.files[0];
-            if (!file) {
-                alert("Please select a file first.");
+            var fileInput = document.getElementById('hypothesis-input');
+            var resultDiv = document.getElementById('hypothesis-result');
+            if (fileInput.files.length === 0) {
+                resultDiv.textContent = 'Please upload a file.';
                 return;
             }
-            var reader = new FileReader();
-            reader.onload = function(event) {
-                var text = event.target.result;
-                var jsonOutput = document.getElementById("json-output");
-                jsonOutput.textContent = "Hypothesis is processing: " + file.name;
-                // Process text with Hypothesis (fake function for demo purposes)
-                var processedText = text.split("?"); // Just an example
-                jsonOutput.textContent = JSON.stringify(processedText, null, 2);
-            };
-            reader.readAsText(file);
+            var formData = new FormData();
+            formData.append("file", fileInput.files[0]);
+            $.ajax({
+                url: '/amf/api/hypothesis',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    resultDiv.textContent = response;
+                },
+                error: function() {
+                    resultDiv.textContent = 'Error processing the file.';
+                }
+            });
         }
 
         function runScheme() {
-            var fileInput = document.getElementById("scheme-input");
-            var file = fileInput.files[0];
-            if (!file) {
-                alert("Please select a file first.");
+            var fileInput = document.getElementById('scheme-input');
+            var resultDiv = document.getElementById('scheme-result');
+            if (fileInput.files.length === 0) {
+                resultDiv.textContent = 'Please upload a file.';
                 return;
             }
-            var reader = new FileReader();
-            reader.onload = function(event) {
-                var text = event.target.result;
-                var jsonOutput = document.getElementById("json-output");
-                jsonOutput.textContent = "Scheme is processing: " + file.name;
-                // Process text with Scheme (fake function for demo purposes)
-                var processedText = text.split(":"); // Just an example
-                jsonOutput.textContent = JSON.stringify(processedText, null, 2);
-            };
-            reader.readAsText(file);
+            var formData = new FormData();
+            formData.append("file", fileInput.files[0]);
+            $.ajax({
+                url: '/amf/api/scheme',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    resultDiv.textContent = response;
+                },
+                error: function() {
+                    resultDiv.textContent = 'Error processing the file.';
+                }
+            });
         }
 
         function runVisualizer() {
-            var fileInput = document.getElementById("visualizer-input");
-            var file = fileInput.files[0];
-            if (!file) {
-                alert("Please select a file first.");
+            var fileInput = document.getElementById('visualizer-input');
+            var resultDiv = document.getElementById('visualizer-result');
+            if (fileInput.files.length === 0) {
+                resultDiv.textContent = 'Please upload a file.';
                 return;
             }
-            var reader = new FileReader();
-            reader.onload = function(event) {
-                var text = event.target.result;
-                var jsonOutput = document.getElementById("json-output");
-                jsonOutput.textContent = "Visualizer is processing: " + file.name;
-                // Process text with Visualizer (fake function for demo purposes)
-                var processedText = text.split(" "); // Just an example
-                jsonOutput.textContent = JSON.stringify(processedText, null, 2);
-            };
-            reader.readAsText(file);
+            var formData = new FormData();
+            formData.append("file", fileInput.files[0]);
+            $.ajax({
+                url: '/amf/api/visualizer',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    resultDiv.textContent = response;
+                },
+                error: function() {
+                    resultDiv.textContent = 'Error processing the file.';
+                }
+            });
+        }
+
+        function addToPipeline() {
+            var select = document.getElementById('module-select');
+            var selectedModule = select.value;
+            var pipelineList = document.getElementById('pipeline-list');
+            var listItem = document.createElement('li');
+            listItem.textContent = selectedModule;
+            pipelineList.appendChild(listItem);
         }
 
         function runPipeline() {
-            var moduleSelect = document.getElementById("module-select").value;
-            var fileInput = document.getElementById("pipeline-input");
-            var file = fileInput.files[0];
-            if (!file) {
-                alert("Please select a file first.");
+            var pipelineList = document.getElementById('pipeline-list');
+            var modules = [];
+            for (var i = 0; i < pipelineList.children.length; i++) {
+                modules.push(pipelineList.children[i].textContent);
+            }
+            if (modules.length === 0) {
+                alert('Please add at least one module to the pipeline.');
                 return;
             }
-            var reader = new FileReader();
-            reader.onload = function(event) {
-                var text = event.target.result;
-                var jsonOutput = document.getElementById("json-output");
-                jsonOutput.textContent = `${moduleSelect} is processing: ` + file.name;
-                
-                // Depending on the selected module, process the text accordingly
-                var processedText;
-                switch(moduleSelect) {
-                    case 'Turninator':
-                        processedText = text.toUpperCase(); // Example for Turninator
-                        break;
-                    case 'Segmenter':
-                        processedText = text.split("\n"); // Example for Segmenter
-                        break;
-                    case 'Propositionalizer':
-                        processedText = text.split("."); // Example for Propositionalizer
-                        break;
-                    case 'ArgumentRelation':
-                        processedText = text.split(" "); // Example for Argument Relation
-                        break;
-                    case 'Hypothesis':
-                        processedText = text.split("?"); // Example for Hypothesis
-                        break;
-                    case 'Scheme':
-                        processedText = text.split(":"); // Example for Scheme
-                        break;
-                    case 'Visualizer':
-                        processedText = text.split(" "); // Example for Visualizer
-                        break;
-                    default:
-                        processedText = "Invalid module selected";
+            console.log('Modules to be sent:', modules);
+            $.ajax({
+                url: '/amf/api/run-pipeline',
+                type: 'POST',
+                data: JSON.stringify({ modules: modules }),
+                contentType: 'application/json',
+                success: function(response) {
+                    alert('Pipeline executed successfully!');
+                },
+                error: function() {
+                    alert('Error executing the pipeline.');
                 }
-                
-                jsonOutput.textContent = JSON.stringify(processedText, null, 2);
-            };
-            reader.readAsText(file);
+            });
         }
     </script>
 </body>
 </html>
-
