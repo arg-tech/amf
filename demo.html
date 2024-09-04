@@ -212,44 +212,33 @@
 
                 <!-- Tab Content -->
                 <div id="Turninator" class="tab-content active">
-                    <h2>Turninator</h2>
-                    <p>The Turninator module analyzes text to identify argumentative turns. Upload your file to start processing.</p>
-                    <div class="form-container">
-                        <input type="file" id="turninator-input" />
-                        <button type="button" onclick="runTurninator()">Run Turninator</button>
-                        <div id="turninator-result" class="result">
-                            <div id="json-container" class="output-container" onclick="toggleJson()">
-                                <h3>JSON Output</h3>
-                                <div id="json-output"></div>
-                            </div>
-                            <div id="svg-container" class="output-container">
-                                <h3>SVG Output</h3>
-                                <div id="svg-output"></div>
-                            </div>
+                    <!-- Other content -->
+                    <div id="turninator-result" class="result">
+                        <div id="json-container-turninator" class="output-container" onclick="toggleJson('turninator')">
+                            <h3>JSON Output</h3>
+                            <div id="json-output-turninator"></div>
+                        </div>
+                        <div id="svg-container-turninator" class="output-container">
+                            <h3>SVG Output</h3>
+                            <div id="svg-output-turninator"></div>
                         </div>
                     </div>
                 </div>
+                
                 <div id="Segmenter" class="tab-content">
-                    <h2>Segmenter</h2>
-                    <p>The Segmenter module divides text into meaningful argumentative units for further analysis. Upload your file to begin.</p>
-                    <div class="form-container">
-                        <input type="file" id="segmenter-input" />
-                        <button type="button" onclick="runSegmenter()">Run Segmenter</button>
-                        <div id="segmenter-result" class="result">
-                          <div id="json-container" class="output-container" onclick="toggleJson()">
-                              <h3>JSON Output</h3>
-                              <div id="json-output"></div>
-                          </div>
-                          <div id="svg-container" class="output-container">
-                              <h3>SVG Output</h3>
-                              <div id="svg-output"></div>
-                          </div>
-                      </div>
-                      
-                      
-                      
+                    <!-- Other content -->
+                    <div id="segmenter-result" class="result">
+                        <div id="json-container-segmenter" class="output-container" onclick="toggleJson('segmenter')">
+                            <h3>JSON Output</h3>
+                            <div id="json-output-segmenter"></div>
+                        </div>
+                        <div id="svg-container-segmenter" class="output-container">
+                            <h3>SVG Output</h3>
+                            <div id="svg-output-segmenter"></div>
+                        </div>
                     </div>
                 </div>
+                
                 <div id="Propositionalizer" class="tab-content">
                     <h2>Propositionalizer</h2>
                     <p>The Propositionalizer module converts argumentative units into propositions. Upload your file to get started.</p>
@@ -346,7 +335,7 @@
                 contentType: 'application/json',
                 data: JSON.stringify(jsonData),
                 success: function(svgResponse) {
-                    var svgOutput = document.getElementById('svg-output');
+                    var svgOutput = document.getElementById('svg-output-' + module);
                     svgOutput.innerHTML = svgResponse;
                     svgOutput.style.display = 'block'; // Show SVG by default
                 },
@@ -356,9 +345,9 @@
             });
         }
 
-        function toggleJson() {
-            var jsonContainer = document.getElementById('json-container');
-            var svgContainer = document.getElementById('svg-container');
+        function toggleJson(module) {
+            var jsonContainer = document.getElementById('json-container-' + module);
+            var svgContainer = document.getElementById('svg-container-' + module);
             
             // Toggle JSON container visibility
             if (jsonContainer.style.display === 'none' || jsonContainer.style.display === '') {
@@ -366,9 +355,7 @@
             } else {
                 jsonContainer.style.display = 'none';
             }
-            
-            // SVG container remains visible or hides based on the same logic if needed
-        }
+            }
 
         function openTab(evt, tabName) {
             var i, tabcontent, tablinks;
@@ -404,12 +391,10 @@
                     var jsonString = JSON.stringify(response, null, 2);
 
                     // Display JSON result
-                    var jsonOutput = document.getElementById('json-output');
+                    var jsonOutput = document.getElementById('json-output-turninator');
                     jsonOutput.textContent = jsonString;
-                    jsonOutput.style.display = 'block'; // Show JSON by default
+                    fetchSvg(response, 'turninator');
 
-                    // Fetch SVG result
-                    fetchSvg(response);
 
                 },
                 error: function() {
@@ -434,15 +419,14 @@
                 contentType: false,
                 processData: false,
                 success: function(response) {
-                  var jsonString = JSON.stringify(response, null, 2);
 
-                  // Display JSON result
-                  var jsonOutput = document.getElementById('json-output');
-                  jsonOutput.textContent = jsonString;
-                  jsonOutput.style.display = 'block'; // Show JSON by default
+                    var jsonString = JSON.stringify(response, null, 2);
 
-                  // Fetch SVG result
-                  fetchSvg(response);
+                    // Display JSON result
+                    var jsonOutput = document.getElementById('json-output-segmenter');
+                    jsonOutput.textContent = jsonString;
+                    fetchSvg(response, 'segmenter');
+
 
 
                 },
