@@ -1,0 +1,24 @@
+# General module information
+Name: "sequence_classifier"                       # Name of the module
+Date: "2024-10-01"                # Creation or last update date
+Originator: "Debela"              # Creator or author of the module
+License: "MIT"                    # License type for this module
+
+# Task type and categorization
+AMF_Tag: relation_prediction       # This acts as the task type for the module
+
+# Additional metadata
+Domain: "Dialog"                  # Domain this module operates in
+Training Data: "Annotated corpus X" # Reference to the training data used
+Citation: "Gemechu, D. (2024). Relation Prediction with ABC"  # Reference or citation for this module
+
+# Variants of the module
+Variants:                         # List of variants available for this task
+  - name: dialogpt                # Example variant (e.g., a lightweight version)
+    version: vanilla
+  - name: roberta                 # Another variant (e.g., a larger model)
+    version: vanilla
+
+# Input and output definitions
+Requires: text                    # Input required by this module
+Outputs: segments                 # Output produced by this module

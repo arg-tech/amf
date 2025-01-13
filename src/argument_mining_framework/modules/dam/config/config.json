@@ -1,0 +1,10 @@
+{
+    "sentence_transformers_model": "sentence-transformers/all-roberta-large-v1",
+    "sentence_bert_tokenizer": "deepset/sentence_bert",
+    "sentence_bert_model": "deepset/sentence_bert",
+    "bert_tokenizer": "bert-base-cased",
+    "model_directory": "debela-arg/concept-extraction-bert",
+    "bart_tokenizer": "facebook/bart-large-mnli",
+    "bart_model": "facebook/bart-large-mnli"
+  }
+  
