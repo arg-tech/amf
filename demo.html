@@ -623,7 +623,7 @@
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer your-api-key' // If your webhook requires authentication
+                'Authorization': 'Basic ' + btoa('arg_tech:qQR4FPHVpa9Ta4f@ujZKsu') // Basic Authentication header
             },
             body: JSON.stringify({
                 // You can include any data you need to pass to the workflow
