@@ -611,28 +611,49 @@
 
 <!-- Embed the n8n page in an iframe -->
 <h2>n8n Workflow</h2>
-<iframe src="https://n8n-new.arg.tech/workflow/23" title="n8n Workflow" width="800" height="600"></iframe>
+<iframe id="n8nIframe" title="n8n Workflow" width="800" height="600"></iframe>
 
-<!-- Button to trigger webhook (you can customize the action) -->
+<!-- Button to trigger webhook -->
 <button id="triggerWebhookButton">Trigger n8n Workflow</button>
 
 <script>
-    // Basic Authentication for n8n instance
+    // n8n credentials
     const username = 'arg_tech';
     const password = 'qQR4FPHVpa9Ta4f@ujZKsu';
-    const authHeader = 'Basic ' + btoa(username + ':' + password);
 
-    // JavaScript to trigger the webhook when the button is clicked
-    document.getElementById('triggerWebhookButton').addEventListener('click', function() {
+    // Authenticate and load the n8n page in iframe
+    const n8nIframe = document.getElementById('n8nIframe');
+    fetch('https://n8n-new.arg.tech', {
+        method: 'GET',
+        headers: {
+            'Authorization': 'Basic ' + btoa(username + ':' + password)
+        },
+        credentials: 'include' // Ensures cookies are sent along if n8n requires them
+    })
+    .then(response => {
+        if (response.ok) {
+            // If the authentication succeeds, load the iframe with the workflow
+            n8nIframe.src = 'https://n8n-new.arg.tech/workflow/23';
+        } else {
+            console.error('Failed to authenticate with n8n.');
+            alert('Authentication failed. Please check your username and password.');
+        }
+    })
+    .catch(error => {
+        console.error('Error during authentication:', error);
+        alert('An error occurred while trying to authenticate with n8n.');
+    });
+
+    // Trigger webhook when button is clicked
+    document.getElementById('triggerWebhookButton').addEventListener('click', function () {
         fetch('https://n8n-new.arg.tech:5678/webhook/47c193b6-988b-45af-b777-bff42ca01f3b', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': authHeader // Basic Authentication header
+                'Authorization': 'Basic ' + btoa(username + ':' + password) // Auth for the webhook if needed
             },
             body: JSON.stringify({
-                // You can include any data you need to pass to the workflow
-                "key": "value"
+                key: 'value' // Add your data here
             })
         })
         .then(response => response.json())
@@ -644,6 +665,7 @@
         });
     });
 </script>
+
 
 
 
