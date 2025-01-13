@@ -609,36 +609,37 @@
     </script>
 
 
-    <!-- Embed the n8n page in an iframe -->
-    <h2>n8n Workflow</h2>
-    <iframe src="https://n8n-new.arg.tech/workflow/23?username=arg_tech&password=qQR4FPHVpa9Ta4f@ujZKsu" title="n8n Workflow"></iframe>
+<!-- Embed the n8n page in an iframe -->
+<h2>n8n Workflow</h2>
+<iframe src="https://n8n-new.arg.tech/workflow/23" title="n8n Workflow" width="800" height="600"></iframe>
 
-    <!-- Button to trigger webhook (you can customize the action) -->
-    <button id="triggerWebhookButton">Trigger n8n Workflow</button>
+<!-- Button to trigger webhook (you can customize the action) -->
+<button id="triggerWebhookButton">Trigger n8n Workflow</button>
 
-    <script>
-        // JavaScript to trigger the webhook when the button is clicked
-        document.getElementById('triggerWebhookButton').addEventListener('click', function() {
-            fetch('<iframe src="https://n8n-new.arg.tech/workflow/23?username=arg_tech&password=qQR4FPHVpa9Ta4f@ujZKsu" title="n8n Workflow"></iframe>
-', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    // You can include any data you need to pass to the workflow
-                    "key": "value"
-                })
+<script>
+    // JavaScript to trigger the webhook when the button is clicked
+    document.getElementById('triggerWebhookButton').addEventListener('click', function() {
+        fetch('https://n8n-new.arg.tech:5678/webhook/47c193b6-988b-45af-b777-bff42ca01f3b', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer your-api-key' // If your webhook requires authentication
+            },
+            body: JSON.stringify({
+                // You can include any data you need to pass to the workflow
+                "key": "value"
             })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Webhook triggered:', data);
-            })
-            .catch(error => {
-                console.error('Error triggering webhook:', error);
-            });
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Webhook triggered:', data);
+        })
+        .catch(error => {
+            console.error('Error triggering webhook:', error);
         });
-    </script>
+    });
+</script>
+
 
 </body>
 </html>
