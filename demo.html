@@ -609,37 +609,14 @@
     </script>
 
 
+<!-- Embed the n8n workflow page directly with credentials in the URL -->
 <h2>n8n Workflow</h2>
-<iframe
-    id="n8nIframe"
-    src="https://n8n-new.arg.tech/workflow/23"
-    title="n8n Workflow"
-    width="800"
-    height="600"
-    sandbox="allow-scripts allow-same-origin"
-></iframe>
-
-<script>
-    const username = "arg_tech";
-    const password = "qQR4FPHVpa9Ta4f@ujZKsu";
-    const authHeader = "Basic " + btoa(username + ":" + password);
-
-    fetch("https://n8n-new.arg.tech/", {
-        method: "GET",
-        headers: {
-            "Authorization": authHeader,
-        },
-        credentials: "include", // Include cookies if n8n requires it
-    })
-    .then(response => {
-        if (response.ok) {
-            console.log("Authenticated successfully!");
-        } else {
-            console.error("Failed to authenticate:", response.statusText);
-        }
-    })
-    .catch(error => console.error("Error:", error));
-</script>
+<iframe 
+    src="https://arg_tech:qQR4FPHVpa9Ta4f@ujZKsu@n8n-new.arg.tech/workflow/23" 
+    title="n8n Workflow" 
+    width="800" 
+    height="600">
+</iframe>
 
 
 
