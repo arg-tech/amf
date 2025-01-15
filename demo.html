@@ -450,10 +450,12 @@
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + apiKey,
+          'X-N8N-API-KEY': apiKey,
         },
         body: JSON.stringify({ input: userInput }),
       })
+
+
         .then(response => {
           if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
