@@ -5,16 +5,50 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Workflow Selection</title>
   <style>
+    /* Original styling */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f4f4f9;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
     #workflow1, #workflow2 {
-      display: none; /* Initially hide both workflows */
+      display: none; /* Hide workflows initially */
+      margin-top: 20px;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    label {
+      margin-right: 10px;
+    }
+    #inputBoxContainer {
+      text-align: center;
+      margin-top: 30px;
+    }
+    #webhookResponse {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #e0e0e0;
+      border-radius: 8px;
+    }
+    #responseData {
+      font-family: monospace;
+      white-space: pre-wrap;
     }
   </style>
 </head>
 <body>
+
   <h1>Select and Execute Workflow</h1>
 
-  <!-- Workflow Selection with checkboxes -->
-  <div>
+  <!-- Workflow Selection -->
+  <div style="text-align: center;">
     <label>
       <input type="checkbox" id="workflow1Checkbox"> Workflow 1
     </label>
@@ -23,56 +57,69 @@
     </label>
   </div>
 
-  <!-- Workflow Displays -->
-  <div id="workflow1" class="workflow-container">
+  <!-- Workflow 1 -->
+  <div id="workflow1">
     <h2>Workflow 1</h2>
     <n8n-demo id="workflow1Visualization" workflow='{"name": "My workflow","nodes":[{"parameters":{"functionCode":"return items;"},"name":"Text to JSON6","type":"n8n-nodes-base.function","typeVersion":1,"position":[900,460],"id":"ab512690-f0aa-462a-bebb-c3e30d4678a4"},{"parameters":{"requestMethod":"POST","url":"http://default-turninator.amfws.arg.tech/turninator-01","responseFormat":"file","jsonParameters":true,"options":{"bodyContentType":"multipart-form-data"},"sendBinaryData":true},"name":"Turninator7","type":"n8n-nodes-base.httpRequest","typeVersion":1,"position":[1320,460],"id":"39a4a837-6a70-461f-9b41-0470a74e7ebe"}]}'>
     </n8n-demo>
   </div>
 
-  <div id="workflow2" class="workflow-container">
+  <!-- Workflow 2 -->
+  <div id="workflow2">
     <h2>Workflow 2</h2>
     <n8n-demo id="workflow2Visualization" workflow='{"name": "Workflow 2"}'>
     </n8n-demo>
   </div>
 
-  <button id="triggerWebhookButton">Trigger Selected Workflow</button>
+  <!-- Input Box for User Data -->
+  <div id="inputBoxContainer">
+    <label for="userInput">Enter Text:</label>
+    <input type="text" id="userInput" placeholder="Type your input here" />
+  </div>
 
+  <!-- Button to Trigger Workflow -->
+  <div style="text-align: center; margin-top: 20px;">
+    <button id="triggerWebhookButton">Trigger Selected Workflow</button>
+  </div>
+
+  <!-- Webhook Response Display -->
   <div id="webhookResponse">
     <h3>Webhook Response</h3>
     <pre id="responseData"></pre>
   </div>
 
   <script>
-    // Your API keys and webhook URLs
+    // API keys and webhook URLs
     const apiKey1 = 'n8n_api_fe47230be81cde1fdaa8893f498bddaa96b1a2752ef5278e6bcac0c82cda8ec42c7ecc3e21577dcc';
     const apiKey2 = 'PLACEHOLDER_API_KEY_2';
     const webhookUrl1 = 'http://localhost:5678/webhook/47c193b6-988b-45af-b777-bff42ca01f3b';
     const webhookUrl2 = 'http://localhost:5678/webhook/PLACEHOLDER_URL_2';
 
-    // Function to update the visibility of workflows based on checkbox selection
+    // Function to toggle workflow visibility based on selected checkboxes
     function toggleWorkflows() {
       const isWorkflow1Selected = document.getElementById('workflow1Checkbox').checked;
       const isWorkflow2Selected = document.getElementById('workflow2Checkbox').checked;
 
-      // Toggle display of workflow containers based on checkbox state
       document.getElementById('workflow1').style.display = isWorkflow1Selected ? 'block' : 'none';
       document.getElementById('workflow2').style.display = isWorkflow2Selected ? 'block' : 'none';
     }
 
-    // Function to trigger the selected workflow when the button is clicked
+    // Trigger webhook when button is clicked
     document.getElementById('triggerWebhookButton').addEventListener('click', () => {
-      // Get selected workflows
+      const userInput = document.getElementById('userInput').value.trim();
+      if (!userInput) {
+        alert('Please enter valid input.');
+        return;
+      }
+
       const isWorkflow1Selected = document.getElementById('workflow1Checkbox').checked;
       const isWorkflow2Selected = document.getElementById('workflow2Checkbox').checked;
 
-      // If neither workflow is selected, alert the user
       if (!isWorkflow1Selected && !isWorkflow2Selected) {
         alert('Please select a workflow to execute.');
         return;
       }
 
-      // Prepare data and URL for the selected workflow
       let selectedWebhookUrl, selectedApiKey;
       if (isWorkflow1Selected) {
         selectedWebhookUrl = webhookUrl1;
@@ -82,16 +129,7 @@
         selectedApiKey = apiKey2;
       }
 
-      // Get user input (if needed for the webhook)
-      const userInput = prompt('Enter input for the workflow:', '');
-
-      // Validate user input
-      if (!userInput) {
-        alert('Please enter valid input.');
-        return;
-      }
-
-      // Make the POST request to the selected webhook
+      // Send request to selected webhook URL
       fetch(selectedWebhookUrl, {
         method: 'POST',
         headers: {
@@ -101,28 +139,22 @@
         body: JSON.stringify({ text: userInput }),
       })
         .then((response) => {
-          if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-          }
+          if (!response.ok) throw new Error('Failed to fetch data from webhook.');
           return response.json();
         })
         .then((data) => {
-          console.log('Webhook Response:', data);
-
-          // Display the raw JSON response
-          const responseElement = document.getElementById('responseData');
-          responseElement.textContent = JSON.stringify(data, null, 2);
+          document.getElementById('responseData').textContent = JSON.stringify(data, null, 2);
         })
         .catch((error) => {
           console.error('Error during fetch operation:', error);
         });
     });
 
-    // Add event listeners to checkboxes to toggle workflows
+    // Listen for checkbox changes to update workflow visibility
     document.getElementById('workflow1Checkbox').addEventListener('change', toggleWorkflows);
     document.getElementById('workflow2Checkbox').addEventListener('change', toggleWorkflows);
 
-    // Initialize the page with workflows properly toggled
+    // Initial call to toggle workflows based on selected checkboxes
     toggleWorkflows();
   </script>
 </body>
