@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>n8n Workflow Selector</title>
+    <title>Workflow Executor</title>
     <script type="module" src="https://cdn.jsdelivr.net/npm/@n8n_io/n8n-demo-component/n8n-demo.bundled.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@webcomponents/webcomponentsjs@2.0.0/webcomponents-loader.js"></script>
     <script src="https://www.unpkg.com/lit@2.0.0-rc.2/polyfill-support.js"></script>
@@ -43,15 +43,6 @@
         color: #555;
       }
 
-      select {
-        padding: 10px;
-        width: 100%;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        font-size: 1rem;
-        margin-bottom: 20px;
-      }
-
       #inputData {
         padding: 12px;
         width: 100%;
@@ -62,7 +53,7 @@
       }
 
       button {
-        background-color: #007bff;
+        background-color: #28a745;
         color: white;
         border: none;
         padding: 12px 20px;
@@ -75,7 +66,7 @@
       }
 
       button:hover {
-        background-color: #0056b3;
+        background-color: #218838;
       }
 
       #webhookResponse {
@@ -88,6 +79,10 @@
         text-align: left;
         font-family: 'Courier New', Courier, monospace;
         color: #444;
+      }
+
+      .error {
+        color: red;
       }
 
       .workflow-preview {
@@ -108,29 +103,26 @@
         border-radius: 8px;
         overflow: hidden;
       }
-
-      .error {
-        color: red;
-      }
+  
+      n8n-demo {
+	--n8n-frame-background-color: black;
+	--n8n-json-background-color: lightgray;
+	--n8n-copy-button-background-color: gray;
+	--n8n-workflow-min-height: 100px;
+	--n8n-iframe-border-radius: 30px
+}
     </style>
   </head>
   <body>
     <div class="container">
-      <h1>n8n Workflow Selector</h1>
-
-      <!-- Dropdown for workflow selection -->
-      <label for="workflowSelector">Select Workflow:</label>
-      <select id="workflowSelector">
-        <option value="workflow1" data-webhook="http://localhost:5678/webhook/workflow1" data-visualization='{"name": "Workflow 1"}'>Workflow 1</option>
-        <option value="workflow2" data-webhook="http://localhost:5678/webhook/workflow2" data-visualization='{"name": "Workflow 2"}'>Workflow 2</option>
-      </select>
+      <h1>n8n Workflow Executor</h1>
 
       <!-- Input field for user input -->
       <label for="inputData">Input Argument:</label>
       <input type="text" id="inputData" name="text" placeholder="Enter your data here..." />
 
       <!-- Button to trigger webhook -->
-      <button id="triggerWebhookButton">Run Selected Workflow</button>
+      <button id="triggerWebhookButton">Run Workflow</button>
 
       <!-- Section to display the raw webhook response -->
       <div id="webhookResponse">
@@ -140,9 +132,7 @@
       <!-- Section to display the n8n Workflow using the custom web component -->
       <div class="workflow-preview">
         <h3>Workflow Visualization</h3>
-        <n8n-demo id="workflowVisualization" workflow='
-
-        {
+        <n8n-demo workflow='{
           "name": "My workflow",
           "nodes": [
             {
@@ -421,40 +411,27 @@
           },
           "id": "bOxzyp5Y8Jkyf9HV",
           "tags": []
-        }
-        
-        '></n8n-demo>
+        }' frame="true"></n8n-demo>
       </div>
     </div>
 
     <script>
+      // Your API key for authentication (replace with actual key)
       const apiKey = 'n8n_api_fe47230be81cde1fdaa8893f498bddaa96b1a2752ef5278e6bcac0c82cda8ec42c7ecc3e21577dcc';
 
-      const workflowSelector = document.getElementById('workflowSelector');
-      const workflowVisualization = document.getElementById('workflowVisualization');
-      const webhookResponse = document.getElementById('webhookResponse');
-      const inputData = document.getElementById('inputData');
-      const triggerButton = document.getElementById('triggerWebhookButton');
+      // Function to handle the button click and trigger the webhook
+      document.getElementById('triggerWebhookButton').addEventListener('click', () => {
+        // Get user input
+        const userInput = document.getElementById('inputData').value.trim();
 
-      // Update the workflow visualization when the user selects a workflow
-      workflowSelector.addEventListener('change', () => {
-        const selectedOption = workflowSelector.options[workflowSelector.selectedIndex];
-        const visualizationData = selectedOption.getAttribute('data-visualization');
-        workflowVisualization.workflow = JSON.parse(visualizationData);
-      });
-
-      // Handle webhook triggering
-      triggerButton.addEventListener('click', () => {
-        const selectedOption = workflowSelector.options[workflowSelector.selectedIndex];
-        const webhookUrl = selectedOption.getAttribute('data-webhook');
-        const userInput = inputData.value.trim();
-
+        // Validate input
         if (!userInput) {
           alert('Please enter valid input.');
           return;
         }
 
-        fetch(webhookUrl, {
+        // Make the POST request to the webhook
+        fetch('http://localhost:5678/webhook/47c193b6-988b-45af-b777-bff42ca01f3b', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -469,10 +446,18 @@
             return response.json();
           })
           .then((data) => {
-            webhookResponse.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+            console.log('Webhook Response:', data);
+
+            // Display the raw JSON response
+            const responseDiv = document.getElementById('webhookResponse');
+            responseDiv.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
           })
           .catch((error) => {
-            webhookResponse.innerHTML = `<span class="error">Error: ${error.message}</span>`;
+            console.error('Error triggering webhook:', error);
+
+            // Display the error message in the raw response div
+            const responseDiv = document.getElementById('webhookResponse');
+            responseDiv.innerHTML = `<span class="error">Error: ${error.message}</span>`;
           });
       });
     </script>
