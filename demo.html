@@ -446,13 +446,14 @@
       const selectedWorkflow = document.getElementById('workflow1Checkbox').checked ? webhookUrl1 : webhookUrl2;
       const apiKey = selectedWorkflow === webhookUrl1 ? apiKey1 : apiKey2;
 
+
       fetch(selectedWorkflow, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'X-N8N-API-KEY': apiKey,
         },
-        body: JSON.stringify({ input: userInput }),
+        body: JSON.stringify({ text: userInput }),
       })
 
 
