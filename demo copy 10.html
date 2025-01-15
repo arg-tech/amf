@@ -7,113 +7,67 @@
     <title>n8n Webhook Trigger</title>
     <script type="module" src="https://cdn.jsdelivr.net/npm/@n8n_io/n8n-demo-component/n8n-demo.bundled.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@webcomponents/webcomponentsjs@2.0.0/webcomponents-loader.js"></script>
-    <script src="https://www.unpkg.com/lit@2.0.0-rc.2/polyfill-support.js"></script>
+<script src="https://www.unpkg.com/lit@2.0.0-rc.2/polyfill-support.js"></script>
+<script type="module" src="https://cdn.jsdelivr.net/npm/@n8n_io/n8n-demo-component/n8n-demo.bundled.js"></script>
     <style>
       body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background-color: #f4f4f9;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        min-height: 100vh;
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        line-height: 1.6;
       }
-
-      .container {
-        background: #fff;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        max-width: 700px;
-        width: 100%;
-        text-align: center;
-      }
-
-      h2 {
+      h2, h3 {
         color: #333;
-        margin-bottom: 10px;
       }
-
-      h3 {
-        color: #555;
-        margin-top: 20px;
-        text-align: left;
-      }
-
       label {
-        font-size: 1rem;
-        display: block;
-        margin: 15px 0 5px;
-        color: #444;
+        font-weight: bold;
       }
-
       #inputData {
-        padding: 10px;
-        width: 100%;
-        border: 1px solid #ddd;
-        border-radius: 6px;
-        font-size: 1rem;
+        margin: 10px 0;
+        padding: 8px;
+        width: 300px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
       }
-
       button {
-        margin-top: 15px;
         background-color: #007bff;
         color: white;
         border: none;
-        padding: 12px 20px;
-        font-size: 1rem;
+        padding: 10px 15px;
         cursor: pointer;
-        border-radius: 6px;
-        transition: background-color 0.3s ease;
+        border-radius: 4px;
       }
-
       button:hover {
         background-color: #0056b3;
       }
-
       #webhookResponse {
         margin-top: 20px;
-        padding: 15px;
         border: 1px solid #ddd;
-        border-radius: 6px;
+        padding: 10px;
+        width: 100%;
+        max-width: 600px;
         background-color: #f9f9f9;
-        white-space: pre-wrap;
-        text-align: left;
-        font-family: 'Courier New', Courier, monospace;
-        color: #444;
+        border-radius: 4px;
+        white-space: pre-wrap; /* Preserve formatting for JSON */
+        font-family: monospace;
       }
-
       .error {
         color: red;
-      }
-
-      .workflow-preview {
-        margin-top: 20px;
       }
     </style>
   </head>
   <body>
-    <div class="container">
-      <h2>Trigger n8n Workflow</h2>
+    <h2>Trigger n8n Workflow</h2>
 
-      <!-- Input field for user input -->
-      <label for="inputData">Enter some data:</label>
-      <input type="text" id="inputData" name="text" placeholder="Type something..." />
+    <!-- Input field for user input -->
+    <label for="inputData">Enter some data:</label>
+    <input type="text" id="inputData" name="text" placeholder="Type something..." />
 
-      <!-- Button to trigger webhook -->
-      <button id="triggerWebhookButton">Trigger n8n Workflow</button>
+    <!-- Button to trigger webhook -->
+    <button id="triggerWebhookButton">Trigger n8n Workflow</button>
 
-      <!-- Section to display the raw webhook response -->
-      <h3>Webhook Response:</h3>
-      <div id="webhookResponse">
-        <em>No response yet</em>
-      </div>
 
-      <!-- Section to display the n8n Workflow using the custom web component -->
-      <div class="workflow-preview">
-        <h3>n8n Workflow Preview:</h3>
+
+    
     <!-- Section to display the n8n Workflow using the custom web component -->
     <h3>n8n Workflow Preview:</h3>
 
@@ -397,8 +351,13 @@
       "id": "bOxzyp5Y8Jkyf9HV",
       "tags": []
     }'></n8n-demo>
-      </div>
-    </div>
+
+
+        <!-- Section to display the raw webhook response -->
+        <h3>Webhook Response:</h3>
+        <div id="webhookResponse">
+          <em>No response yet</em>
+        </div>
 
     <script>
       // Your API key for authentication (replace with actual key)
