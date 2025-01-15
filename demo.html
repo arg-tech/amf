@@ -65,11 +65,7 @@
     <!-- Button to trigger webhook -->
     <button id="triggerWebhookButton">Trigger n8n Workflow</button>
 
-    <!-- Section to display the raw webhook response -->
-    <h3>Webhook Response:</h3>
-    <div id="webhookResponse">
-      <em>No response yet</em>
-    </div>
+
 
     
     <!-- Section to display the n8n Workflow using the custom web component -->
@@ -356,12 +352,12 @@
       "tags": []
     }'></n8n-demo>
 
-    <n8n-demo-component
-      workflow-id="24"
-      n8n-url="https://n8n-new.arg.tech/"
-      style="width: 100%; height: 600px; border: 1px solid #ccc"
-      id="workflowPreview"
-    ></n8n-demo-component>
+
+        <!-- Section to display the raw webhook response -->
+        <h3>Webhook Response:</h3>
+        <div id="webhookResponse">
+          <em>No response yet</em>
+        </div>
 
     <script>
       // Your API key for authentication (replace with actual key)
