@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>n8n Workflow</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        h2 {
+            text-align: center;
+        }
+        iframe {
+            display: block;
+            margin: 20px auto;
+            border: 1px solid #ccc;
+        }
+        button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #workflow-container {
+            display: none;
+        }
+        #error-message {
+            color: red;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>n8n Workflow</h2>
+
+    <div id="error-message"></div>
+
+    <!-- Container to hold the iframe after successful authentication -->
+    <div id="workflow-container">
+        <iframe 
+            id="workflowIframe"
+            title="n8n Workflow" 
+            width="800" 
+            height="600">
+        </iframe>
+    </div>
+
+    <!-- Button to trigger webhook (you can customize the action) -->
+    <button id="triggerWebhookButton">Trigger n8n Workflow</button>
+
+    <script>
+        const apiKey = 'n8n_api_f37ee7afcc40c05010cb4a3c595864bebf6018d316d5cdcdb06c8169fb59f9ef341d27727b0f9b5d'; // Replace with your actual API key
+        const workflowId = 'bOxzyp5Y8Jkyf9HV'; // Replace with your actual workflow ID
+        const apiUrl = `http://localhost:5678/api/v1/workflows/${workflowId}`; // Ensure this is the correct URL
+        const webhookUrl = 'http://localhost:5678/webhook/47c193b6-988b-45af-b777-bff42ca01f3b'; // Replace with your webhook URL
+
+        // Function to authenticate and load the workflow into the iframe
+        function authenticateAndLoadWorkflow() {
+            fetch(apiUrl, {
+                method: 'GET',
+                headers: {
+                    'X-N8N-API-KEY': apiKey,
+                    'accept': 'application/json',
+                },
+            })
+            .then(response => {
+                console.log(response);  // Debug the response for troubleshooting
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Authentication failed or workflow not found.');
+                }
+            })
+            .then(data => {
+                console.log('Workflow data:', data);
+                // If authentication is successful, show the workflow in the iframe
+                document.getElementById('workflow-container').style.display = 'block';
+                document.getElementById('workflowIframe').src = `http://localhost:5678/workflow/${workflowId}`;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('error-message').textContent = 'Failed to authenticate or load workflow. Please check your API key and workflow ID.';
+            });
+        }
+
+        // Call the authenticateAndLoadWorkflow function when the page loads
+        authenticateAndLoadWorkflow();
+
+        // Function to trigger the webhook when the button is clicked
+        document.getElementById('triggerWebhookButton').addEventListener('click', function() {
+            fetch(webhookUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-N8N-API-KEY': apiKey  // Use the API key in the header for authentication
+                },
+                body: JSON.stringify({
+                    // Include any data you need to pass to the workflow
+                    "key": "value"
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Webhook triggered:', data);
+            })
+            .catch(error => {
+                console.error('Error triggering webhook:', error);
+            });
+        });
+    </script>
+
+</body>
+</html>

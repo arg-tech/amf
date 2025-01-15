@@ -5,7 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>n8n Webhook Trigger</title>
-    <script type="module" src="https://cdn.jsdelivr.net/npm/@n8n_io/n8n-demo-component/n8n-demo.bundled.js"></script>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -62,21 +61,11 @@
     <!-- Button to trigger webhook -->
     <button id="triggerWebhookButton">Trigger n8n Workflow</button>
 
-    <!-- Section to display the raw webhook response -->
+    <!-- Section to display the webhook response -->
     <h3>Webhook Response:</h3>
     <div id="webhookResponse">
       <em>No response yet</em>
     </div>
-
-    
-    <!-- Section to display the n8n Workflow using the custom web component -->
-    <h3>n8n Workflow Preview:</h3>
-    <n8n-demo-component
-      workflow-id="24"
-      n8n-url="https://n8n-new.arg.tech/"
-      style="width: 100%; height: 600px; border: 1px solid #ccc"
-      id="workflowPreview"
-    ></n8n-demo-component>
 
     <script>
       // Your API key for authentication (replace with actual key)
@@ -111,14 +100,14 @@
           .then((data) => {
             console.log('Webhook Response:', data);
 
-            // Display the raw JSON response
+            // Display the response in the HTML
             const responseDiv = document.getElementById('webhookResponse');
             responseDiv.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
           })
           .catch((error) => {
             console.error('Error triggering webhook:', error);
 
-            // Display the error message in the raw response div
+            // Display the error message
             const responseDiv = document.getElementById('webhookResponse');
             responseDiv.innerHTML = `<span class="error">Error: ${error.message}</span>`;
           });

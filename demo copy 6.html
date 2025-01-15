@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>n8n Webhook Trigger</title>
+  </head>
+  <body>
+    <h2>Trigger n8n Workflow</h2>
+
+    <!-- Input text box for user input -->
+    <label for="inputData">Enter some data:</label>
+    <input type="text" id="inputData" name="inputData" />
+
+    <!-- Button to trigger webhook -->
+    <button id="triggerWebhookButton">Trigger n8n Workflow</button>
+
+    <script>
+      // API Key for authenticating n8n requests
+      const apiKey = 'n8n_api_fe47230be81cde1fdaa8893f498bddaa96b1a2752ef5278e6bcac0c82cda8ec42c7ecc3e21577dcc';  // Replace with your actual API key
+
+      // Function to trigger the webhook when the button is clicked
+      document.getElementById('triggerWebhookButton').addEventListener('click', function () {
+        // Get the user input from the text box
+        const userInput = document.getElementById('inputData').value;
+
+        // Only proceed if there is input
+        if (userInput.trim() === '') {
+          alert('Please enter some data.');
+          return;
+        }
+
+        // Trigger the webhook
+        fetch('http://localhost:5678/webhook/47c193b6-988b-45af-b777-bff42ca01f3b', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-N8N-API-KEY': apiKey,  // Use the API key in the header for authentication
+          },
+          body: JSON.stringify({
+            userInput: userInput,  // Pass the user input as part of the request body
+          }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log('Webhook triggered:', data);
+            alert('Webhook triggered successfully!');
+          })
+          .catch((error) => {
+            console.error('Error triggering webhook:', error);
+            alert('Error triggering webhook');
+          });
+      });
+    </script>
+  </body>
+</html>

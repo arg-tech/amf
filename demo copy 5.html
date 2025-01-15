@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>n8n Workflow</title>
+
+    <script type="text/javascript">
+      // Set up the n8n API key and URL
+      const n8nApiKey = 'n8n_api_f37ee7afcc40c05010cb4a3c595864bebf6018d316d5cdcdb06c8169fb59f9ef341d27727b0f9b5d'; // Replace with your API key
+      const workflowId = 'bOxzyp5Y8Jkyf9HV'; // Replace with your workflow ID
+
+      // Function to fetch workflow info (authentication is handled here)
+      function fetchWorkflow() {
+        fetch('http://localhost:5678/workflows/' + workflowId, {
+          method: 'GET',
+          headers: {
+            'X-N8N-API-KEY': n8nApiKey,
+            'Content-Type': 'application/json',
+          },
+        })
+          .then(response => response.json())
+          .then(data => {
+            console.log('Workflow data:', data);
+            // Displaying the workflow inside the iframe
+            document.getElementById('workflowIframe').src =
+              'http://localhost:5678/workflow/' + workflowId;
+          })
+          .catch(error => console.error('Error loading workflow:', error));
+      }
+
+      // Trigger Webhook to start the workflow
+      function triggerWebhook() {
+        fetch('http://localhost:5678/webhook/47c193b6-988b-45af-b777-bff42ca01f3b', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-N8N-API-KEY': n8nApiKey,
+          },
+          body: JSON.stringify({
+            key: 'value', // Add any parameters if needed
+          }),
+        })
+          .then(response => response.json())
+          .then(data => console.log('Webhook triggered:', data))
+          .catch(error => console.error('Error triggering webhook:', error));
+      }
+
+      window.onload = function () {
+        // Automatically fetch workflow when the page is loaded
+        fetchWorkflow();
+      };
+    </script>
+  </head>
+  <body>
+    <h2>n8n Workflow</h2>
+
+    <!-- Embed the n8n workflow page in an iframe -->
+    <iframe
+      id="workflowIframe"
+      src=""
+      title="n8n Workflow"
+      width="800"
+      height="600"
+      style="border: 1px solid #ccc"
+    ></iframe>
+
+    <!-- Button to trigger webhook (you can customize the action) -->
+    <button id="triggerWebhookButton" onclick="triggerWebhook()">Trigger n8n Workflow</button>
+  </body>
+</html>

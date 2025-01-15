@@ -5,7 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>n8n Webhook Trigger</title>
-    <script type="module" src="https://cdn.jsdelivr.net/npm/@n8n_io/n8n-demo-component/n8n-demo.bundled.js"></script>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -36,7 +35,7 @@
       button:hover {
         background-color: #0056b3;
       }
-      #webhookResponse {
+      #webhookResponse, #svgResponse {
         margin-top: 20px;
         border: 1px solid #ddd;
         padding: 10px;
@@ -49,6 +48,10 @@
       }
       .error {
         color: red;
+      }
+      #svgResponse {
+        background-color: white;
+        border: none;
       }
     </style>
   </head>
@@ -68,15 +71,11 @@
       <em>No response yet</em>
     </div>
 
-    
-    <!-- Section to display the n8n Workflow using the custom web component -->
-    <h3>n8n Workflow Preview:</h3>
-    <n8n-demo-component
-      workflow-id="24"
-      n8n-url="https://n8n-new.arg.tech/"
-      style="width: 100%; height: 600px; border: 1px solid #ccc"
-      id="workflowPreview"
-    ></n8n-demo-component>
+    <!-- Section to display the SVG response -->
+    <h3>SVG Output:</h3>
+    <div id="svgResponse">
+      <em>No SVG yet</em>
+    </div>
 
     <script>
       // Your API key for authentication (replace with actual key)
@@ -114,6 +113,9 @@
             // Display the raw JSON response
             const responseDiv = document.getElementById('webhookResponse');
             responseDiv.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+
+            // Send the response data to the SVG visualizer
+            sendToSvgVisualizer(data);
           })
           .catch((error) => {
             console.error('Error triggering webhook:', error);
@@ -123,6 +125,46 @@
             responseDiv.innerHTML = `<span class="error">Error: ${error.message}</span>`;
           });
       });
+
+      // Function to send the raw JSON data to the SVG visualizer
+      function sendToSvgVisualizer(jsonData) {
+        console.log("Sending data to SVG visualizer:", jsonData); // Debugging log
+
+        fetch('http://svg.amfws.arg.tech', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(jsonData),
+        })
+          .then((response) => {
+            console.log("SVG visualizer response status:", response.status); // Debugging log
+
+            if (!response.ok) {
+              throw new Error(`Failed to get SVG. Status: ${response.status}`);
+            }
+            return response.text();
+          })
+          .then((svgContent) => {
+            console.log('SVG Response:', svgContent); // Debugging log
+
+            // Check if the response is SVG content
+            if (svgContent.startsWith('<svg')) {
+              // Display the SVG content in the svgResponse div
+              const svgDiv = document.getElementById('svgResponse');
+              svgDiv.innerHTML = svgContent;
+            } else {
+              throw new Error('SVG content not received.');
+            }
+          })
+          .catch((error) => {
+            console.error('Error fetching SVG:', error);
+
+            // Display the error message in the SVG div
+            const svgDiv = document.getElementById('svgResponse');
+            svgDiv.innerHTML = `<span class="error">Error: ${error.message}</span>`;
+          });
+      }
     </script>
   </body>
 </html>
