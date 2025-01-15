@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>n8n Workflow Executor</title>
+    <title>Workflow Executor</title>
     <script type="module" src="https://cdn.jsdelivr.net/npm/@n8n_io/n8n-demo-component/n8n-demo.bundled.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@webcomponents/webcomponentsjs@2.0.0/webcomponents-loader.js"></script>
     <script src="https://www.unpkg.com/lit@2.0.0-rc.2/polyfill-support.js"></script>
@@ -103,6 +103,14 @@
         border-radius: 8px;
         overflow: hidden;
       }
+  
+      n8n-demo {
+	--n8n-frame-background-color: black;
+	--n8n-json-background-color: lightgray;
+	--n8n-copy-button-background-color: gray;
+	--n8n-workflow-min-height: 500px;
+	--n8n-iframe-border-radius: 30px
+}
     </style>
   </head>
   <body>
@@ -403,7 +411,7 @@
           },
           "id": "bOxzyp5Y8Jkyf9HV",
           "tags": []
-        }'></n8n-demo>
+        }' frame="true"></n8n-demo>
       </div>
     </div>
 
