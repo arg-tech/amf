@@ -8,51 +8,109 @@
   <script src="https://www.unpkg.com/lit@2.0.0-rc.2/polyfill-support.js"></script>
   <title>Workflow Selection</title>
   <style>
-    
-    /* Original styling */
+    /* Base Styles */
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Arial', sans-serif;
+      background-color: #f1f1f1;
       margin: 0;
-      padding: 20px;
-      background-color: #f4f4f9;
+      padding: 0;
+      box-sizing: border-box;
     }
     h1 {
       text-align: center;
       color: #333;
+      font-size: 2.5em;
+      margin-top: 50px;
     }
-    #workflow1, #workflow2 {
-      display: none; /* Hide workflows initially */
-      margin-top: 20px;
+    /* Workflow Selection */
+    .workflow-selection {
+      text-align: center;
+      margin: 30px 0;
+    }
+    .workflow-selection label {
+      margin: 0 15px;
+      font-size: 1.2em;
+      color: #555;
+    }
+    .workflow-selection input {
+      margin-right: 10px;
+      accent-color: #0066cc;
+    }
+    /* Workflow Containers */
+    .workflow-container {
+      display: none;
+      margin-top: 30px;
       background-color: #fff;
       padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     }
-    label {
-      margin-right: 10px;
+    .workflow-container h2 {
+      text-align: center;
+      color: #444;
+      font-size: 1.8em;
+      margin-bottom: 20px;
     }
+    /* Input Box */
     #inputBoxContainer {
       text-align: center;
       margin-top: 30px;
     }
-    #webhookResponse {
-      margin-top: 20px;
-      padding: 15px;
-      background-color: #e0e0e0;
+    #userInput {
+      padding: 10px;
+      font-size: 1.2em;
+      border: 2px solid #ddd;
       border-radius: 8px;
+      width: 50%;
+      max-width: 400px;
+      outline: none;
+      transition: border 0.3s ease;
+    }
+    #userInput:focus {
+      border-color: #0066cc;
+    }
+    /* Button Styles */
+    button {
+      background-color: #0066cc;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 30px;
+      font-size: 1.2em;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #005bb5;
+    }
+    /* Response Box */
+    #webhookResponse {
+      margin-top: 30px;
+      padding: 20px;
+      background-color: #f9f9f9;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+    #webhookResponse h3 {
+      margin-bottom: 10px;
+      color: #333;
+      font-size: 1.5em;
     }
     #responseData {
-      font-family: monospace;
-      white-space: pre-wrap;
+      font-family: 'Courier New', monospace;
+      background-color: #e0e0e0;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
     }
+    /* N8N Component Styling */
     n8n-demo {
-	--n8n-frame-background-color: black;
-	--n8n-json-background-color: lightgray;
-	--n8n-copy-button-background-color: gray;
-	--n8n-workflow-min-height: 100px;
-	--n8n-iframe-border-radius: 30px
-}
-   
+      --n8n-frame-background-color: #fafafa;
+      --n8n-json-background-color: #f0f0f0;
+      --n8n-copy-button-background-color: #ccc;
+      --n8n-workflow-min-height: 100px;
+      --n8n-iframe-border-radius: 15px;
+    }
   </style>
 </head>
 <body>
@@ -60,7 +118,7 @@
   <h1>Select and Execute Workflow</h1>
 
   <!-- Workflow Selection -->
-  <div style="text-align: center;">
+  <div class="workflow-selection">
     <label>
       <input type="checkbox" id="workflow1Checkbox"> Workflow 1
     </label>
@@ -70,7 +128,7 @@
   </div>
 
   <!-- Workflow 1 -->
-  <div id="workflow1">
+  <div id="workflow1" class="workflow-container">
     <h2>Workflow 1</h2>
     <n8n-demo id="workflow1Visualization" workflow='{
       "name": "My workflow",
@@ -82,10 +140,7 @@
           "name": "Text to JSON6",
           "type": "n8n-nodes-base.function",
           "typeVersion": 1,
-          "position": [
-            900,
-            460
-          ],
+          "position": [900, 460],
           "id": "ab512690-f0aa-462a-bebb-c3e30d4678a4"
         },
         {
@@ -94,282 +149,47 @@
             "url": "http://default-turninator.amfws.arg.tech/turninator-01",
             "responseFormat": "file",
             "jsonParameters": true,
-            "options": {
-              "bodyContentType": "multipart-form-data"
-            },
+            "options": {"bodyContentType": "multipart-form-data"},
             "sendBinaryData": true
           },
           "name": "Turninator7",
           "type": "n8n-nodes-base.httpRequest",
           "typeVersion": 1,
-          "position": [
-            1320,
-            460
-          ],
+          "position": [1320, 460],
           "id": "39a4a837-6a70-461f-9b41-0470a74e7ebe"
         },
         {
           "parameters": {
             "keepOnlySet": "=true",
             "values": {
-              "string": [
-                {
-                  "name": "text",
-                  "value": "={{$json[\"body\"][\"text\"]}}"
-                },
-                {
-                  "name": "AIF",
-                  "value": "{}"
-                }
-              ],
-              "boolean": [
-                {
-                  "name": "dialog",
-                  "value": true
-                }
-              ]
-            },
-            "options": {}
+              "string": [{"name": "text", "value": "={{$json[\"body\"][\"text\"]}}"}],
+              "boolean": [{"name": "dialog", "value": true}]
+            }
           },
           "name": "Set Dialog Text1",
           "type": "n8n-nodes-base.set",
           "typeVersion": 1,
-          "position": [
-            680,
-            460
-          ],
+          "position": [680, 460],
           "id": "b0c724ee-6dc1-402c-bd4d-f874e5cebd82"
-        },
-        {
-          "parameters": {
-            "requestMethod": "POST",
-            "url": "http://default-proposition-unitiser.amfws.arg.tech/propositionUnitizer-01",
-            "responseFormat": "file",
-            "jsonParameters": true,
-            "options": {
-              "bodyContentType": "multipart-form-data"
-            },
-            "sendBinaryData": true
-          },
-          "name": "Propositionalizer4",
-          "type": "n8n-nodes-base.httpRequest",
-          "typeVersion": 1,
-          "position": [
-            1760,
-            460
-          ],
-          "id": "13972aa8-d3a2-46f4-b442-3d59dc052985"
-        },
-        {
-          "parameters": {
-            "requestMethod": "POST",
-            "url": "http://default-segmenter.amfws.arg.tech/segmenter-01",
-            "responseFormat": "file",
-            "jsonParameters": true,
-            "options": {
-              "bodyContentType": "multipart-form-data"
-            },
-            "sendBinaryData": true
-          },
-          "name": "Segmenter7",
-          "type": "n8n-nodes-base.httpRequest",
-          "typeVersion": 1,
-          "position": [
-            1540,
-            460
-          ],
-          "id": "11e77002-e40c-47d8-918e-c326bfe61478"
-        },
-        {
-          "parameters": {
-            "requestMethod": "POST",
-            "url": "http://bert-te.amfws.arg.tech/bert-te",
-            "responseFormat": "file",
-            "jsonParameters": true,
-            "options": {
-              "bodyContentType": "multipart-form-data"
-            },
-            "sendBinaryData": true
-          },
-          "name": "bert-te5",
-          "type": "n8n-nodes-base.httpRequest",
-          "typeVersion": 1,
-          "position": [
-            2000,
-            460
-          ],
-          "id": "291b2b5d-2b90-4adf-852e-cca900cf62d4"
-        },
-        {
-          "parameters": {
-            "mode": "jsonToBinary",
-            "options": {
-              "fileName": "file.json",
-              "mimeType": "text/plain"
-            }
-          },
-          "name": "JSON to File8",
-          "type": "n8n-nodes-base.moveBinaryData",
-          "typeVersion": 1,
-          "position": [
-            1100,
-            460
-          ],
-          "id": "c80795e5-5a25-4de0-b2e6-5fb0420c2c46"
-        },
-        {
-          "parameters": {
-            "respondWith": "binary",
-            "options": {}
-          },
-          "id": "b7353c25-46f3-4a6d-8b4c-6df9b07cccf2",
-          "name": "Respond to Webhook",
-          "type": "n8n-nodes-base.respondToWebhook",
-          "typeVersion": 1.1,
-          "position": [
-            2200,
-            460
-          ]
-        },
-        {
-          "parameters": {
-            "httpMethod": "POST",
-            "path": "47c193b6-988b-45af-b777-bff42ca01f3b",
-            "responseMode": "responseNode",
-            "options": {}
-          },
-          "id": "57a78005-5a06-455b-85d3-d397f020785f",
-          "name": "Webhook",
-          "type": "n8n-nodes-base.webhook",
-          "typeVersion": 1,
-          "position": [
-            460,
-            460
-          ],
-          "webhookId": "47c193b6-988b-45af-b777-bff42ca01f3b"
         }
-      ],
-      "pinData": {},
-      "connections": {
-        "Text to JSON6": {
-          "main": [
-            [
-              {
-                "node": "JSON to File8",
-                "type": "main",
-                "index": 0
-              }
-            ]
-          ]
-        },
-        "Turninator7": {
-          "main": [
-            [
-              {
-                "node": "Segmenter7",
-                "type": "main",
-                "index": 0
-              }
-            ]
-          ]
-        },
-        "Set Dialog Text1": {
-          "main": [
-            [
-              {
-                "node": "Text to JSON6",
-                "type": "main",
-                "index": 0
-              }
-            ]
-          ]
-        },
-        "Propositionalizer4": {
-          "main": [
-            [
-              {
-                "node": "bert-te5",
-                "type": "main",
-                "index": 0
-              }
-            ]
-          ]
-        },
-        "Segmenter7": {
-          "main": [
-            [
-              {
-                "node": "Propositionalizer4",
-                "type": "main",
-                "index": 0
-              }
-            ]
-          ]
-        },
-        "JSON to File8": {
-          "main": [
-            [
-              {
-                "node": "Turninator7",
-                "type": "main",
-                "index": 0
-              }
-            ]
-          ]
-        },
-        "bert-te5": {
-          "main": [
-            [
-              {
-                "node": "Respond to Webhook",
-                "type": "main",
-                "index": 0
-              }
-            ]
-          ]
-        },
-        "Webhook": {
-          "main": [
-            [
-              {
-                "node": "Set Dialog Text1",
-                "type": "main",
-                "index": 0
-              }
-            ]
-          ]
-        }
-      },
-      "active": true,
-      "settings": {
-        "executionOrder": "v1"
-      },
-      "versionId": "5dd1745e-7419-4020-ac2a-0d575ac74ba6",
-      "meta": {
-        "templateCredsSetupCompleted": true,
-        "instanceId": "8d57ee11954c05f010df18b7960f66effd5c56a218a142dfc9bf7da6bd99a7f7"
-      },
-      "id": "bOxzyp5Y8Jkyf9HV",
-      "tags": []
-    }' frame="true" >
-    </n8n-demo>
+      ]
+    }' frame="true"></n8n-demo>
   </div>
 
   <!-- Workflow 2 -->
-  <div id="workflow2">
+  <div id="workflow2" class="workflow-container">
     <h2>Workflow 2</h2>
-    <n8n-demo id="workflow2Visualization" workflow='{"name": "Workflow 2"}'>
-    </n8n-demo>
+    <n8n-demo id="workflow2Visualization" workflow='{"name": "Workflow 2"}'></n8n-demo>
   </div>
 
-  <!-- Input Box for User Data -->
+  <!-- User Input Section -->
   <div id="inputBoxContainer">
     <label for="userInput">Enter Text:</label>
     <input type="text" id="userInput" placeholder="Type your input here" />
   </div>
 
   <!-- Button to Trigger Workflow -->
-  <div style="text-align: center; margin-top: 20px;">
+  <div style="text-align: center; margin-top: 30px;">
     <button id="triggerWebhookButton">Trigger Selected Workflow</button>
   </div>
 
@@ -399,54 +219,37 @@
     document.getElementById('triggerWebhookButton').addEventListener('click', () => {
       const userInput = document.getElementById('userInput').value.trim();
       if (!userInput) {
-        alert('Please enter valid input.');
+        alert("Please enter text before triggering the workflow.");
         return;
       }
 
-      const isWorkflow1Selected = document.getElementById('workflow1Checkbox').checked;
-      const isWorkflow2Selected = document.getElementById('workflow2Checkbox').checked;
+      const selectedWorkflow = document.getElementById('workflow1Checkbox').checked ? webhookUrl1 : webhookUrl2;
 
-      if (!isWorkflow1Selected && !isWorkflow2Selected) {
-        alert('Please select a workflow to execute.');
-        return;
-      }
-
-      let selectedWebhookUrl, selectedApiKey;
-      if (isWorkflow1Selected) {
-        selectedWebhookUrl = webhookUrl1;
-        selectedApiKey = apiKey1;
-      } else if (isWorkflow2Selected) {
-        selectedWebhookUrl = webhookUrl2;
-        selectedApiKey = apiKey2;
-      }
-
-      // Send request to selected webhook URL
-      fetch(selectedWebhookUrl, {
+      // Send data to selected workflow via fetch
+      fetch(selectedWorkflow, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-N8N-API-KEY': selectedApiKey,
+          'Authorization': 'Bearer ' + (selectedWorkflow === webhookUrl1 ? apiKey1 : apiKey2),
         },
-        body: JSON.stringify({ text: userInput }),
+        body: JSON.stringify({ input: userInput }),
       })
-        .then((response) => {
-          if (!response.ok) throw new Error('Failed to fetch data from webhook.');
-          return response.json();
-        })
-        .then((data) => {
+        .then(response => response.json())
+        .then(data => {
           document.getElementById('responseData').textContent = JSON.stringify(data, null, 2);
         })
-        .catch((error) => {
-          console.error('Error during fetch operation:', error);
+        .catch(error => {
+          console.error('Error:', error);
         });
     });
 
-    // Listen for checkbox changes to update workflow visibility
+    // Watch for changes in checkbox status
     document.getElementById('workflow1Checkbox').addEventListener('change', toggleWorkflows);
     document.getElementById('workflow2Checkbox').addEventListener('change', toggleWorkflows);
 
-    // Initial call to toggle workflows based on selected checkboxes
+    // Initial call to set the state of workflows
     toggleWorkflows();
   </script>
+
 </body>
 </html>
